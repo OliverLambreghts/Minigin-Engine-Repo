@@ -18,9 +18,9 @@ dae::GameObject::~GameObject()
 
 void dae::GameObject::Update(float elapsedSec)
 {
-	for(auto& update : m_UpdateData)
+	for(auto& comp : m_pComponents)
 	{
-		update(elapsedSec, *this);
+		comp.second->Update(elapsedSec, *this);
 	}
 }
 
@@ -36,8 +36,8 @@ unsigned int GameObject::GetId()
 
 void GameObject::SetPos(float x, float y)
 {
-	if (m_pComponents["transform"] == nullptr)
-		m_pComponents["transform"] = std::make_shared<TransformComponent>(x, y, *this);
+	if (m_pComponents["movement"] == nullptr)
+		m_pComponents["movement"] = std::make_shared<TransformComponent>(x, y);
 	else
 		std::dynamic_pointer_cast<TransformComponent>(m_pComponents.at("transform"))->SetPos(x, y);
 }
@@ -45,9 +45,4 @@ void GameObject::SetPos(float x, float y)
 void GameObject::AddComponent(std::string name, std::shared_ptr<Component> comp)
 {
 	m_pComponents[name] = comp;
-}
-
-void GameObject::AddUpdateData(std::function<void(float, GameObject&)> fcnPtr)
-{
-	m_UpdateData.push_back(fcnPtr);
 }

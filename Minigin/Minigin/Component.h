@@ -11,4 +11,6 @@ public:
 	Component(Component&& other) = delete;
 	void operator=(const Component& rhs) = delete;
 	void operator=(const Component&& rhs) = delete;
+
+	virtual void Update(float elapsedSec, GameObject& obj) = 0;
 };

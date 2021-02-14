@@ -1,13 +1,13 @@
 #pragma once
 #include "GameObject.h"
-#include "Component.h"
+#include "MovementComponent.h"
 #include "Transform.h"
 
 using namespace dae;
-class TransformComponent : public Component
+class TransformComponent : public MovementComponent
 {
 public:
-	TransformComponent(float x, float y, GameObject& obj);
+	TransformComponent(float x, float y);
 	virtual ~TransformComponent() = default;
 	TransformComponent(const TransformComponent& other) = delete;
 	TransformComponent(TransformComponent&& other) = delete;

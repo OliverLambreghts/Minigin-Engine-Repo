@@ -29,7 +29,6 @@ namespace dae
 
 		std::string m_Name;
 		std::vector < std::shared_ptr<GameObject>> m_Objects{};
-		//std::map<unsigned int, std::pair<std::shared_ptr<Texture2D>, Transform>> m_RenderData
 		std::map<unsigned int, std::function<void()>> m_RenderData;
 
 		static unsigned int m_IdCounter;

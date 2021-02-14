@@ -9,11 +9,11 @@
 #include <SDL.h>
 
 #include "FPSComponent.h"
-#include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "TextComponent.h"
 #include "TransformComponent.h"
+#include "GraphicsComponent2D.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -49,28 +49,28 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
-	go->AddComponent("graphics", std::make_shared<GraphicsComponent>("background.jpg", scene, *go));
-	go->AddComponent("transform", std::make_shared<TransformComponent>(0.f, 0.f, *go));
+	go->AddComponent("graphics", std::make_shared<GraphicsComponent2D>("background.jpg", scene));
+	go->AddComponent("movement", std::make_shared<TransformComponent>(0.f, 0.f));
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
-	go->AddComponent("graphics", std::make_shared<GraphicsComponent>("logo.png", scene, *go));
-	go->AddComponent("transform", std::make_shared<TransformComponent>(216.f, 180.f, *go));
+	go->AddComponent("graphics", std::make_shared<GraphicsComponent2D>("logo.png", scene));
+	go->AddComponent("movement", std::make_shared<TransformComponent>(216.f, 180.f));
 	scene.Add(go);
 
 	auto to = std::make_shared<GameObject>();
 	to->AddComponent("graphics", std::make_shared<TextComponent>
-		("Lingua.otf", 36, SDL_Color{ 255,255,255 }, "Programming 4 Assignment", scene, *to));
-	to->AddComponent("transform", std::make_shared<TransformComponent>(80.f, 20.f, *go));
+		("Lingua.otf", 36, SDL_Color{ 255,255,255 }, "Programming 4 Assignment", scene));
+	to->AddComponent("movement", std::make_shared<TransformComponent>(80.f, 20.f));
 	scene.Add(to);
 
 	const unsigned int fontSize = 16;
 	auto FPSCounter = std::make_shared<GameObject>();
 	const std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>
-		( "Lingua.otf", fontSize, SDL_Color{ 0, 255, 0 }, "PH", scene, *FPSCounter );
+		( "Lingua.otf", fontSize, SDL_Color{ 0, 255, 0 }, "PH", scene);
 	FPSCounter->AddComponent("graphics", textComponent);
-	FPSCounter->AddComponent("transform", std::make_shared<TransformComponent>(10.f, float(fontSize), *FPSCounter));
-	FPSCounter->AddComponent("calculation", std::make_shared<FPSComponent>(textComponent.get(), &TextComponent::SetText, *FPSCounter));
+	FPSCounter->AddComponent("movement", std::make_shared<TransformComponent>(10.f, float(fontSize)));
+	FPSCounter->AddComponent("calculation", std::make_shared<FPSComponent>(textComponent.get(), &TextComponent::SetText));
 	scene.Add(FPSCounter);
 }
 

@@ -1,15 +1,19 @@
 #include "MiniginPCH.h"
 #include "FPSComponent.h"
 
-FPSComponent::FPSComponent(TextComponent* comp, void (TextComponent::* fcnPtr) (std::string), GameObject& obj)
+FPSComponent::FPSComponent(TextComponent* comp, void (TextComponent::* fcnPtr) (std::string))
+	: m_Delay{},
+	m_FPS{}
 {
 	m_Wrapper = std::bind(fcnPtr, comp, std::placeholders::_1);
-	const std::function<void(float, GameObject&)> updateWrapper = std::bind(&FPSComponent::Update, this, std::placeholders::_1, std::placeholders::_2);
-	obj.AddUpdateData(updateWrapper);
 }
 
 void FPSComponent::Update(float elapsedSec, GameObject&)
 {
-	int FPS = int(1 / elapsedSec);
-	m_Wrapper(std::to_string(FPS) + " FPS");
+	m_Delay += elapsedSec;
+	m_FPS = int(1 / elapsedSec);
+	if (m_Delay < m_ResetPoint)
+		return;
+	m_Wrapper(std::to_string(m_FPS) + " FPS");
+	m_Delay = 0.f;
 }

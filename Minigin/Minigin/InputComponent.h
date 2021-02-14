@@ -6,6 +6,7 @@ using namespace dae;
 class InputComponent : public Component
 {
 public:
+	InputComponent() = default;
 	virtual ~InputComponent() = default;
 	InputComponent(const InputComponent& other) = delete;
 	InputComponent(InputComponent&& other) = delete;

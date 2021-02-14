@@ -7,8 +7,8 @@ class TransformComponent;
 class Component;
 class CalculationComponent;
 class InputComponent;
-class GraphicsComponent;
-class PhysicsComponent;
+class GraphicsComponent2D;
+class MovementComponent;
 namespace dae
 {
 	class Texture2D;
@@ -23,7 +23,7 @@ namespace dae
 		void SetPos(float x, float y);
 
 		void AddComponent(std::string, std::shared_ptr<Component> comp);
-		void AddUpdateData(std::function<void(float, GameObject&)> fcnPtr);
+		//void AddUpdateData(std::function<void(float, GameObject&)> fcnPtr);
 		
 		GameObject();
 		virtual ~GameObject();
@@ -37,6 +37,6 @@ namespace dae
 
 		// Components
 		std::map<std::string, std::shared_ptr<Component>> m_pComponents;
-		std::vector < std::function<void(float, GameObject&) >> m_UpdateData;
+		//std::vector < std::function<void(float, GameObject&) >> m_UpdateData;
 	};
 }
