@@ -8,6 +8,7 @@
 #include "TransformComponent.h"
 
 GraphicsComponent2D::GraphicsComponent2D(std::string fileName, Scene& scene)
+	: m_Transform{}
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
 	const std::function<void()> renderWrapper = std::bind(&GraphicsComponent2D::Render, this);
@@ -16,7 +17,7 @@ GraphicsComponent2D::GraphicsComponent2D(std::string fileName, Scene& scene)
 
 void GraphicsComponent2D::Update(float, GameObject& obj)
 {
-	const auto pos = dynamic_cast<TransformComponent*>(obj.GetComponent("movement").get())->GetPos();
+	const auto pos = obj.GetComponent<TransformComponent>()->GetPos();
 	if(m_Transform.GetPosition() != pos.GetPosition())
 		m_Transform = pos;
 }

@@ -18,15 +18,22 @@ namespace dae
 		void Update(float elapsedSec);
 
 		static unsigned int GetId();
-		const std::shared_ptr<Component> GetComponent(std::string name) const;
 
-		void SetPos(float x, float y);
+		template<typename T>
+		const std::shared_ptr<T> GetComponent() const
+		{
+			for (auto& comp : m_pComponents)
+			{
+				if (std::dynamic_pointer_cast<T>(comp))
+					return std::dynamic_pointer_cast<T>(comp);
+			}
+			return nullptr;
+		}
 
-		void AddComponent(std::string, std::shared_ptr<Component> comp);
-		//void AddUpdateData(std::function<void(float, GameObject&)> fcnPtr);
+		void AddComponent(std::shared_ptr<Component> comp);
 		
 		GameObject();
-		virtual ~GameObject();
+		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -36,7 +43,6 @@ namespace dae
 		static unsigned int m_IdCounter;
 
 		// Components
-		std::map<std::string, std::shared_ptr<Component>> m_pComponents;
-		//std::vector < std::function<void(float, GameObject&) >> m_UpdateData;
+		std::vector<std::shared_ptr<Component>> m_pComponents;
 	};
 }

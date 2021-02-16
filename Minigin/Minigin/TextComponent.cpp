@@ -9,11 +9,13 @@
 #include "ResourceManager.h"
 #include "TransformComponent.h"
 
-TextComponent::TextComponent(std::string font, unsigned int fontSize, SDL_Color color, std::string text, Scene& scene)
+TextComponent::TextComponent(std::string font, unsigned int fontSize, SDL_Color color, Scene& scene, std::string text)
 	: m_Text{ text },
 	m_Color{ color },
 	m_NeedsUpdate{ true },
-	m_Font{}
+	m_Font{},
+	m_Texture{ nullptr },
+	m_Transform{}
 {
 	m_Font = ResourceManager::GetInstance().LoadFont(font, fontSize);
 	const std::function<void()> wrapper = std::bind(&TextComponent::Render, this);
@@ -38,7 +40,7 @@ void TextComponent::Update(float, GameObject& obj)
 		m_Texture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
-	const auto pos = dynamic_cast<TransformComponent*>(obj.GetComponent("movement").get())->GetPos();
+	const auto pos = obj.GetComponent<TransformComponent>()->GetPos();
 	if (m_Transform.GetPosition() != pos.GetPosition())
 		m_Transform = pos;
 }

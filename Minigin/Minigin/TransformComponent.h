@@ -17,7 +17,7 @@ public:
 	const Transform& GetPos() const;
 	void SetPos(float x, float y);
 	
-	virtual void Update(float elapsedSec, GameObject& obj);
+	virtual void Update(float elapsedSec, GameObject& obj) override;
 private:
 	bool m_IsPosSet = false;
 	dae::Transform m_Transform;

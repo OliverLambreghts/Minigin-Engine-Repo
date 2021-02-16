@@ -13,5 +13,5 @@ public:
 	void operator=(const CalculationComponent& rhs) = delete;
 	void operator=(const CalculationComponent&& rhs) = delete;
 
-	virtual void Update(float elapsedSec, GameObject& obj) = 0;
+	virtual void Update(float elapsedSec, GameObject& obj) override = 0;
 };

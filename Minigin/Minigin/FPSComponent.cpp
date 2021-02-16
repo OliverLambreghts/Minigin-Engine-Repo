@@ -3,7 +3,8 @@
 
 FPSComponent::FPSComponent(TextComponent* comp, void (TextComponent::* fcnPtr) (std::string))
 	: m_Delay{},
-	m_FPS{}
+	m_FPS{},
+	m_ResetPoint{1.f}
 {
 	m_Wrapper = std::bind(fcnPtr, comp, std::placeholders::_1);
 }
