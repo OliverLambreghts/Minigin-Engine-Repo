@@ -1,42 +1,60 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
-#include <SDL.h>
+#include <iostream>
 
+UINT dae::InputManager::m_ID = 0;
 
-bool dae::InputManager::ProcessInput()
+void dae::InputManager::ProcessInput()
 {
-	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentState);
-
-	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
-			return false;
-		}
-		if (e.type == SDL_KEYDOWN) {
-			
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
-		}
-	}
-
-	return true;
-}
-
-bool dae::InputManager::IsPressed(ControllerButton button) const
-{
-	switch (button)
+	for (auto& controller : m_Controllers)
 	{
-	case ControllerButton::ButtonA:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_A;
-	case ControllerButton::ButtonB:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_B;
-	case ControllerButton::ButtonX:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_X;
-	case ControllerButton::ButtonY:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_Y;
-	default: return false;
+		controller->Update();
+	}
+
+	for (auto& controllerCommand : m_ControllerCommands)
+	{
+		if (IsPressed(controllerCommand.first.second, controllerCommand.second.second) && controllerCommand.second.first)
+		{
+			controllerCommand.second.first->Execute();
+			return;
+		}
 	}
 }
 
+bool dae::InputManager::IsPressed(ControllerButton button, WORD keyStroke)
+{
+	for (const auto& controller : m_Controllers)
+	{
+		if (controller->IsButtonPressed(button, keyStroke))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool dae::InputManager::IsPressed(ControllerButton button, UINT& id)
+{
+	for (const auto& controller : m_Controllers)
+	{
+		if (controller->IsButtonPressed(button))
+		{
+			id = controller->GetID() + 1;
+			return true;
+		}
+	}
+	return false;
+}
+
+void dae::InputManager::AddController()
+{
+	if (m_Controllers.size() >= XUSER_MAX_COUNT)
+		return;
+	m_Controllers.push_back(std::make_unique<Controller>(m_ID));
+	++m_ID;
+}
+
+std::vector<std::unique_ptr<dae::Controller>>& dae::InputManager::GetControllers()
+{
+	return m_Controllers;
+}

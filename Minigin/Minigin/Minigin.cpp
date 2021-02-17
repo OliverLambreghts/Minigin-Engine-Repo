@@ -14,6 +14,7 @@
 #include "TextComponent.h"
 #include "TransformComponent.h"
 #include "GraphicsComponent2D.h"
+#include "QuitCommand.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -46,6 +47,9 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
+	InputManager::GetInstance().AddController();
+	InputManager::GetInstance().AddCommand<QuitCommand>(ControllerKey(0, ControllerButton::ButtonA), XINPUT_KEYSTROKE_KEYUP);
+	
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
@@ -96,11 +100,10 @@ void dae::Minigin::Run()
 		auto& input = InputManager::GetInstance();
 
 		// Game Loop
-		bool doContinue = true;
 		auto previousTime = high_resolution_clock::now();
 		auto lag = 0.f;
 		const auto msPerUpdate = 2.f;
-		while (doContinue)
+		while (true)
 		{
 			const auto currentTime = high_resolution_clock::now();
 			const float elapsedMs = float(duration_cast<milliseconds>(currentTime - previousTime).count());
@@ -109,7 +112,7 @@ void dae::Minigin::Run()
 			previousTime = currentTime;
 			lag += elapsedMs;
 
-			doContinue = input.ProcessInput();
+			input.ProcessInput();
 			
 			while(lag >= msPerUpdate)
 			{
