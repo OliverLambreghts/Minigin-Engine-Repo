@@ -28,7 +28,8 @@ namespace dae
 	class InputManager : public Singleton<InputManager>
 	{
 	public:
-		void ProcessInput();
+		bool ProcessInput();
+		bool ProcessKeyboardInput();
 		
 		bool IsPressed(ControllerButton button, UINT& id);
 		bool IsPressed(ControllerButton button, WORD keyStroke);

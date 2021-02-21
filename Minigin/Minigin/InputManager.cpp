@@ -1,10 +1,11 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
 #include <iostream>
+#include <SDL_events.h>
 
 UINT dae::InputManager::m_ID = 0;
 
-void dae::InputManager::ProcessInput()
+bool dae::InputManager::ProcessInput()
 {
 	for (auto& controller : m_Controllers)
 	{
@@ -16,9 +17,22 @@ void dae::InputManager::ProcessInput()
 		if (IsPressed(controllerCommand.first.second, controllerCommand.second.second) && controllerCommand.second.first)
 		{
 			controllerCommand.second.first->Execute();
-			return;
+			return true;
 		}
 	}
+	
+	return ProcessKeyboardInput();
+}
+
+bool dae::InputManager::ProcessKeyboardInput()
+{
+	SDL_Event e;
+	while (SDL_PollEvent(&e)) {
+		if (e.type == SDL_QUIT) {
+			return false;
+		}
+	}
+	return true;
 }
 
 bool dae::InputManager::IsPressed(ControllerButton button, WORD keyStroke)

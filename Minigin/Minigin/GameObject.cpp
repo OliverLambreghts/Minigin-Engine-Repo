@@ -22,11 +22,17 @@ void dae::GameObject::Update(float elapsedSec)
 	{
 		comp->Update(elapsedSec, *this);
 	}
+	m_DataManager.Update();
 }
 
 unsigned int GameObject::GetId()
 {
 	return m_IdCounter;
+}
+
+DataManager& GameObject::GetDataManager()
+{
+	return m_DataManager;
 }
 
 void GameObject::AddComponent(std::shared_ptr<Component> comp)

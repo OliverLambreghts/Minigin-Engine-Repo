@@ -15,6 +15,8 @@
 #include "TransformComponent.h"
 #include "GraphicsComponent2D.h"
 #include "QuitCommand.h"
+#include "UIButton.h"
+#include "UIWindowComponent.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -48,6 +50,7 @@ void dae::Minigin::Initialize()
 void dae::Minigin::LoadGame() const
 {
 	InputManager::GetInstance().AddController();
+	InputManager::GetInstance().AddController();
 	InputManager::GetInstance().AddCommand<QuitCommand>(ControllerKey(0, ControllerButton::ButtonA), XINPUT_KEYSTROKE_KEYUP);
 	
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
@@ -70,12 +73,24 @@ void dae::Minigin::LoadGame() const
 
 	const unsigned int fontSize = 16;
 	auto FPSCounter = std::make_shared<GameObject>();
-	const std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>
-		( "Lingua.otf", fontSize, SDL_Color{ 0, 255, 0 }, scene);
-	FPSCounter->AddComponent(textComponent);
+	FPSCounter->AddComponent(std::make_shared<TextComponent>("Lingua.otf", fontSize, SDL_Color{ 0, 255, 0 }, scene));
 	FPSCounter->AddComponent(std::make_shared<TransformComponent>(10.f, float(fontSize)));
-	FPSCounter->AddComponent(std::make_shared<FPSComponent>(textComponent.get(), &TextComponent::SetText));
+	FPSCounter->AddComponent(std::make_shared<FPSComponent>());
+
+	// Data transfer
+	FPSCounter->GetDataManager().LinkData<std::string, FPSComponent, TextComponent>(
+		FPSCounter->GetComponent<FPSComponent>().get(), &FPSComponent::GetFPS,
+		FPSCounter->GetComponent<TextComponent>().get(), &TextComponent::SetText);
+	
 	scene.Add(FPSCounter);
+
+	auto modesWindow = std::make_shared<GameObject>();
+	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Modes"));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Singleplayer"));
+	modesWindow->GetComponent<UIWindowComponent>()->AddCommand<QuitCommand>(0);
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Co-op"));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Versus"));
+	scene.Add(modesWindow);
 }
 
 void dae::Minigin::Cleanup()
@@ -101,24 +116,17 @@ void dae::Minigin::Run()
 
 		// Game Loop
 		auto previousTime = high_resolution_clock::now();
-		auto lag = 0.f;
-		const auto msPerUpdate = 2.f;
-		while (true)
+		bool doContinue = true;
+		while (doContinue)
 		{
 			const auto currentTime = high_resolution_clock::now();
-			const float elapsedMs = float(duration_cast<milliseconds>(currentTime - previousTime).count());
-			const float elapsedSec = elapsedMs / 1000;
+			const float elapsedSec = duration<float>(currentTime - previousTime).count();
 			
 			previousTime = currentTime;
-			lag += elapsedMs;
 
-			input.ProcessInput();
-			
-			while(lag >= msPerUpdate)
-			{
-				Update(elapsedSec);
-				lag -= msPerUpdate;
-			}
+			doContinue = input.ProcessInput();
+
+			Update(elapsedSec);
 			
 			renderer.Render();
 			

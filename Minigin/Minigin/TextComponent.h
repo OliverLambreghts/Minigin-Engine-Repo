@@ -13,7 +13,7 @@ using namespace dae;
 class TextComponent : public GraphicsComponent
 {
 public:
-	TextComponent(std::string font, unsigned int fontSize, SDL_Color color, Scene& scene, std::string text = "Placeholder");
+	TextComponent(std::string font, unsigned int fontSize, SDL_Color color, Scene& scene, std::string text = " ");
 	TextComponent() = default;
 	virtual ~TextComponent() = default;
 	TextComponent(const TextComponent & other) = delete;

@@ -3,6 +3,8 @@
 
 #include <map>
 
+#include "DataManager.h"
+
 class TransformComponent;
 class Component;
 class CalculationComponent;
@@ -29,6 +31,7 @@ namespace dae
 			}
 			return nullptr;
 		}
+		DataManager& GetDataManager();
 
 		void AddComponent(std::shared_ptr<Component> comp);
 		
@@ -44,5 +47,8 @@ namespace dae
 
 		// Components
 		std::vector<std::shared_ptr<Component>> m_pComponents;
+
+		// Data manager for data transfer between components
+		DataManager m_DataManager;
 	};
 }
