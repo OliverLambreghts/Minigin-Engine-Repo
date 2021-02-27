@@ -13,7 +13,7 @@ namespace dae
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
-		void AddRenderData(std::function<void()> fcnPtr);
+		void AddRenderData(std::function<void()>& fcnPtr);
 
 		void Update(float elapsedSec);
 		void Render() const;
@@ -29,7 +29,8 @@ namespace dae
 
 		std::string m_Name;
 		std::vector < std::shared_ptr<GameObject>> m_Objects{};
-		std::map<unsigned int, std::function<void()>> m_RenderData;
+		//std::map<unsigned int, std::function<void()>> m_RenderData;
+		std::vector<std::function<void()>> m_RenderData;
 
 		static unsigned int m_IdCounter;
 	};

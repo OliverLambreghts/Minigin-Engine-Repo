@@ -1,8 +1,6 @@
 #include "MiniginPCH.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "GraphicsComponent.h"
-#include "Renderer.h"
 
 using namespace dae;
 
@@ -29,11 +27,11 @@ void Scene::Render() const
 {
 	for (const auto& renderData : m_RenderData)
 	{
-		renderData.second();
+		renderData();
 	}
 }
 
-void Scene::AddRenderData(std::function<void()> fcnPtr)
+void Scene::AddRenderData(std::function<void()>& fcnPtr)
 {
-	m_RenderData[GameObject::GetId()] = fcnPtr;
+	m_RenderData.push_back(fcnPtr);
 }

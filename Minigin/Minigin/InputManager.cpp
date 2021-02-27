@@ -1,6 +1,5 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
-#include <iostream>
 #include <SDL_events.h>
 
 UINT dae::InputManager::m_ID = 0;
@@ -14,7 +13,8 @@ bool dae::InputManager::ProcessInput()
 
 	for (auto& controllerCommand : m_ControllerCommands)
 	{
-		if (IsPressed(controllerCommand.first.second, controllerCommand.second.second) && controllerCommand.second.first)
+		if (IsPressed(controllerCommand.first.second, controllerCommand.first.first, controllerCommand.second.second)
+			&& controllerCommand.second.first)
 		{
 			controllerCommand.second.first->Execute();
 			return true;
@@ -35,10 +35,17 @@ bool dae::InputManager::ProcessKeyboardInput()
 	return true;
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button, WORD keyStroke)
+bool dae::InputManager::IsPressed(ControllerButton button, UINT id, WORD keyStroke)
 {
 	for (const auto& controller : m_Controllers)
 	{
+		if (controller->GetID() != id)
+			continue;
+
+		if(keyStroke == XINPUT_KEYSTROKE_REPEAT)
+			if (controller->IsButtonPressed(button))
+				return true;
+		
 		if (controller->IsButtonPressed(button, keyStroke))
 		{
 			return true;

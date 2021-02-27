@@ -39,3 +39,13 @@ void GameObject::AddComponent(std::shared_ptr<Component> comp)
 {
 	m_pComponents.push_back(comp);
 }
+
+void GameObject::SetEntity(EntityType type)
+{
+	m_EntityType = type;
+}
+
+EntityType GameObject::GetEntityType() const
+{
+	return m_EntityType;
+}

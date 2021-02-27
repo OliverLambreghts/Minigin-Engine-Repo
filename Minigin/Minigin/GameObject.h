@@ -13,6 +13,12 @@ class GraphicsComponent2D;
 class MovementComponent;
 namespace dae
 {
+	enum EntityType
+	{
+		Player,
+		Enemy
+	};
+	
 	class Texture2D;
 	class GameObject final
 	{
@@ -32,8 +38,10 @@ namespace dae
 			return nullptr;
 		}
 		DataManager& GetDataManager();
+		EntityType GetEntityType() const;
 
 		void AddComponent(std::shared_ptr<Component> comp);
+		void SetEntity(EntityType type);
 		
 		GameObject();
 		~GameObject();
@@ -50,5 +58,8 @@ namespace dae
 
 		// Data manager for data transfer between components
 		DataManager m_DataManager;
+
+		// GameObject's entity type
+		EntityType m_EntityType;
 	};
 }

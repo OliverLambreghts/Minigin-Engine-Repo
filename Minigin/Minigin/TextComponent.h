@@ -22,8 +22,10 @@ public:
 	void operator=(const TextComponent && rhs) = delete;
 	
 	virtual void Update(float elapsedSec, GameObject& obj) override;
+	void Update();
 
 	void SetText(std::string newText);
+	void SetPos(const Transform& pos);
 
 	void Render() const;
 private:

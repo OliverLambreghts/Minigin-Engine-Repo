@@ -5,7 +5,7 @@
 UIWindowComponent::UIWindowComponent(Scene& scene, std::string name)
 	: m_Name{name}
 {
-	const std::function<void()> renderWrapper = std::bind(&UIWindowComponent::Render, this);
+	std::function<void()> renderWrapper = std::bind(&UIWindowComponent::Render, this);
 	scene.AddRenderData(renderWrapper);
 }
 

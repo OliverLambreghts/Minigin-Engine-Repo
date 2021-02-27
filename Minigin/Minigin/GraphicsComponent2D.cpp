@@ -1,8 +1,6 @@
 #include "MiniginPCH.h"
 #include "GraphicsComponent2D.h"
 
-#include <SDL_render.h>
-
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "TransformComponent.h"
@@ -11,7 +9,7 @@ GraphicsComponent2D::GraphicsComponent2D(std::string fileName, Scene& scene)
 	: m_Transform{}
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
-	const std::function<void()> renderWrapper = std::bind(&GraphicsComponent2D::Render, this);
+	std::function<void()> renderWrapper = std::bind(&GraphicsComponent2D::Render, this);
 	scene.AddRenderData(renderWrapper);
 }
 

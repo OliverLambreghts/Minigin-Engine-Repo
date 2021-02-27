@@ -1,7 +1,6 @@
 #include "MiniginPCH.h"
 
 #include "Controller.h"
-#include <iostream>
 #include <algorithm>
 #include <climits>
 
@@ -54,44 +53,11 @@ bool dae::Controller::IsButtonPressed(dae::ControllerButton button) const
 
 bool dae::Controller::IsButtonPressed(ControllerButton button, WORD keyStroke) const
 {
-	if (m_Stroke.Flags == keyStroke)
+	if(m_Stroke.Flags == keyStroke)
 	{
-		switch (m_Stroke.VirtualKey)
-		{
-		case VK_PAD_A:
-			if (button == ControllerButton::ButtonA)
-				return true;
-			break;
-		case VK_PAD_B:
-			if (button == ControllerButton::ButtonB)
-				return true;
-			break;
-		case VK_PAD_X:
-			if (button == ControllerButton::ButtonX)
-				return true;
-			break;
-		case VK_PAD_Y:
-			if (button == ControllerButton::ButtonY)
-				return true;
-			break;
-		case VK_PAD_DPAD_LEFT:
-			if (button == ControllerButton::ButtonLeft)
-				return true;
-			break;
-		case VK_PAD_DPAD_RIGHT:
-			if (button == ControllerButton::ButtonRight)
-				return true;
-			break;
-		case VK_PAD_DPAD_UP:
-			if (button == ControllerButton::ButtonUp)
-				return true;
-			break;
-		case VK_PAD_DPAD_DOWN:
-			if (button == ControllerButton::ButtonDown)
-				return true;
-		}
+		if (m_Stroke.VirtualKey == (WORD)button)
+			return true;
 	}
-
 	return false;
 }
 

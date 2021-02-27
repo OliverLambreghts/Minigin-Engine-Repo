@@ -5,6 +5,7 @@
 
 #include "Command.h"
 #include "Controller.h"
+#include "GameObject.h"
 #include "Singleton.h"
 
 namespace dae
@@ -15,14 +16,14 @@ namespace dae
 
 	enum class ControllerButton
 	{
-		ButtonA = VK_PAD_A,
-		ButtonB = VK_PAD_B,
-		ButtonX = VK_PAD_X,
-		ButtonY = VK_PAD_Y,
-		ButtonLeft = VK_PAD_DPAD_LEFT,
-		ButtonRight = VK_PAD_DPAD_RIGHT,
-		ButtonUp = VK_PAD_DPAD_UP,
-		ButtonDown = VK_PAD_DPAD_DOWN
+		ButtonA = 0x5800,
+		ButtonB = 0x5801,
+		ButtonX = 0x5802,
+		ButtonY = 0x5803,
+		ButtonLeft = 0x5812,
+		ButtonRight = 0x5813,
+		ButtonUp = 0x5810,
+		ButtonDown = 0x5811
 	};
 
 	class InputManager : public Singleton<InputManager>
@@ -32,7 +33,7 @@ namespace dae
 		bool ProcessKeyboardInput();
 		
 		bool IsPressed(ControllerButton button, UINT& id);
-		bool IsPressed(ControllerButton button, WORD keyStroke);
+		bool IsPressed(ControllerButton button, UINT id, WORD keyStroke);
 
 		void AddController();
 
@@ -40,6 +41,14 @@ namespace dae
 		void AddCommand(ControllerKey cKey, WORD stroke)
 		{
 			auto cmd = std::make_shared<T>();
+			auto pair = std::make_pair(cmd, stroke);
+			m_ControllerCommands[cKey] = pair;
+		}
+
+		template<typename T>
+		void AddCommand(ControllerKey cKey, WORD stroke, std::shared_ptr<GameObject>& obj)
+		{
+			auto cmd = std::make_shared<T>(obj);
 			auto pair = std::make_pair(cmd, stroke);
 			m_ControllerCommands[cKey] = pair;
 		}

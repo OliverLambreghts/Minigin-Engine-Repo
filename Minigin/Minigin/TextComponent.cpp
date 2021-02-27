@@ -18,7 +18,7 @@ TextComponent::TextComponent(std::string font, unsigned int fontSize, SDL_Color 
 	m_Transform{}
 {
 	m_Font = ResourceManager::GetInstance().LoadFont(font, fontSize);
-	const std::function<void()> wrapper = std::bind(&TextComponent::Render, this);
+	std::function<void()> wrapper = std::bind(&TextComponent::Render, this);
 	scene.AddRenderData(wrapper);
 }
 
@@ -45,10 +45,35 @@ void TextComponent::Update(float, GameObject& obj)
 		m_Transform = pos;
 }
 
+void TextComponent::Update()
+{
+	if (m_NeedsUpdate)
+	{
+		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
+		if (surf == nullptr)
+		{
+			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+		}
+		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+		if (texture == nullptr)
+		{
+			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+		}
+		SDL_FreeSurface(surf);
+		m_Texture = std::make_shared<Texture2D>(texture);
+		m_NeedsUpdate = false;
+	}
+}
+
 void TextComponent::SetText(std::string newText)
 {
 	m_Text = newText;
 	m_NeedsUpdate = true;
+}
+
+void TextComponent::SetPos(const Transform& pos)
+{
+	m_Transform = pos;
 }
 
 void TextComponent::Render() const

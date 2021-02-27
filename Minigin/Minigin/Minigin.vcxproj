@@ -207,15 +207,28 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
     <ClInclude Include="BaseData.h" />
     <ClInclude Include="CalculationComponent.h" />
+    <ClInclude Include="CatchSamSlickCommand.h" />
+    <ClInclude Include="CoilyDefeatedDiscCommand.h" />
+    <ClInclude Include="ColorChangeCommand.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="DieCommand.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="GameplayComponent.h" />
     <ClInclude Include="GraphicsComponent.h" />
+    <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="LivesDisplay.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="QuitCommand.h" />
+    <ClInclude Include="RemainingDiscCommand.h" />
+    <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="ScoreDisplay.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputComponent.h" />
@@ -235,6 +248,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="UIElement.h" />
+    <ClInclude Include="UIText.h" />
     <ClInclude Include="UIWindowComponent.h" />
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +299,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GraphicsComponent2D.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="LivesDisplay.cpp" />
+    <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="ScoreDisplay.cpp" />
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -305,6 +325,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UIText.cpp" />
     <ClCompile Include="UIWindowComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

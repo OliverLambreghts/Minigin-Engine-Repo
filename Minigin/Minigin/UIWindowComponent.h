@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "imgui.h"
 #include "Scene.h"
 #include "UIComponent.h"
 #include "Command.h"

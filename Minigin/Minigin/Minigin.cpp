@@ -8,14 +8,26 @@
 #include "ResourceManager.h"
 #include <SDL.h>
 
+
+
+#include "CatchSamSlickCommand.h"
+#include "CoilyDefeatedDiscCommand.h"
+#include "ColorChangeCommand.h"
+#include "DieCommand.h"
 #include "FPSComponent.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "TextComponent.h"
 #include "TransformComponent.h"
 #include "GraphicsComponent2D.h"
-#include "QuitCommand.h"
+#include "HealthComponent.h"
+#include "LivesDisplay.h"
+#include "PlayerComponent.h"
+#include "RemainingDiscCommand.h"
+#include "ScoreComponent.h"
+#include "ScoreDisplay.h"
 #include "UIButton.h"
+#include "UIText.h"
 #include "UIWindowComponent.h"
 
 using namespace std;
@@ -51,7 +63,6 @@ void dae::Minigin::LoadGame() const
 {
 	InputManager::GetInstance().AddController();
 	InputManager::GetInstance().AddController();
-	InputManager::GetInstance().AddCommand<QuitCommand>(ControllerKey(0, ControllerButton::ButtonA), XINPUT_KEYSTROKE_KEYUP);
 	
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
@@ -71,6 +82,7 @@ void dae::Minigin::LoadGame() const
 	to->AddComponent(std::make_shared<TransformComponent>(80.f, 20.f));
 	scene.Add(to);
 
+	// FPS Counter
 	const unsigned int fontSize = 16;
 	auto FPSCounter = std::make_shared<GameObject>();
 	FPSCounter->AddComponent(std::make_shared<TextComponent>("Lingua.otf", fontSize, SDL_Color{ 0, 255, 0 }, scene));
@@ -81,16 +93,51 @@ void dae::Minigin::LoadGame() const
 	FPSCounter->GetDataManager().LinkData<std::string, FPSComponent, TextComponent>(
 		FPSCounter->GetComponent<FPSComponent>().get(), &FPSComponent::GetFPS,
 		FPSCounter->GetComponent<TextComponent>().get(), &TextComponent::SetText);
-	
+
 	scene.Add(FPSCounter);
 
+	// Modes
 	auto modesWindow = std::make_shared<GameObject>();
 	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Modes"));
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Singleplayer"));
-	modesWindow->GetComponent<UIWindowComponent>()->AddCommand<QuitCommand>(0);
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Co-op"));
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Versus"));
 	scene.Add(modesWindow);
+
+	// Controls
+	auto controlsWindow = std::make_shared<GameObject>();
+	controlsWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Controls"));
+	controlsWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIText>
+		("Button B: Die\nLeft Arrow: Color Change\nUp Arrow: Defeated Coily with Disc\nDown Arrow: Remaining Disc\nRight Arrow: Caught Sam/Slick"));
+	scene.Add(controlsWindow);
+	
+	// Observers:
+	auto livesDisplay = std::make_shared<LivesDisplay>(scene, (UINT)InputManager::GetInstance().GetControllers().size());
+	auto scoreDisplay = std::make_shared<ScoreDisplay>(scene, (UINT)InputManager::GetInstance().GetControllers().size());
+	
+	// Players
+	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
+	{
+		auto QBert = std::make_shared<GameObject>();
+		QBert->SetEntity(EntityType::Player);
+		QBert->AddComponent(std::make_shared<HealthComponent>());
+		QBert->AddComponent(std::make_shared<PlayerComponent>());
+		QBert->AddComponent(std::make_shared<ScoreComponent>());
+		InputManager::GetInstance().AddCommand<DieCommand>(ControllerKey(i, ControllerButton::ButtonB),
+			XINPUT_KEYSTROKE_KEYUP, QBert);
+		// SCORE COMMANDS (used for testing)
+		InputManager::GetInstance().AddCommand<ColorChangeCommand>(ControllerKey(i, ControllerButton::ButtonLeft),
+			XINPUT_KEYSTROKE_KEYUP, QBert);
+		InputManager::GetInstance().AddCommand<CoilyDefeatedDiscCommand>(ControllerKey(i, ControllerButton::ButtonUp),
+			XINPUT_KEYSTROKE_KEYUP, QBert);
+		InputManager::GetInstance().AddCommand<RemainingDiscCommand>(ControllerKey(i, ControllerButton::ButtonDown),
+			XINPUT_KEYSTROKE_KEYUP, QBert);
+		InputManager::GetInstance().AddCommand<CatchSamSlickCommand>(ControllerKey(i, ControllerButton::ButtonRight),
+			XINPUT_KEYSTROKE_KEYUP, QBert);
+		QBert->GetComponent<HealthComponent>()->AddObserver(livesDisplay);
+		QBert->GetComponent<ScoreComponent>()->AddObserver(scoreDisplay);
+		scene.Add(QBert);
+	}
 }
 
 void dae::Minigin::Cleanup()
