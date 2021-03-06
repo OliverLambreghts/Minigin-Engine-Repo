@@ -3,10 +3,11 @@
 #include <memory>
 #include <vector>
 
-#include "Command.h"
 #include "Controller.h"
 #include "GameObject.h"
 #include "Singleton.h"
+
+class Command;
 
 namespace dae
 {

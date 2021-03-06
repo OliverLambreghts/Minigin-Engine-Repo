@@ -40,12 +40,15 @@ void TextComponent::Update(float, GameObject& obj)
 		m_Texture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
+	if (!obj.GetComponent<TransformComponent>())
+		return;
+	
 	const auto pos = obj.GetComponent<TransformComponent>()->GetPos();
 	if (m_Transform.GetPosition() != pos.GetPosition())
 		m_Transform = pos;
 }
 
-void TextComponent::Update()
+void TextComponent::ObsUpdate()
 {
 	if (m_NeedsUpdate)
 	{

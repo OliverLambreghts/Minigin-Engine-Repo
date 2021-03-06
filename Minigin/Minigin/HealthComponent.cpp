@@ -13,7 +13,7 @@ void HealthComponent::Die(const GameObject& obj)
 	{
 	case EntityType::Player:
 		//m_Subject->Notify(obj, Message::PlayerDied);
-		Notify(obj, Message::PlayerDied);
+		m_Subject.Notify(obj, Message::PlayerDied);
 		break;
 	}
 }
@@ -21,4 +21,9 @@ void HealthComponent::Die(const GameObject& obj)
 void HealthComponent::Update(float, GameObject&)
 {
 	
+}
+
+Subject& HealthComponent::GetSubject()
+{
+	return m_Subject;
 }

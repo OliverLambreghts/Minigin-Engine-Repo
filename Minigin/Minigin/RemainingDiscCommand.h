@@ -1,7 +1,11 @@
 #pragma once
 #include "Command.h"
-#include "GameObject.h"
 #include "ScoreComponent.h"
+
+namespace dae
+{
+	class GameObject;
+}
 
 class RemainingDiscCommand final : public Command
 {

@@ -22,7 +22,7 @@ public:
 	void operator=(const TextComponent && rhs) = delete;
 	
 	virtual void Update(float elapsedSec, GameObject& obj) override;
-	void Update();
+	void ObsUpdate();
 
 	void SetText(std::string newText);
 	void SetPos(const Transform& pos);

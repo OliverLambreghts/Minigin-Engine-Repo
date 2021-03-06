@@ -1,7 +1,11 @@
 #pragma once
 #include "Command.h"
-#include "GameObject.h"
 #include "HealthComponent.h"
+
+namespace dae
+{
+	class GameObject;
+}
 
 class DieCommand final : public Command
 {

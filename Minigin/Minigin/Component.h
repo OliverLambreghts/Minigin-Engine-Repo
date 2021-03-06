@@ -1,9 +1,8 @@
 #pragma once
 #include "GameObject.h"
-#include "Subject.h"
 
 using namespace dae;
-class Component : public Subject
+class Component
 {
 public:
 	Component() = default;

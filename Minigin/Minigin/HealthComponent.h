@@ -1,5 +1,6 @@
 #pragma once
 #include "GameplayComponent.h"
+#include "Subject.h"
 
 class HealthComponent : public GameplayComponent
 {
@@ -15,6 +16,9 @@ public:
 	
 	void SetHealth(int health);
 	void Die(const GameObject& obj);
+
+	Subject& GetSubject();
 private:
 	int m_Health = 100;
+	Subject m_Subject;
 };

@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
 #include <SDL_events.h>
+#include "Command.h"
 
 UINT dae::InputManager::m_ID = 0;
 

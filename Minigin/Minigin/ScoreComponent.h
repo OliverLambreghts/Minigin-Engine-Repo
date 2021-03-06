@@ -1,5 +1,6 @@
 #pragma once
 #include "GameplayComponent.h"
+#include "Subject.h"
 
 class ScoreComponent : public GameplayComponent
 {
@@ -16,7 +17,11 @@ public:
 	void SetScoreEvent(Message message);
 
 	int GetScore() const;
+
+	Subject& GetSubject();
 private:
 	Message m_ScoreEvent;
 	int m_Score;
+
+	Subject m_Subject;
 };

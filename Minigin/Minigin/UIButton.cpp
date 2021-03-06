@@ -15,7 +15,8 @@ void UIButton::Update()
 
 void UIButton::Render()
 {
-	m_IsActive = ImGui::Button(m_Name.c_str());
+	if (ImGui::Button(m_Name.c_str()))
+		m_IsActive = !m_IsActive;
 }
 
 void UIButton::SetName(std::string name)

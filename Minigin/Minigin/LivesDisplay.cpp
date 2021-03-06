@@ -2,25 +2,29 @@
 #include "LivesDisplay.h"
 
 #include "PlayerComponent.h"
+#include "TextComponent.h"
+#include "Transform.h"
 
 float LivesDisplay::m_Y = 450.f;
 
-LivesDisplay::LivesDisplay(dae::Scene& scene, UINT players)
-	: m_Lives(players, 10)
+LivesDisplay::LivesDisplay(UINT players)
+	: m_Lives(players, 10),
+	m_Players{}
 {
-	for (UINT i{}; i < players; ++i)
-	{
-		m_TextComponents.push_back(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
-		Transform pos{};
-		pos.SetPosition(m_X, m_Y, 0);
-		m_TextComponents[i]->SetText("Player " + std::to_string(i + 1) + " Lives: " + std::to_string(m_StartLives));
-		m_TextComponents[i]->SetPos(pos);
-		m_Y -= 20.f;
-		m_TextComponents[i]->Update();
-	}
+}
 
-	std::function<void() > wrapper = std::bind(&LivesDisplay::Render, this);
-	scene.AddRenderData(wrapper);
+void LivesDisplay::AddData(GameObject& obj)
+{
+	Transform pos{};
+	pos.SetPosition(m_X, m_Y, 0);
+	++m_Players;
+	obj.GetComponent<TextComponent>()->SetText("Player " + std::to_string(m_Players)
+		+ " Lives: " + std::to_string(m_StartLives));
+	obj.GetComponent<TextComponent>()->SetPos(pos);
+	obj.GetComponent<TextComponent>()->ObsUpdate();
+	m_SetMethods.push_back(std::bind(&TextComponent::SetText, obj.GetComponent<TextComponent>(), std::placeholders::_1));
+	m_UpdateMethods.push_back(std::bind(&TextComponent::ObsUpdate, obj.GetComponent<TextComponent>()));
+	m_Y -= 20.f;
 }
 
 void LivesDisplay::OnNotify(const dae::GameObject& obj, Message message)
@@ -30,16 +34,8 @@ void LivesDisplay::OnNotify(const dae::GameObject& obj, Message message)
 	case Message::PlayerDied:
 		UINT id = obj.GetComponent<PlayerComponent>()->GetID();
 		--m_Lives[id];
-		m_TextComponents[id]->SetText("Player " + std::to_string(id + 1) + " Lives: " + std::to_string(m_Lives[id]));
-		m_TextComponents[id]->Update();
+		m_SetMethods[id]("Player " + std::to_string(id + 1) + " Lives: " + std::to_string(m_Lives[id]));
+		m_UpdateMethods[id]();
 		break;
-	}
-}
-
-void LivesDisplay::Render()
-{
-	for (auto& comp : m_TextComponents)
-	{
-		comp->Render();
 	}
 }

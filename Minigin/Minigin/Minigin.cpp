@@ -26,6 +26,7 @@
 #include "RemainingDiscCommand.h"
 #include "ScoreComponent.h"
 #include "ScoreDisplay.h"
+#include "Session.h"
 #include "UIButton.h"
 #include "UIText.h"
 #include "UIWindowComponent.h"
@@ -61,6 +62,7 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
+	Session::GetInstance().BeginSession();
 	InputManager::GetInstance().AddController();
 	InputManager::GetInstance().AddController();
 	
@@ -102,22 +104,35 @@ void dae::Minigin::LoadGame() const
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Singleplayer"));
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Co-op"));
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Versus"));
+	auto controlsButton = std::make_shared<UIButton>("Controls");
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(controlsButton);
 	scene.Add(modesWindow);
 
 	// Controls
 	auto controlsWindow = std::make_shared<GameObject>();
 	controlsWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Controls"));
+	controlsWindow->GetComponent<UIWindowComponent>()->AddActivationButton(controlsButton);
 	controlsWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIText>
 		("Button B: Die\nLeft Arrow: Color Change\nUp Arrow: Defeated Coily with Disc\nDown Arrow: Remaining Disc\nRight Arrow: Caught Sam/Slick"));
 	scene.Add(controlsWindow);
 	
 	// Observers:
-	auto livesDisplay = std::make_shared<LivesDisplay>(scene, (UINT)InputManager::GetInstance().GetControllers().size());
-	auto scoreDisplay = std::make_shared<ScoreDisplay>(scene, (UINT)InputManager::GetInstance().GetControllers().size());
+	auto livesDisplay = std::make_shared<LivesDisplay>((UINT)InputManager::GetInstance().GetControllers().size());
+	auto scoreDisplay = std::make_shared<ScoreDisplay>();
 	
-	// Players
+	// Players + ScoreDisplayUI + LivesDisplayUI
 	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
 	{
+		auto livesDisplayUI = std::make_shared<GameObject>();
+		livesDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+		livesDisplay->AddData(*livesDisplayUI);
+		scene.Add(livesDisplayUI);
+
+		auto scoreDisplayUI = std::make_shared<GameObject>();
+		scoreDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+		scoreDisplay->AddData(*scoreDisplayUI);
+		scene.Add(scoreDisplayUI);
+		
 		auto QBert = std::make_shared<GameObject>();
 		QBert->SetEntity(EntityType::Player);
 		QBert->AddComponent(std::make_shared<HealthComponent>());
@@ -134,10 +149,12 @@ void dae::Minigin::LoadGame() const
 			XINPUT_KEYSTROKE_KEYUP, QBert);
 		InputManager::GetInstance().AddCommand<CatchSamSlickCommand>(ControllerKey(i, ControllerButton::ButtonRight),
 			XINPUT_KEYSTROKE_KEYUP, QBert);
-		QBert->GetComponent<HealthComponent>()->AddObserver(livesDisplay);
-		QBert->GetComponent<ScoreComponent>()->AddObserver(scoreDisplay);
+		QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
+		QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
 		scene.Add(QBert);
 	}
+
+	Session::GetInstance().EndSession();
 }
 
 void dae::Minigin::Cleanup()

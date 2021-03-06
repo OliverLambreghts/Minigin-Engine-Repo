@@ -19,7 +19,7 @@ void ScoreComponent::Update(float , GameObject& obj)
 		break;
 	}
 
-	Notify(obj, m_ScoreEvent);
+	m_Subject.Notify(obj, m_ScoreEvent);
 	m_ScoreEvent = Message::DoNothing;
 }
 
@@ -31,4 +31,9 @@ void ScoreComponent::SetScoreEvent(Message message)
 int ScoreComponent::GetScore() const
 {
 	return m_Score;
+}
+
+Subject& ScoreComponent::GetSubject()
+{
+	return m_Subject;
 }

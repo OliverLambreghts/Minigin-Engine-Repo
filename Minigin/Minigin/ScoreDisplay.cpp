@@ -3,24 +3,27 @@
 
 #include "PlayerComponent.h"
 #include "ScoreComponent.h"
+#include "TextComponent.h"
+#include "Transform.h"
 
 float ScoreDisplay::m_Y = 450.f;
 
-ScoreDisplay::ScoreDisplay(dae::Scene& scene, UINT players)
+ScoreDisplay::ScoreDisplay()
+	: m_Players{0}
 {
-	for (UINT i{}; i < players; ++i)
-	{
-		m_TextComponents.push_back(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
-		Transform pos{};
-		pos.SetPosition(m_X, m_Y, 0);
-		m_TextComponents[i]->SetText("Player " + std::to_string(i + 1) + " Score: 0");
-		m_TextComponents[i]->SetPos(pos);
-		m_Y -= 20.f;
-		m_TextComponents[i]->Update();
-	}
+}
 
-	std::function<void() > wrapper = std::bind(&ScoreDisplay::Render, this);
-	scene.AddRenderData(wrapper);
+void ScoreDisplay::AddData(GameObject& obj)
+{
+	Transform pos{};
+	pos.SetPosition(m_X, m_Y, 0);
+	++m_Players;
+	obj.GetComponent<TextComponent>()->SetText("Player " + std::to_string(m_Players) + " Score: 0");
+	obj.GetComponent<TextComponent>()->SetPos(pos);
+	obj.GetComponent<TextComponent>()->ObsUpdate();
+	m_SetMethods.push_back(std::bind(&TextComponent::SetText, obj.GetComponent<TextComponent>(), std::placeholders::_1));
+	m_UpdateMethods.push_back(std::bind(&TextComponent::ObsUpdate, obj.GetComponent<TextComponent>()));
+	m_Y -= 20.f;
 }
 
 void ScoreDisplay::OnNotify(const dae::GameObject& obj, Message message)
@@ -30,14 +33,6 @@ void ScoreDisplay::OnNotify(const dae::GameObject& obj, Message message)
 
 	UINT id = obj.GetComponent<PlayerComponent>()->GetID();
 	int score = obj.GetComponent<ScoreComponent>()->GetScore();
-	m_TextComponents[id]->SetText("Player " + std::to_string(id + 1) + " Score: " + std::to_string(score));
-	m_TextComponents[id]->Update();
-}
-
-void ScoreDisplay::Render()
-{
-	for (auto& comp : m_TextComponents)
-	{
-		comp->Render();
-	}
+	m_SetMethods[id]("Player " + std::to_string(id + 1) + " Score: " + std::to_string(score));
+	m_UpdateMethods[id]();
 }

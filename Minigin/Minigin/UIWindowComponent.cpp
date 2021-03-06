@@ -1,6 +1,8 @@
 #include "MiniginPCH.h"
 #include "UIWindowComponent.h"
 #include "imgui.h"
+#include "UIButton.h"
+#include "Command.h"
 
 UIWindowComponent::UIWindowComponent(Scene& scene, std::string name)
 	: m_Name{name}
@@ -12,6 +14,11 @@ UIWindowComponent::UIWindowComponent(Scene& scene, std::string name)
 void UIWindowComponent::AddElement(std::shared_ptr<UIElement> element)
 {
 	m_UICommands.push_back(std::make_pair(element, nullptr));
+}
+
+void UIWindowComponent::AddActivationButton(std::shared_ptr<UIButton> button)
+{
+	m_ActivationButton = button;
 }
 
 void UIWindowComponent::Update(float, GameObject&)
@@ -27,9 +34,12 @@ void UIWindowComponent::Update(float, GameObject&)
 
 void UIWindowComponent::Render()
 {
-	ImGui::Begin(m_Name.c_str());
-	RenderElements();
-	ImGui::End();
+	if ((m_ActivationButton && m_ActivationButton->IsActive()) || !m_ActivationButton)
+	{
+		ImGui::Begin(m_Name.c_str());
+		RenderElements();
+		ImGui::End();
+	}
 }
 
 void UIWindowComponent::RenderElements()
