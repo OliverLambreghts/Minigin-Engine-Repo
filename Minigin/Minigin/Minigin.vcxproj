@@ -205,6 +205,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_rectpack.h" />
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
+    <ClInclude Include="audio.h" />
+    <ClInclude Include="AudioService.h" />
     <ClInclude Include="BaseData.h" />
     <ClInclude Include="CalculationComponent.h" />
     <ClInclude Include="CatchSamSlickCommand.h" />
@@ -222,14 +224,19 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="LivesDisplay.h" />
+    <ClInclude Include="LoggingAudioService.h" />
+    <ClInclude Include="NullAudioService.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="QuitCommand.h" />
     <ClInclude Include="RemainingDiscCommand.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreDisplay.h" />
+    <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Session.h" />
+    <ClInclude Include="SimpleSDL2AudioService.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="TestSoundCommand.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputComponent.h" />
@@ -244,6 +251,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="ThreadRAII.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComponent.h" />
@@ -296,6 +304,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="audio.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -303,10 +312,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="GraphicsComponent2D.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="LivesDisplay.cpp" />
+    <ClCompile Include="LoggingAudioService.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreDisplay.cpp" />
+    <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="SimpleSDL2AudioService.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -325,6 +337,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="ThreadRAII.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComponent.cpp" />

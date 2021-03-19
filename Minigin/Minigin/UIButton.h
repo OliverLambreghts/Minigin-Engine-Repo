@@ -4,7 +4,7 @@
 class UIButton : public UIElement
 {
 public:
-	UIButton(std::string name);
+	UIButton(std::string name, bool staysActive);
 	
 	virtual ~UIButton() = default;
 	
@@ -17,5 +17,5 @@ public:
 	virtual bool IsActive() override;
 private:
 	std::string m_Name;
-	bool m_IsActive = false;
+	bool m_IsActive = false, m_StaysActive;
 };

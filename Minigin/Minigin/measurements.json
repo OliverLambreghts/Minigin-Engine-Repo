@@ -1,1 +1,1 @@
-{"traceEvents":[{"cat":"function","dur":2184,"name":"LivesDisplay::AddData-19","ph":"X","pid":0,"tid":22872,"ts":238856722955},{"cat":"function","dur":2062,"name":"ScoreDisplay::AddData-19","ph":"X","pid":0,"tid":22872,"ts":238856726200},{"cat":"function","dur":2130,"name":"LivesDisplay::AddData-19","ph":"X","pid":0,"tid":22872,"ts":238856729173},{"cat":"function","dur":1899,"name":"ScoreDisplay::AddData-19","ph":"X","pid":0,"tid":22872,"ts":238856732034}]}
+{"traceEvents":[]}

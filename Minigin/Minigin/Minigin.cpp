@@ -7,9 +7,6 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
-
-
-
 #include "CatchSamSlickCommand.h"
 #include "CoilyDefeatedDiscCommand.h"
 #include "ColorChangeCommand.h"
@@ -22,11 +19,16 @@
 #include "GraphicsComponent2D.h"
 #include "HealthComponent.h"
 #include "LivesDisplay.h"
+#include "LoggingAudioService.h"
 #include "PlayerComponent.h"
 #include "RemainingDiscCommand.h"
 #include "ScoreComponent.h"
 #include "ScoreDisplay.h"
+#include "ServiceLocator.h"
 #include "Session.h"
+#include "SimpleSDL2AudioService.h"
+#include "TestSoundCommand.h"
+#include "ThreadRAII.h"
 #include "UIButton.h"
 #include "UIText.h"
 #include "UIWindowComponent.h"
@@ -36,7 +38,7 @@ using namespace std::chrono;
 
 void dae::Minigin::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
@@ -49,12 +51,18 @@ void dae::Minigin::Initialize()
 		480,
 		SDL_WINDOW_OPENGL
 	);
-	if (m_Window == nullptr) 
+	if (m_Window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+
+	auto audio = new SimpleSDL2AudioService{};
+	_putenv("SDL_AUDIODRIVER=DirectSound");
+	SDL_Init(SDL_INIT_AUDIO);
+	audio->InitAudio();
+	ServiceLocator::Provide(/*new LoggingAudioService{ */audio /*}*/);
 }
 
 /**
@@ -63,9 +71,10 @@ void dae::Minigin::Initialize()
 void dae::Minigin::LoadGame() const
 {
 	Session::GetInstance().BeginSession();
+
 	InputManager::GetInstance().AddController();
 	InputManager::GetInstance().AddController();
-	
+
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
@@ -100,12 +109,17 @@ void dae::Minigin::LoadGame() const
 
 	// Modes
 	auto modesWindow = std::make_shared<GameObject>();
-	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Modes"));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Singleplayer"));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Co-op"));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Versus"));
-	auto controlsButton = std::make_shared<UIButton>("Controls");
+	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Main Menu"));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Singleplayer", true));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Co-op", true));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Versus", true));
+	auto controlsButton = std::make_shared<UIButton>("Controls", true);
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(controlsButton);
+
+	// Sound test button
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Test Sound", false));
+	modesWindow->GetComponent<UIWindowComponent>()->AddCommand<TestSoundCommand>(4);
+	
 	scene.Add(modesWindow);
 
 	// Controls
@@ -115,11 +129,11 @@ void dae::Minigin::LoadGame() const
 	controlsWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIText>
 		("Button B: Die\nLeft Arrow: Color Change\nUp Arrow: Defeated Coily with Disc\nDown Arrow: Remaining Disc\nRight Arrow: Caught Sam/Slick"));
 	scene.Add(controlsWindow);
-	
+
 	// Observers:
 	auto livesDisplay = std::make_shared<LivesDisplay>((UINT)InputManager::GetInstance().GetControllers().size());
 	auto scoreDisplay = std::make_shared<ScoreDisplay>();
-	
+
 	// Players + ScoreDisplayUI + LivesDisplayUI
 	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
 	{
@@ -132,7 +146,7 @@ void dae::Minigin::LoadGame() const
 		scoreDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
 		scoreDisplay->AddData(*scoreDisplayUI);
 		scene.Add(scoreDisplayUI);
-		
+
 		auto QBert = std::make_shared<GameObject>();
 		QBert->SetEntity(EntityType::Player);
 		QBert->AddComponent(std::make_shared<HealthComponent>());
@@ -160,6 +174,7 @@ void dae::Minigin::LoadGame() const
 void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
+	ServiceLocator::Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
@@ -181,19 +196,28 @@ void dae::Minigin::Run()
 		// Game Loop
 		auto previousTime = high_resolution_clock::now();
 		bool doContinue = true;
+
+		auto* audioService = ServiceLocator::GetAudioService();
+
 		while (doContinue)
 		{
 			const auto currentTime = high_resolution_clock::now();
 			const float elapsedSec = duration<float>(currentTime - previousTime).count();
-			
+
 			previousTime = currentTime;
 
 			doContinue = input.ProcessInput();
 
+			// Add audio system to a separate thread for processing sounds:
+			std::thread audioThread{ &AudioService::Update, audioService };
+
 			Update(elapsedSec);
-			
+
 			renderer.Render();
-			
+
+			if (audioThread.joinable())
+				audioThread.join();
+
 			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
 			this_thread::sleep_for(sleepTime);
 		}

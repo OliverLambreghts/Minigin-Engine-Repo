@@ -2,15 +2,16 @@
 #include "UIButton.h"
 #include "imgui.h"
 
-UIButton::UIButton(std::string name)
-	: m_Name{name}
+UIButton::UIButton(std::string name, bool staysActive)
+	: m_Name{ name },
+	m_StaysActive{ staysActive }
 {
-	
+
 }
 
 void UIButton::Update()
 {
-	
+
 }
 
 void UIButton::Render()
@@ -26,5 +27,10 @@ void UIButton::SetName(std::string name)
 
 bool UIButton::IsActive()
 {
+	if (!m_StaysActive && m_IsActive)
+	{
+		m_IsActive = false;
+		return true;
+	}
 	return m_IsActive;
 }
