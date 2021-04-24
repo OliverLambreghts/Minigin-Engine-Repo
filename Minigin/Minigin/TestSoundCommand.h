@@ -9,6 +9,6 @@ public:
 	virtual ~TestSoundCommand() = default;
 	virtual void Execute()
 	{
-		ServiceLocator::GetAudioService()->PlaySound("Sounds/brickBreak.wav", SDL_MIX_MAXVOLUME);
+		ServiceLocator::GetAudioService()->PlaySound("Sounds/wow.wav", SDL_MIX_MAXVOLUME);
 	}
 };

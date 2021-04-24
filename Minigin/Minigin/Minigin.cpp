@@ -7,6 +7,9 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
+#include <GL/gl.h>
+#include <GL/GLU.h>
+
 #include "CatchSamSlickCommand.h"
 #include "CoilyDefeatedDiscCommand.h"
 #include "ColorChangeCommand.h"
@@ -17,6 +20,8 @@
 #include "TextComponent.h"
 #include "TransformComponent.h"
 #include "GraphicsComponent2D.h"
+#include "GridComponent.h"
+#include "GridRenderComponent.h"
 #include "HealthComponent.h"
 #include "LivesDisplay.h"
 #include "LoggingAudioService.h"
@@ -38,17 +43,23 @@ using namespace std::chrono;
 
 void dae::Minigin::Initialize()
 {
+	m_WindowWidth = 640;
+	m_WindowHeight = 480;
+	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+
 	m_Window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		m_WindowWidth,
+		m_WindowHeight,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr)
@@ -56,6 +67,33 @@ void dae::Minigin::Initialize()
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
+	// Create OpenGL context 
+	auto context = SDL_GL_CreateContext(m_Window);
+	if (context == nullptr)
+	{
+		std::cerr << "Error when calling SDL_GL_CreateContext: " << SDL_GetError() << std::endl;
+		return;
+	}
+
+	// Set the Projection matrix to the identity matrix
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// Set up a two-dimensional orthographic viewing region.
+	gluOrtho2D(0, m_WindowWidth, 0, m_WindowHeight); // y from bottom to top
+
+	// Set the viewport to the client window area
+	// The viewport is the rectangular region of the window where the image is drawn.
+	glViewport(0, 0, m_WindowWidth, m_WindowHeight);
+
+	// Set the Modelview matrix to the identity matrix
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	// Enable color blending and use alpha blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 	Renderer::GetInstance().Init(m_Window);
 
 	auto audio = new SimpleSDL2AudioService{};
@@ -70,105 +108,111 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	Session::GetInstance().BeginSession();
+	//Session::GetInstance().BeginSession();
 
-	InputManager::GetInstance().AddController();
-	InputManager::GetInstance().AddController();
+	//InputManager::GetInstance().AddController();
+	//InputManager::GetInstance().AddController();
 
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	//auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared<GraphicsComponent2D>("background.jpg", scene));
-	go->AddComponent(std::make_shared<TransformComponent>(0.f, 0.f));
-	scene.Add(go);
+	//auto go = std::make_shared<GameObject>();
+	//go->AddComponent(std::make_shared<GraphicsComponent2D>("background.jpg", scene));
+	//go->AddComponent(std::make_shared<TransformComponent>(0.f, 0.f));
+	//scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared<GraphicsComponent2D>("logo.png", scene));
-	go->AddComponent(std::make_shared<TransformComponent>(216.f, 180.f));
-	scene.Add(go);
+	//go = std::make_shared<GameObject>();
+	//go->AddComponent(std::make_shared<GraphicsComponent2D>("logo.png", scene));
+	//go->AddComponent(std::make_shared<TransformComponent>(216.f, 180.f));
+	//scene.Add(go);
 
-	auto to = std::make_shared<GameObject>();
-	to->AddComponent(std::make_shared<TextComponent>
-		("Lingua.otf", 36, SDL_Color{ 255,255,255 }, scene, "Programming 4 Assignment"));
-	to->AddComponent(std::make_shared<TransformComponent>(80.f, 20.f));
-	scene.Add(to);
+	//auto to = std::make_shared<GameObject>();
+	//to->AddComponent(std::make_shared<TextComponent>
+	//	("Lingua.otf", 36, SDL_Color{ 255,255,255 }, scene, "Programming 4 Assignment"));
+	//to->AddComponent(std::make_shared<TransformComponent>(80.f, 20.f));
+	//scene.Add(to);
 
-	// FPS Counter
-	const unsigned int fontSize = 16;
-	auto FPSCounter = std::make_shared<GameObject>();
-	FPSCounter->AddComponent(std::make_shared<TextComponent>("Lingua.otf", fontSize, SDL_Color{ 0, 255, 0 }, scene));
-	FPSCounter->AddComponent(std::make_shared<TransformComponent>(10.f, float(fontSize)));
-	FPSCounter->AddComponent(std::make_shared<FPSComponent>());
+	//// Level Game Object
+	//auto level = std::make_shared<GameObject>();
+	//level->AddComponent(std::make_shared<GridComponent>(50.f, 1));
+	//level->AddComponent(std::make_shared<GridRenderComponent>(level->GetComponent<GridComponent>()->GetVertices(), scene));
+	//scene.Add(level);
 
-	// Data transfer
-	FPSCounter->GetDataManager().LinkData<std::string, FPSComponent, TextComponent>(
-		FPSCounter->GetComponent<FPSComponent>().get(), &FPSComponent::GetFPS,
-		FPSCounter->GetComponent<TextComponent>().get(), &TextComponent::SetText);
+	//// FPS Counter
+	//const unsigned int fontSize = 16;
+	//auto FPSCounter = std::make_shared<GameObject>();
+	//FPSCounter->AddComponent(std::make_shared<TextComponent>("Lingua.otf", fontSize, SDL_Color{ 0, 255, 0 }, scene));
+	//FPSCounter->AddComponent(std::make_shared<TransformComponent>(10.f, float(fontSize)));
+	//FPSCounter->AddComponent(std::make_shared<FPSComponent>());
 
-	scene.Add(FPSCounter);
+	//// Data transfer
+	//FPSCounter->GetDataManager().LinkData<std::string, FPSComponent, TextComponent>(
+	//	FPSCounter->GetComponent<FPSComponent>().get(), &FPSComponent::GetFPS,
+	//	FPSCounter->GetComponent<TextComponent>().get(), &TextComponent::SetText);
 
-	// Modes
-	auto modesWindow = std::make_shared<GameObject>();
-	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Main Menu"));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Singleplayer", true));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Co-op", true));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Versus", true));
-	auto controlsButton = std::make_shared<UIButton>("Controls", true);
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(controlsButton);
+	//scene.Add(FPSCounter);
 
-	// Sound test button
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Test Sound", false));
-	modesWindow->GetComponent<UIWindowComponent>()->AddCommand<TestSoundCommand>(4);
-	
-	scene.Add(modesWindow);
+	//// Modes
+	//auto modesWindow = std::make_shared<GameObject>();
+	//modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Main Menu"));
+	//modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Singleplayer", true));
+	//modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Co-op", true));
+	//modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Versus", true));
+	//auto controlsButton = std::make_shared<UIButton>("Controls", true);
+	//modesWindow->GetComponent<UIWindowComponent>()->AddElement(controlsButton);
 
-	// Controls
-	auto controlsWindow = std::make_shared<GameObject>();
-	controlsWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Controls"));
-	controlsWindow->GetComponent<UIWindowComponent>()->AddActivationButton(controlsButton);
-	controlsWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIText>
-		("Button B: Die\nLeft Arrow: Color Change\nUp Arrow: Defeated Coily with Disc\nDown Arrow: Remaining Disc\nRight Arrow: Caught Sam/Slick"));
-	scene.Add(controlsWindow);
+	//// Sound test button
+	//modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Test Sound", false));
+	//modesWindow->GetComponent<UIWindowComponent>()->AddCommand<TestSoundCommand>(4);
+	//
+	//scene.Add(modesWindow);
 
-	// Observers:
-	auto livesDisplay = std::make_shared<LivesDisplay>((UINT)InputManager::GetInstance().GetControllers().size());
-	auto scoreDisplay = std::make_shared<ScoreDisplay>();
+	//// Controls
+	//auto controlsWindow = std::make_shared<GameObject>();
+	//controlsWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Controls"));
+	//controlsWindow->GetComponent<UIWindowComponent>()->AddActivationButton(controlsButton);
+	//controlsWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIText>
+	//	("Button B: Die\nLeft Arrow: Color Change\nUp Arrow: Defeated Coily with Disc\nDown Arrow: Remaining Disc\nRight Arrow: Caught Sam/Slick"));
+	//scene.Add(controlsWindow);
 
-	// Players + ScoreDisplayUI + LivesDisplayUI
-	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
-	{
-		auto livesDisplayUI = std::make_shared<GameObject>();
-		livesDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
-		livesDisplay->AddData(*livesDisplayUI);
-		scene.Add(livesDisplayUI);
+	//// Observers:
+	//auto livesDisplay = std::make_shared<LivesDisplay>((UINT)InputManager::GetInstance().GetControllers().size());
+	//auto scoreDisplay = std::make_shared<ScoreDisplay>();
 
-		auto scoreDisplayUI = std::make_shared<GameObject>();
-		scoreDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
-		scoreDisplay->AddData(*scoreDisplayUI);
-		scene.Add(scoreDisplayUI);
+	//// Players + ScoreDisplayUI + LivesDisplayUI
+	//for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
+	//{
+	//	auto livesDisplayUI = std::make_shared<GameObject>();
+	//	livesDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+	//	livesDisplay->AddData(*livesDisplayUI);
+	//	scene.Add(livesDisplayUI);
 
-		auto QBert = std::make_shared<GameObject>();
-		QBert->SetEntity(EntityType::Player);
-		QBert->AddComponent(std::make_shared<HealthComponent>());
-		QBert->AddComponent(std::make_shared<PlayerComponent>());
-		QBert->AddComponent(std::make_shared<ScoreComponent>());
-		InputManager::GetInstance().AddCommand<DieCommand>(ControllerKey(i, ControllerButton::ButtonB),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		// SCORE COMMANDS (used for testing)
-		InputManager::GetInstance().AddCommand<ColorChangeCommand>(ControllerKey(i, ControllerButton::ButtonLeft),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		InputManager::GetInstance().AddCommand<CoilyDefeatedDiscCommand>(ControllerKey(i, ControllerButton::ButtonUp),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		InputManager::GetInstance().AddCommand<RemainingDiscCommand>(ControllerKey(i, ControllerButton::ButtonDown),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		InputManager::GetInstance().AddCommand<CatchSamSlickCommand>(ControllerKey(i, ControllerButton::ButtonRight),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
-		QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
-		scene.Add(QBert);
-	}
+	//	auto scoreDisplayUI = std::make_shared<GameObject>();
+	//	scoreDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+	//	scoreDisplay->AddData(*scoreDisplayUI);
+	//	scene.Add(scoreDisplayUI);
 
-	Session::GetInstance().EndSession();
+	//	auto QBert = std::make_shared<GameObject>();
+	//	QBert->SetEntity(EntityType::Player);
+	//	QBert->AddComponent(std::make_shared<HealthComponent>());
+	//	QBert->AddComponent(std::make_shared<PlayerComponent>());
+	//	QBert->AddComponent(std::make_shared<ScoreComponent>());
+	//	InputManager::GetInstance().AddCommand<DieCommand>(ControllerKey(i, ControllerButton::ButtonB),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	// SCORE COMMANDS (used for testing)
+	//	InputManager::GetInstance().AddCommand<ColorChangeCommand>(ControllerKey(i, ControllerButton::ButtonLeft),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	InputManager::GetInstance().AddCommand<CoilyDefeatedDiscCommand>(ControllerKey(i, ControllerButton::ButtonUp),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	InputManager::GetInstance().AddCommand<RemainingDiscCommand>(ControllerKey(i, ControllerButton::ButtonDown),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	InputManager::GetInstance().AddCommand<CatchSamSlickCommand>(ControllerKey(i, ControllerButton::ButtonRight),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
+	//	QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
+	//	scene.Add(QBert);
+	//}
+
+	//Session::GetInstance().EndSession();
 }
 
 void dae::Minigin::Cleanup()
@@ -197,7 +241,9 @@ void dae::Minigin::Run()
 		auto previousTime = high_resolution_clock::now();
 		bool doContinue = true;
 
-		auto* audioService = ServiceLocator::GetAudioService();
+		//auto* audioService = ServiceLocator::GetAudioService();
+		
+		
 
 		while (doContinue)
 		{
@@ -209,14 +255,13 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 
 			// Add audio system to a separate thread for processing sounds:
-			std::thread audioThread{ &AudioService::Update, audioService };
+			
+			//std::thread audioThread{ &AudioService::Update, audioService };
+			//ThreadRAII audioThreadRAII{ audioThread };
 
 			Update(elapsedSec);
 
 			renderer.Render();
-
-			if (audioThread.joinable())
-				audioThread.join();
 
 			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
 			this_thread::sleep_for(sleepTime);

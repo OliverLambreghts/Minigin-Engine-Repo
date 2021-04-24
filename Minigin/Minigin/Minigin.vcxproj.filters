@@ -243,6 +243,21 @@
     <ClInclude Include="TestSoundCommand.h">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="MiniginLibType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GridComponent.h">
+      <Filter>Header Files\Components\Calculation</Filter>
+    </ClInclude>
+    <ClInclude Include="GridRenderComponent.h">
+      <Filter>Header Files\Components\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -366,6 +381,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoggingAudioService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GridComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GridRenderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2f.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

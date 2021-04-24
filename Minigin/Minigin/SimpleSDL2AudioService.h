@@ -13,6 +13,8 @@ struct AudioRequest
 class SimpleSDL2AudioService : public AudioService
 {
 public:
+	SimpleSDL2AudioService();
+	
 	void InitAudio();
 
 	virtual ~SimpleSDL2AudioService();
@@ -32,4 +34,6 @@ private:
 	static std::deque<AudioRequest> m_EventQueue;
 	static std::mutex m_Mutex;
 	static std::condition_variable m_CV;
+	std::thread m_AudioThread;
+	static bool m_IsDone;
 };

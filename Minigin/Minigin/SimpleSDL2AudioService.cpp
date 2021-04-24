@@ -5,6 +5,13 @@
 std::deque<AudioRequest> SimpleSDL2AudioService::m_EventQueue{};
 std::mutex SimpleSDL2AudioService::m_Mutex{};
 std::condition_variable SimpleSDL2AudioService::m_CV{};
+bool SimpleSDL2AudioService::m_IsDone{ false };
+
+SimpleSDL2AudioService::SimpleSDL2AudioService()
+	: m_AudioThread{&SimpleSDL2AudioService::Update, this}
+{
+	
+}
 
 void SimpleSDL2AudioService::PlaySound(const char* filename, int volume)
 {
@@ -65,18 +72,31 @@ void SimpleSDL2AudioService::UnpauseAudio()
 SimpleSDL2AudioService::~SimpleSDL2AudioService()
 {
 	endAudio();
+	m_IsDone = true;
+	m_CV.notify_one();
+	m_AudioThread.join();
 }
 
 void SimpleSDL2AudioService::Update()
 {
-	if (m_EventQueue.empty()) return;
-	
-	std::unique_lock<std::mutex> lock{ m_Mutex };
-	m_CV.wait(lock, []() {return (m_EventQueue.empty()) ? false : true; });
-	
-	const auto& request = m_EventQueue.front();
-	if (request.isSound)
-		playSound(request.fileName, request.volume);
-	else playMusic(request.fileName, request.volume);
-	m_EventQueue.pop_front();
+	do
+	{
+		std::unique_lock<std::mutex> lock{ m_Mutex };
+		m_CV.wait(lock, []()
+		{
+			if(!m_EventQueue.empty() || m_IsDone)
+			{
+				return true;
+			}
+			return false;
+		});
+		if (m_IsDone)
+			return;
+		
+		const auto& request = m_EventQueue.front();
+		if (request.isSound)
+			playSound(request.fileName, request.volume);
+		else playMusic(request.fileName, request.volume);
+		m_EventQueue.pop_front();
+	} while (m_EventQueue.empty());
 }
