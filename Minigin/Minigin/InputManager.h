@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <memory>
+#include <SDL_events.h>
 #include <vector>
 
 #include "Controller.h"
@@ -54,6 +55,14 @@ namespace dae
 			m_ControllerCommands[cKey] = pair;
 		}
 
+		template<typename T>
+		void AddCommand(SDL_Keycode kKey, Uint32 stroke, std::shared_ptr<GameObject>& obj)
+		{
+			auto cmd = std::make_shared<T>(obj);
+			auto pair = std::make_pair(stroke, cmd);
+			m_KeyboardCommands[kKey] = pair;
+		}
+
 		std::vector<std::unique_ptr<Controller>>& GetControllers();
 	private:
 		static UINT m_ID;
@@ -61,6 +70,8 @@ namespace dae
 		std::vector<std::unique_ptr<Controller>> m_Controllers;
 
 		ControllerCommandsMap m_ControllerCommands;
+
+		std::map<SDL_Keycode, std::pair<Uint32, std::shared_ptr<Command>>> m_KeyboardCommands;
 	};
 
 }

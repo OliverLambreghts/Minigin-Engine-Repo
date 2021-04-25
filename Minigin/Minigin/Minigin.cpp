@@ -41,6 +41,12 @@
 using namespace std;
 using namespace std::chrono;
 
+Minigin::Minigin(const std::string& programName)
+	: m_ProgramName{programName}
+{
+	
+}
+
 void dae::Minigin::Initialize()
 {
 	m_WindowWidth = 640;
@@ -55,7 +61,7 @@ void dae::Minigin::Initialize()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
 	m_Window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		m_ProgramName.c_str(),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		m_WindowWidth,

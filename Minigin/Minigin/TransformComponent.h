@@ -18,7 +18,7 @@ public:
 	void SetPos(float x, float y);
 	
 	virtual void Update(float elapsedSec, GameObject& obj) override;
-private:
+protected:
 	bool m_IsPosSet = false;
 	dae::Transform m_Transform;
 };

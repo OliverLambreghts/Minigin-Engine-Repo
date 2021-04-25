@@ -464,9 +464,14 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="LivesDisplay.h" />
     <ClInclude Include="LoggingAudioService.h" />
     <ClInclude Include="MiniginLibType.h" />
+    <ClInclude Include="MoveDownLeftCommand.h" />
+    <ClInclude Include="MoveDownRightCommand.h" />
+    <ClInclude Include="MoveTopLeftCommand.h" />
+    <ClInclude Include="MoveTopRightCommand.h" />
     <ClInclude Include="NullAudioService.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PlayerComponent.h" />
+    <ClInclude Include="QBertTransformComponent.h" />
     <ClInclude Include="QuitCommand.h" />
     <ClInclude Include="RemainingDiscCommand.h" />
     <ClInclude Include="ScoreComponent.h" />
@@ -585,6 +590,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="LivesDisplay.cpp" />
     <ClCompile Include="LoggingAudioService.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="QBertTransformComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />

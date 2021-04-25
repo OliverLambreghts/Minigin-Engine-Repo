@@ -11,6 +11,7 @@ namespace utils
 
 	struct Tile
 	{
+		Point2f center;
 		std::vector<Point2f> vertices;
 		bool isActive = false;
 	};

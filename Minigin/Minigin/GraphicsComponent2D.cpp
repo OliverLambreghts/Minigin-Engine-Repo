@@ -1,6 +1,5 @@
 #include "MiniginPCH.h"
 #include "GraphicsComponent2D.h"
-
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "TransformComponent.h"

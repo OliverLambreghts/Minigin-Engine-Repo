@@ -24,6 +24,7 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth)
 				utils::Point2f tempPoint{ centerThisRow.x + hexSize * cos(angle_rad),
 						centerThisRow.y + hexSize * sin(angle_rad) };
 				hexagon.vertices.push_back(tempPoint);
+				hexagon.center = centerThisRow;
 			}
 			centerThisRow.x += width;
 			m_Tiles.push_back(hexagon);
@@ -33,7 +34,7 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth)
 	}
 }
 
-const std::vector<utils::Tile>& GridComponent::GetVertices() const
+std::vector<utils::Tile>& GridComponent::GetVertices()
 {
 	return m_Tiles;
 }
@@ -41,7 +42,7 @@ const std::vector<utils::Tile>& GridComponent::GetVertices() const
 void GridComponent::Update(float , GameObject& )
 {
 	// TIJDELIJKE DEBUG CODE ---------------------------------------
-	SDL_Event e{};
+	/*SDL_Event e{};
 	while (SDL_PollEvent(&e) != 0)
 	{
 		switch (e.type)
@@ -63,6 +64,6 @@ void GridComponent::Update(float , GameObject& )
 			}
 			break;
 		}
-	}
+	}*/
 	// ---------------------------------------------------------------
 }

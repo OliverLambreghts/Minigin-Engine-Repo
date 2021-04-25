@@ -20,7 +20,12 @@
 #include "HealthComponent.h"
 #include "LivesDisplay.h"
 #include "LoggingAudioService.h"
+#include "MoveDownLeftCommand.h"
+#include "MoveDownRightCommand.h"
+#include "MoveTopLeftCommand.h"
+#include "MoveTopRightCommand.h"
 #include "PlayerComponent.h"
+#include "QBertTransformComponent.h"
 #include "RemainingDiscCommand.h"
 #include "ScoreComponent.h"
 #include "ScoreDisplay.h"
@@ -32,6 +37,12 @@
 #include "UIButton.h"
 #include "UIText.h"
 #include "UIWindowComponent.h"
+
+QBertGame::QBertGame()
+	: Minigin("QBert - Oliver Lambreghts")
+{
+
+}
 
 void QBertGame::LoadGame() const
 {
@@ -106,38 +117,74 @@ void QBertGame::LoadGame() const
 	auto scoreDisplay = std::make_shared<ScoreDisplay>();
 
 	// Players + ScoreDisplayUI + LivesDisplayUI
-	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
-	{
-		auto livesDisplayUI = std::make_shared<GameObject>();
-		livesDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
-		livesDisplay->AddData(*livesDisplayUI);
-		scene.Add(livesDisplayUI);
+	//for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
+	//{
+	//	auto livesDisplayUI = std::make_shared<GameObject>();
+	//	livesDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+	//	livesDisplay->AddData(*livesDisplayUI);
+	//	scene.Add(livesDisplayUI);
 
-		auto scoreDisplayUI = std::make_shared<GameObject>();
-		scoreDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
-		scoreDisplay->AddData(*scoreDisplayUI);
-		scene.Add(scoreDisplayUI);
+	//	auto scoreDisplayUI = std::make_shared<GameObject>();
+	//	scoreDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+	//	scoreDisplay->AddData(*scoreDisplayUI);
+	//	scene.Add(scoreDisplayUI);
 
-		auto QBert = std::make_shared<GameObject>();
-		QBert->SetEntity(EntityType::Player);
-		QBert->AddComponent(std::make_shared<HealthComponent>());
-		QBert->AddComponent(std::make_shared<PlayerComponent>());
-		QBert->AddComponent(std::make_shared<ScoreComponent>());
-		InputManager::GetInstance().AddCommand<DieCommand>(ControllerKey(i, ControllerButton::ButtonB),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		// SCORE COMMANDS (used for testing)
-		InputManager::GetInstance().AddCommand<ColorChangeCommand>(ControllerKey(i, ControllerButton::ButtonLeft),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		InputManager::GetInstance().AddCommand<CoilyDefeatedDiscCommand>(ControllerKey(i, ControllerButton::ButtonUp),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		InputManager::GetInstance().AddCommand<RemainingDiscCommand>(ControllerKey(i, ControllerButton::ButtonDown),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		InputManager::GetInstance().AddCommand<CatchSamSlickCommand>(ControllerKey(i, ControllerButton::ButtonRight),
-			XINPUT_KEYSTROKE_KEYUP, QBert);
-		QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
-		QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
-		scene.Add(QBert);
-	}
+	//	auto QBert = std::make_shared<GameObject>();
+	//	QBert->SetEntity(EntityType::Player);
+	//	QBert->AddComponent(std::make_shared<HealthComponent>());
+	//	QBert->AddComponent(std::make_shared<PlayerComponent>());
+	//	QBert->AddComponent(std::make_shared<ScoreComponent>());
+	//	InputManager::GetInstance().AddCommand<DieCommand>(ControllerKey(i, ControllerButton::ButtonB),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	// SCORE COMMANDS (used for testing)
+	//	InputManager::GetInstance().AddCommand<ColorChangeCommand>(ControllerKey(i, ControllerButton::ButtonLeft),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	InputManager::GetInstance().AddCommand<CoilyDefeatedDiscCommand>(ControllerKey(i, ControllerButton::ButtonUp),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	InputManager::GetInstance().AddCommand<RemainingDiscCommand>(ControllerKey(i, ControllerButton::ButtonDown),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	InputManager::GetInstance().AddCommand<CatchSamSlickCommand>(ControllerKey(i, ControllerButton::ButtonRight),
+	//		XINPUT_KEYSTROKE_KEYUP, QBert);
+	//	QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
+	//	QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
+	//	scene.Add(QBert);
+	//}
+
+	// ---------- NEW QBERT CODE ------------------------------
+
+	auto livesDisplayUI = std::make_shared<GameObject>();
+	livesDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+	livesDisplay->AddData(*livesDisplayUI);
+	scene.Add(livesDisplayUI);
+
+	auto scoreDisplayUI = std::make_shared<GameObject>();
+	scoreDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
+	scoreDisplay->AddData(*scoreDisplayUI);
+	scene.Add(scoreDisplayUI);
+
+	auto QBert = std::make_shared<GameObject>();
+	QBert->SetEntity(EntityType::Player);
+	QBert->AddComponent(std::make_shared<HealthComponent>());
+	QBert->AddComponent(std::make_shared<PlayerComponent>());
+	QBert->AddComponent(std::make_shared<ScoreComponent>());
+	/*auto qBertPos = level->GetComponent<GridComponent>()->GetVertices()[0].center;
+	qBertPos.y -= 45.f;
+	qBertPos.x -= 12.5f;*/
+	QBert->AddComponent(std::make_shared<QBertTransformComponent>(level->GetComponent<GridComponent>()->GetVertices()));
+	QBert->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Character/Right.png", scene));
+	InputManager::GetInstance().AddCommand<MoveTopLeftCommand>(SDLK_LEFT,
+		SDL_KEYUP, QBert);
+	InputManager::GetInstance().AddCommand<MoveTopRightCommand>(SDLK_UP,
+		SDL_KEYUP, QBert);
+	InputManager::GetInstance().AddCommand<MoveDownLeftCommand>(SDLK_DOWN,
+		SDL_KEYUP, QBert);
+	InputManager::GetInstance().AddCommand<MoveDownRightCommand>(SDLK_RIGHT,
+		SDL_KEYUP, QBert);
+	
+	QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
+	QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
+	scene.Add(QBert);
+	// ---------- NEW QBERT CODE ------------------------------
 
 	Session::GetInstance().EndSession();
 }

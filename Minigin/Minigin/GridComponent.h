@@ -13,7 +13,7 @@ public:
 	void operator=(const GridComponent && rhs) = delete;
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
-	const std::vector<utils::Tile>& GetVertices() const;
+	std::vector<utils::Tile>& GetVertices();
 private:
 	float m_HexSize;
 	int m_HexAmount;

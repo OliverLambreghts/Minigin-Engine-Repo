@@ -33,6 +33,18 @@ bool dae::InputManager::ProcessKeyboardInput()
 			return false;
 		}
 	}
+
+	for (auto& pair : m_KeyboardCommands)
+	{
+		if (e.type == pair.second.first)
+		{
+			if (e.key.keysym.sym == pair.first)
+			{
+				pair.second.second->Execute();
+			}
+		}
+	}
+	
 	return true;
 }
 
