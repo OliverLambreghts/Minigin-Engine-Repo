@@ -19,7 +19,12 @@ public:
 	virtual void Update(float elapsedSec, GameObject& obj) override;
 
 	void Render() const;
+
+	void SetVisibility(bool isVisible);
+
+	void ChangeTexture(const std::string& filePath);
 protected:
 	std::shared_ptr<Texture2D> m_Texture;
 	Transform m_Transform;
+	bool m_IsVisible;
 };

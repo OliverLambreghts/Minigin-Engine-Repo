@@ -454,6 +454,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Data.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DieCommand.h" />
+    <ClInclude Include="CoilyTransformComponent.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameplayComponent.h" />
@@ -471,7 +472,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="NullAudioService.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PlayerComponent.h" />
-    <ClInclude Include="QBertTransformComponent.h" />
+    <ClInclude Include="HexTransformComponent.h" />
     <ClInclude Include="QuitCommand.h" />
     <ClInclude Include="RemainingDiscCommand.h" />
     <ClInclude Include="ScoreComponent.h" />
@@ -581,6 +582,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="CoilyTransformComponent.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GraphicsComponent2D.cpp" />
@@ -590,7 +592,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="LivesDisplay.cpp" />
     <ClCompile Include="LoggingAudioService.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
-    <ClCompile Include="QBertTransformComponent.cpp" />
+    <ClCompile Include="HexTransformComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "Command.h"
-#include "QBertTransformComponent.h"
+#include "HexTransformComponent.h"
 
 namespace dae
 {
@@ -19,7 +19,7 @@ public:
 	virtual ~MoveDownRightCommand() = default;
 	virtual void Execute() override
 	{
-		m_Actor->GetComponent<QBertTransformComponent>()->Move(QBertTransformComponent::Direction::downRight);
+		m_Actor->GetComponent<HexTransformComponent>()->Move(HexTransformComponent::Direction::downRight);
 	}
 private:
 	std::shared_ptr<GameObject> m_Actor;

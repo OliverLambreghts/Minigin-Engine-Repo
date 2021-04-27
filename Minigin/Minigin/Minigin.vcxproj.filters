@@ -258,7 +258,7 @@
     <ClInclude Include="Vector2f.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QBertTransformComponent.h">
+    <ClInclude Include="HexTransformComponent.h">
       <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
     <ClInclude Include="MoveTopLeftCommand.h">
@@ -272,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="MoveDownRightCommand.h">
       <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -410,7 +413,10 @@
     <ClCompile Include="Vector2f.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QBertTransformComponent.cpp">
+    <ClCompile Include="HexTransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilyTransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

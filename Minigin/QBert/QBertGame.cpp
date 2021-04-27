@@ -7,6 +7,7 @@
 #include "Session.h"
 #include "CatchSamSlickCommand.h"
 #include "CoilyDefeatedDiscCommand.h"
+#include "CoilyTransformComponent.h"
 #include "ColorChangeCommand.h"
 #include "DieCommand.h"
 #include "FPSComponent.h"
@@ -18,6 +19,7 @@
 #include "GridComponent.h"
 #include "GridRenderComponent.h"
 #include "HealthComponent.h"
+#include "HexTransformComponent.h"
 #include "LivesDisplay.h"
 #include "LoggingAudioService.h"
 #include "MoveDownLeftCommand.h"
@@ -25,7 +27,6 @@
 #include "MoveTopLeftCommand.h"
 #include "MoveTopRightCommand.h"
 #include "PlayerComponent.h"
-#include "QBertTransformComponent.h"
 #include "RemainingDiscCommand.h"
 #include "ScoreComponent.h"
 #include "ScoreDisplay.h"
@@ -167,10 +168,8 @@ void QBertGame::LoadGame() const
 	QBert->AddComponent(std::make_shared<HealthComponent>());
 	QBert->AddComponent(std::make_shared<PlayerComponent>());
 	QBert->AddComponent(std::make_shared<ScoreComponent>());
-	/*auto qBertPos = level->GetComponent<GridComponent>()->GetVertices()[0].center;
-	qBertPos.y -= 45.f;
-	qBertPos.x -= 12.5f;*/
-	QBert->AddComponent(std::make_shared<QBertTransformComponent>(level->GetComponent<GridComponent>()->GetVertices()));
+	auto QBertTransformComp = std::make_shared<HexTransformComponent>(level->GetComponent<GridComponent>()->GetVertices());
+	QBert->AddComponent(QBertTransformComp);
 	QBert->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Character/Right.png", scene));
 	InputManager::GetInstance().AddCommand<MoveTopLeftCommand>(SDLK_LEFT,
 		SDL_KEYUP, QBert);
@@ -180,11 +179,30 @@ void QBertGame::LoadGame() const
 		SDL_KEYUP, QBert);
 	InputManager::GetInstance().AddCommand<MoveDownRightCommand>(SDLK_RIGHT,
 		SDL_KEYUP, QBert);
+
+	InputManager::GetInstance().AddCommand<MoveTopLeftCommand>(ControllerKey(0, ControllerButton::ButtonLeft),
+		XINPUT_KEYSTROKE_KEYUP, QBert);
+	InputManager::GetInstance().AddCommand<MoveTopRightCommand>(ControllerKey(0, ControllerButton::ButtonUp),
+		XINPUT_KEYSTROKE_KEYUP, QBert);
+	InputManager::GetInstance().AddCommand<MoveDownLeftCommand>(ControllerKey(0, ControllerButton::ButtonDown),
+		XINPUT_KEYSTROKE_KEYUP, QBert);
+	InputManager::GetInstance().AddCommand<MoveDownRightCommand>(ControllerKey(0, ControllerButton::ButtonRight),
+		XINPUT_KEYSTROKE_KEYUP, QBert);
 	
 	QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
 	QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
 	scene.Add(QBert);
 	// ---------- NEW QBERT CODE ------------------------------
+
+	// ----------- ENEMY CODE ---------------------------------
+	// --- COILY ---
+	auto coily = std::make_shared<GameObject>();
+	std::function<std::pair<int, int> ()> wrapper = std::bind(&HexTransformComponent::GetRowCol, QBertTransformComp);
+	coily->AddComponent(std::make_shared<CoilyTransformComponent>(level->GetComponent<GridComponent>()->GetVertices(), wrapper));
+	coily->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Coily/Egg.png", scene));
+	coily->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+	scene.Add(coily);
+	// ----------- ENEMY CODE ---------------------------------
 
 	Session::GetInstance().EndSession();
 }

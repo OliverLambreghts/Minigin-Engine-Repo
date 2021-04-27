@@ -1,13 +1,14 @@
 #include "MiniginPCH.h"
-#include "QBertTransformComponent.h"
+#include "HexTransformComponent.h"
 
 #include "HealthComponent.h"
 
-QBertTransformComponent::QBertTransformComponent(std::vector<utils::Tile>& grid)
+HexTransformComponent::HexTransformComponent(std::vector<utils::Tile>& grid)
 	: TransformComponent(0.f, 0.f),
 	m_Row{ 0 },
 	m_Col{ 0 },
-	m_NeedsUpdate{ false }
+	m_NeedsUpdate{ false },
+	m_Timer{}
 {
 	auto center = grid[0].center;
 	m_Transform.SetPosition(center.x - m_OffsetX, center.y - m_OffsetY, 0.f);
@@ -24,10 +25,17 @@ QBertTransformComponent::QBertTransformComponent(std::vector<utils::Tile>& grid)
 	}
 }
 
-void QBertTransformComponent::Update(float, GameObject& obj)
+void HexTransformComponent::Update(float elapsedSec, GameObject& obj)
 {
 	if (!m_NeedsUpdate)
 		return;
+
+	m_Timer += elapsedSec;
+	if (m_Timer < 0.5f)
+		return;
+
+	m_Timer = 0.f;
+	
 	if (m_Grid.find(std::make_pair(m_Row, m_Col)) == m_Grid.end())
 	{
 		m_Row = 0;
@@ -44,8 +52,10 @@ void QBertTransformComponent::Update(float, GameObject& obj)
 	m_NeedsUpdate = false;
 }
 
-void QBertTransformComponent::Move(Direction direction)
+void HexTransformComponent::Move(Direction direction)
 {
+	if (m_NeedsUpdate)
+		return;
 	m_NeedsUpdate = true;
 	switch (direction)
 	{
@@ -64,4 +74,10 @@ void QBertTransformComponent::Move(Direction direction)
 		++m_Row;
 		break;
 	}
+}
+
+std::pair<int, int> HexTransformComponent::GetRowCol()
+{
+	auto rowCol = std::make_pair(m_Row, m_Col);
+	return rowCol;
 }
