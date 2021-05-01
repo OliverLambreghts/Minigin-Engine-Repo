@@ -3,18 +3,19 @@
 
 #include <SDL.h>
 
-GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth)
-	: m_HexSize{hexSize},
-	m_HexAmount{hexAmount}
+GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile>>& grid)
+	: m_HexSize{ hexSize },
+	m_HexAmount{ hexAmount },
+	m_Tiles{ grid }
 {
-	utils::Point2f center{ (float)windowWidth / 2, 75.f};
+	utils::Point2f center{ (float)windowWidth / 2, 75.f };
 	float width = float(sqrt(3)) * hexSize;
 	float height = 2 * hexSize;
 
-	for(int amountThisRow{1}; amountThisRow < hexAmount + 1; ++amountThisRow)
+	for (int amountThisRow{ 1 }; amountThisRow < hexAmount + 1; ++amountThisRow)
 	{
-		utils::Point2f centerThisRow{center};
-		for(int currentAmount{}; currentAmount < amountThisRow; ++currentAmount)
+		utils::Point2f centerThisRow{ center };
+		for (int currentAmount{}; currentAmount < amountThisRow; ++currentAmount)
 		{
 			utils::Tile hexagon{};
 			for (int i{}; i < 6; ++i)
@@ -27,19 +28,19 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth)
 				hexagon.center = centerThisRow;
 			}
 			centerThisRow.x += width;
-			m_Tiles.push_back(hexagon);
+			m_Tiles->push_back(hexagon);
 		}
-		center.y += (height * (3.f/4.f));
+		center.y += (height * (3.f / 4.f));
 		center.x -= width / 2.f;
 	}
 }
 
-std::vector<utils::Tile>& GridComponent::GetVertices()
+const std::vector<utils::Tile>& GridComponent::GetVertices() const
 {
-	return m_Tiles;
+	return *m_Tiles;
 }
 
-void GridComponent::Update(float , GameObject& )
+void GridComponent::Update(float, GameObject&)
 {
 	// TIJDELIJKE DEBUG CODE ---------------------------------------
 	/*SDL_Event e{};

@@ -5,5 +5,7 @@ class EggState : public EnemyState
 {
 public:
 	virtual ~EggState() = default;
-	virtual void Update(float elapsedSec, dae::GameObject& obj) override;
+	virtual std::shared_ptr<EnemyState> Update(float elapsedSec, dae::GameObject& obj) override;
+private:
+	float m_Timer = 0.f;
 };

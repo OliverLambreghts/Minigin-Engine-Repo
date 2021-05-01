@@ -3,14 +3,14 @@
 
 #include "HealthComponent.h"
 
-HexTransformComponent::HexTransformComponent(std::vector<utils::Tile>& grid)
+HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid)
 	: TransformComponent(0.f, 0.f),
 	m_Row{ 0 },
 	m_Col{ 0 },
 	m_NeedsUpdate{ false },
 	m_Timer{}
 {
-	auto center = grid[0].center;
+	auto center = grid->at(0).center;
 	m_Transform.SetPosition(center.x - m_OffsetX, center.y - m_OffsetY, 0.f);
 
 	int idx{}, col{};
@@ -18,7 +18,7 @@ HexTransformComponent::HexTransformComponent(std::vector<utils::Tile>& grid)
 	{
 		for (int currentCol{ col }; currentCol < 1; ++currentCol)
 		{
-			m_Grid[std::make_pair(row, currentCol)] = &grid[idx];
+			m_Grid[std::make_pair(row, currentCol)] = &grid->at(idx);
 			++idx;
 		}
 		--col;

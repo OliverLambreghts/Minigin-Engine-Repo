@@ -8,7 +8,7 @@
 #include "GridComponent.h"
 #include "Renderer.h"
 
-GridRenderComponent::GridRenderComponent(std::vector<utils::Tile> grid, Scene& scene)
+GridRenderComponent::GridRenderComponent(const std::vector<utils::Tile>& grid, Scene& scene)
 	: m_Grid{grid}
 {
 	std::function<void()> renderWrapper = std::bind(&GridRenderComponent::Render, this);

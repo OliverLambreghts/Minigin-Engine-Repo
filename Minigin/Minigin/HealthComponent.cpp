@@ -18,12 +18,21 @@ void HealthComponent::Die(const GameObject& obj)
 	}
 }
 
-void HealthComponent::Update(float, GameObject&)
+void HealthComponent::Update(float, GameObject& obj)
 {
-	
+	if(m_CanDie)
+	{
+		Die(obj);
+		m_CanDie = false;
+	}
 }
 
 Subject& HealthComponent::GetSubject()
 {
 	return m_Subject;
+}
+
+void HealthComponent::SetCanDie()
+{
+	m_CanDie = true;
 }

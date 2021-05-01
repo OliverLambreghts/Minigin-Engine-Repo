@@ -15,7 +15,7 @@ public:
 		downRight
 	};
 
-	HexTransformComponent(std::vector<utils::Tile>& grid);
+	HexTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid);
 	virtual ~HexTransformComponent() = default;
 	HexTransformComponent(const HexTransformComponent& other) = delete;
 	HexTransformComponent(HexTransformComponent&& other) = delete;

@@ -7,10 +7,12 @@
 #include "Session.h"
 #include "CatchSamSlickCommand.h"
 #include "CoilyDefeatedDiscCommand.h"
+#include "CoilyResetComponent.h"
 #include "CoilyTransformComponent.h"
 #include "ColorChangeCommand.h"
 #include "DieCommand.h"
 #include "FPSComponent.h"
+#include "FullEnemyResetComponent.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "TextComponent.h"
@@ -28,6 +30,7 @@
 #include "MoveTopRightCommand.h"
 #include "PlayerComponent.h"
 #include "RemainingDiscCommand.h"
+#include "Resetter.h"
 #include "ScoreComponent.h"
 #include "ScoreDisplay.h"
 #include "ServiceLocator.h"
@@ -72,7 +75,8 @@ void QBertGame::LoadGame() const
 
 	// Level Game Object
 	auto level = std::make_shared<GameObject>();
-	level->AddComponent(std::make_shared<GridComponent>(35.f, 7, m_WindowWidth));
+	auto grid = std::make_shared<std::vector<utils::Tile>>();
+	level->AddComponent(std::make_shared<GridComponent>(35.f, 7, m_WindowWidth, grid));
 	level->AddComponent(std::make_shared<GridRenderComponent>(level->GetComponent<GridComponent>()->GetVertices(), scene));
 	scene.Add(level);
 
@@ -151,6 +155,10 @@ void QBertGame::LoadGame() const
 	//	scene.Add(QBert);
 	//}
 
+	// --- RESETTER OBSERVER ---
+	auto resetObserver = std::make_shared<Resetter>();
+	// --- RESETTER OBSERVER ---
+	
 	// ---------- NEW QBERT CODE ------------------------------
 
 	auto livesDisplayUI = std::make_shared<GameObject>();
@@ -165,10 +173,11 @@ void QBertGame::LoadGame() const
 
 	auto QBert = std::make_shared<GameObject>();
 	QBert->SetEntity(EntityType::Player);
-	QBert->AddComponent(std::make_shared<HealthComponent>());
+	auto healthComp = std::make_shared<HealthComponent>();
+	QBert->AddComponent(healthComp);
 	QBert->AddComponent(std::make_shared<PlayerComponent>());
 	QBert->AddComponent(std::make_shared<ScoreComponent>());
-	auto QBertTransformComp = std::make_shared<HexTransformComponent>(level->GetComponent<GridComponent>()->GetVertices());
+	auto QBertTransformComp = std::make_shared<HexTransformComponent>(grid);
 	QBert->AddComponent(QBertTransformComp);
 	QBert->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Character/Right.png", scene));
 	InputManager::GetInstance().AddCommand<MoveTopLeftCommand>(SDLK_LEFT,
@@ -190,19 +199,41 @@ void QBertGame::LoadGame() const
 		XINPUT_KEYSTROKE_KEYUP, QBert);
 	
 	QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
+	QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(resetObserver);
 	QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
 	scene.Add(QBert);
+
+	std::function<void()> killFcn = std::bind(&HealthComponent::SetCanDie, &*healthComp);
 	// ---------- NEW QBERT CODE ------------------------------
 
 	// ----------- ENEMY CODE ---------------------------------
 	// --- COILY ---
 	auto coily = std::make_shared<GameObject>();
 	std::function<std::pair<int, int> ()> wrapper = std::bind(&HexTransformComponent::GetRowCol, QBertTransformComp);
-	coily->AddComponent(std::make_shared<CoilyTransformComponent>(level->GetComponent<GridComponent>()->GetVertices(), wrapper));
+	coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, wrapper, killFcn ));
 	coily->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Coily/Egg.png", scene));
+	auto resetComp = std::make_shared<CoilyResetComponent>();
+	coily->AddComponent(resetComp);
 	coily->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 	scene.Add(coily);
+
+	std::function<void()> resetFcn = std::bind(&CoilyResetComponent::Reset, resetComp, coily);
+	
 	// ----------- ENEMY CODE ---------------------------------
+	
+	// ----------- ENEMY RESETTER ------------------
+	auto enemyResetter = std::make_shared<GameObject>();
+	auto fullResetComp = std::make_shared<FullEnemyResetComponent>();
+	enemyResetter->AddComponent(fullResetComp);
+	// -------- !!!ADD ALL ENEMIES' RESET FUNCTIONS HERE!!! --------
+	// Add Coily's reset function to the enemy resetter
+	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(resetFcn);
+	// -------- !!!ADD ALL ENEMIES' RESET FUNCTIONS HERE!!! --------
+	std::function<void()> resetAllFcn = std::bind(&FullEnemyResetComponent::ResetAll, fullResetComp);
+	// Add the ResetAll method to the resetter observer
+	resetObserver->AddData(resetAllFcn);
+	scene.Add(enemyResetter);
+	// ----------- ENEMY RESETTER ------------------
 
 	Session::GetInstance().EndSession();
 }

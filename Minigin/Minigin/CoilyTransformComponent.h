@@ -1,17 +1,13 @@
 #pragma once
 #include "HexTransformComponent.h"
 
+class EnemyState;
+
 class CoilyTransformComponent : public HexTransformComponent
 {
 public:
-	enum class State
-	{
-		Invisible,
-		Egg,
-		Snake
-	};
-	
-	CoilyTransformComponent(std::vector<utils::Tile>& grid, std::function<std::pair<int, int>()> getQbertPos);
+	CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid, std::function<std::pair<int, int>()> getQbertPos, 
+		std::function<void()> dieFcn);
 	virtual ~CoilyTransformComponent() = default;
 	CoilyTransformComponent(const CoilyTransformComponent& other) = delete;
 	CoilyTransformComponent(CoilyTransformComponent&& other) = delete;
@@ -20,9 +16,13 @@ public:
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
 	void UpdatePosition();
-	void AIMove(GameObject& obj);
+
+	std::pair<int, int> GetRowCol(bool fromQBert);
+
+	void Reset();
 private:
-	float m_SpawnThreshold;
 	std::function<std::pair<int, int>()> m_QBertPos;
-	State m_State;
+	std::function<void()> m_KillQBert;
+	std::shared_ptr<EnemyState> m_pState;
+	const float m_SnakeOffsetX, m_SnakeOffsetY;
 };

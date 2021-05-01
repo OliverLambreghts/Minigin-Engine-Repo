@@ -5,5 +5,5 @@ class EnemyState
 {
 public:
 	virtual ~EnemyState() = default;
-	virtual void Update(float elapsedSec, dae::GameObject& obj) = 0;
+	virtual std::shared_ptr<EnemyState> Update(float elapsedSec, dae::GameObject& obj) = 0;
 };

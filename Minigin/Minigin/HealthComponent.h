@@ -18,7 +18,10 @@ public:
 	void Die(const GameObject& obj);
 
 	Subject& GetSubject();
+
+	void SetCanDie();
 private:
 	int m_Health = 100;
 	Subject m_Subject;
+	bool m_CanDie = false;
 };
