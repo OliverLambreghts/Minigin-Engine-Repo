@@ -29,7 +29,7 @@ public:
 protected:
 	std::map<std::pair<int, int>, utils::Tile*> m_Grid;
 	const float m_OffsetX{ 12.5f }, m_OffsetY{ 45.f };
-	int m_Row, m_Col;
+	int m_Row, m_Col, m_OldRow, m_OldCol;
 	bool m_NeedsUpdate;
 	float m_Timer;
 };

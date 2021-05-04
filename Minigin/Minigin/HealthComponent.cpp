@@ -32,7 +32,7 @@ Subject& HealthComponent::GetSubject()
 	return m_Subject;
 }
 
-void HealthComponent::SetCanDie()
+void HealthComponent::Kill()
 {
 	m_CanDie = true;
 }

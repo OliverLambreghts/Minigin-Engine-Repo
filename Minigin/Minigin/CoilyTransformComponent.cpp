@@ -6,13 +6,13 @@
 #include "SnakeState.h"
 
 CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-	std::function<void()> dieFcn)
+	std::function<void()> killFcn)
 	: HexTransformComponent(grid),
 	m_QBertPos{ getQbertPos },
 	m_pState{ std::make_shared<InvisibleState>() },
 	m_SnakeOffsetX{ 5.f },
 	m_SnakeOffsetY{ 45.f },
-	m_KillQBert{dieFcn}
+	m_KillQBert{ killFcn }
 {
 	Move((Direction)(rand() % 2 + 2));
 }
@@ -36,7 +36,7 @@ void CoilyTransformComponent::UpdatePosition()
 	{
 		m_KillQBert();
 	}
-	
+
 	// Update position
 	if (m_NeedsUpdate)
 	{

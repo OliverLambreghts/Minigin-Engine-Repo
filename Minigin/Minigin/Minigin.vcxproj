@@ -508,6 +508,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UggWrongwayResetComponent.h" />
+    <ClInclude Include="UggWrongwayTransformComponent.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="UIElement.h" />
@@ -639,6 +641,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="UggWrongwayResetComponent.cpp" />
+    <ClCompile Include="UggWrongwayTransformComponent.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="UIWindowComponent.cpp" />

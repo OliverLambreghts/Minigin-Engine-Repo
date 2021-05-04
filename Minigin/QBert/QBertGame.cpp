@@ -38,6 +38,8 @@
 #include "SimpleSDL2AudioService.h"
 #include "TestSoundCommand.h"
 #include "ThreadRAII.h"
+#include "UggWrongwayResetComponent.h"
+#include "UggWrongwayTransformComponent.h"
 #include "UIButton.h"
 #include "UIText.h"
 #include "UIWindowComponent.h"
@@ -203,22 +205,47 @@ void QBertGame::LoadGame() const
 	QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
 	scene.Add(QBert);
 
-	std::function<void()> killFcn = std::bind(&HealthComponent::SetCanDie, &*healthComp);
+	// Fcn ptr that retuns QBert's position on the grid
+	std::function<std::pair<int, int>()> getQBertPos = std::bind(&HexTransformComponent::GetRowCol, QBertTransformComp);
+	// Give this function ptr to enemies so they can kill QBert when they come in contact
+	std::function<void()> killFcn = std::bind(&HealthComponent::Kill, &*healthComp);
 	// ---------- NEW QBERT CODE ------------------------------
 
 	// ----------- ENEMY CODE ---------------------------------
 	// --- COILY ---
 	auto coily = std::make_shared<GameObject>();
-	std::function<std::pair<int, int> ()> wrapper = std::bind(&HexTransformComponent::GetRowCol, QBertTransformComp);
-	coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, wrapper, killFcn ));
+	coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn ));
 	coily->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Coily/Egg.png", scene));
-	auto resetComp = std::make_shared<CoilyResetComponent>();
-	coily->AddComponent(resetComp);
+	auto coilyResetComp = std::make_shared<CoilyResetComponent>();
+	coily->AddComponent(coilyResetComp);
 	coily->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 	scene.Add(coily);
 
-	std::function<void()> resetFcn = std::bind(&CoilyResetComponent::Reset, resetComp, coily);
+	// Coily's reset fcn ptr
+	std::function<void()> coilyReset = std::bind(&CoilyResetComponent::Reset, coilyResetComp, coily);
 	
+	// --- UGG & WRONGWAY ---
+	auto wrongway = std::make_shared<GameObject>();
+	wrongway->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn, 
+		UggWrongWayTransformComponent::EntityType::wrongway));
+	wrongway->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Wrongway/Wrongway.png", scene));
+	auto wrongwayResetComp = std::make_shared<UggWrongwayResetComponent>();
+	wrongway->AddComponent(wrongwayResetComp);
+	wrongway->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+	scene.Add(wrongway);
+	// Wrongway's reset fcn ptr
+	std::function<void()> wrongwayReset = std::bind(&UggWrongwayResetComponent::Reset, wrongwayResetComp, wrongway);
+
+	auto ugg = std::make_shared<GameObject>();
+	ugg->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
+		UggWrongWayTransformComponent::EntityType::ugg));
+	ugg->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Ugg/Ugg.png", scene));
+	auto uggResetComp = std::make_shared<UggWrongwayResetComponent>();
+	ugg->AddComponent(uggResetComp);
+	ugg->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+	scene.Add(ugg);
+	// Ugg's reset fcn ptr
+	std::function<void()> uggReset = std::bind(&UggWrongwayResetComponent::Reset, uggResetComp, ugg);
 	// ----------- ENEMY CODE ---------------------------------
 	
 	// ----------- ENEMY RESETTER ------------------
@@ -226,8 +253,9 @@ void QBertGame::LoadGame() const
 	auto fullResetComp = std::make_shared<FullEnemyResetComponent>();
 	enemyResetter->AddComponent(fullResetComp);
 	// -------- !!!ADD ALL ENEMIES' RESET FUNCTIONS HERE!!! --------
-	// Add Coily's reset function to the enemy resetter
-	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(resetFcn);
+	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(coilyReset);
+	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(wrongwayReset);
+	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(uggReset);
 	// -------- !!!ADD ALL ENEMIES' RESET FUNCTIONS HERE!!! --------
 	std::function<void()> resetAllFcn = std::bind(&FullEnemyResetComponent::ResetAll, fullResetComp);
 	// Add the ResetAll method to the resetter observer

@@ -303,6 +303,12 @@
     <ClInclude Include="FullEnemyResetComponent.h">
       <Filter>Header Files\Components\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="UggWrongwayTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="UggWrongwayResetComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -462,6 +468,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FullEnemyResetComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UggWrongwayTransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UggWrongwayResetComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

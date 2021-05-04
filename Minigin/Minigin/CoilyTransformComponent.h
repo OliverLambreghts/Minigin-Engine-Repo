@@ -7,7 +7,7 @@ class CoilyTransformComponent : public HexTransformComponent
 {
 public:
 	CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid, std::function<std::pair<int, int>()> getQbertPos, 
-		std::function<void()> dieFcn);
+		std::function<void()> killFcn);
 	virtual ~CoilyTransformComponent() = default;
 	CoilyTransformComponent(const CoilyTransformComponent& other) = delete;
 	CoilyTransformComponent(CoilyTransformComponent&& other) = delete;

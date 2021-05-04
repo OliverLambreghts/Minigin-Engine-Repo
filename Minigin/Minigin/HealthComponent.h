@@ -19,7 +19,7 @@ public:
 
 	Subject& GetSubject();
 
-	void SetCanDie();
+	void Kill();
 private:
 	int m_Health = 100;
 	Subject m_Subject;
