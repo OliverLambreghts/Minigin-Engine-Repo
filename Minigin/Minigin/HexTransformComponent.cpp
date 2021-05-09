@@ -3,7 +3,7 @@
 
 #include "HealthComponent.h"
 
-HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid)
+HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid)
 	: TransformComponent(0.f, 0.f),
 	m_Row{ 0 },
 	m_Col{ 0 },

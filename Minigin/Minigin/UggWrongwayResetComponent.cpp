@@ -1,5 +1,5 @@
 #include "MiniginPCH.h"
-#include "UggWrongwayResetComponent.h"
+#include "UggWrongWayResetComponent.h"
 #include "UggWrongwayTransformComponent.h"
 #include "GraphicsComponent2D.h"
 

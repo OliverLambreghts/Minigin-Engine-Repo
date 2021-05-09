@@ -3,7 +3,7 @@
 
 #include "GraphicsComponent2D.h"
 
-UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid,
+UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid,
 	std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type)
 	: HexTransformComponent(grid),
 	m_Type{ type },
@@ -47,6 +47,7 @@ void UggWrongWayTransformComponent::Update(float elapsedSec, GameObject& obj)
 		{
 			m_IsActive = true;
 			obj.GetComponent<GraphicsComponent2D>()->SetVisibility(true);
+			m_Timer = 0.f;
 		}
 		return;
 	}

@@ -306,7 +306,13 @@
     <ClInclude Include="UggWrongwayTransformComponent.h">
       <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="UggWrongwayResetComponent.h">
+    <ClInclude Include="UggWrongWayResetComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SlickSamTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="SlickSamResetComponent.h">
       <Filter>Header Files\Components\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
@@ -473,7 +479,13 @@
     <ClCompile Include="UggWrongwayTransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UggWrongwayResetComponent.cpp">
+    <ClCompile Include="UggWrongWayResetComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SlickSamTransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SlickSamResetComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

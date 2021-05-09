@@ -5,7 +5,7 @@
 #include "InvisibleState.h"
 #include "SnakeState.h"
 
-CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid, std::function<std::pair<int, int>()> getQbertPos,
+CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid, std::function<std::pair<int, int>()> getQbertPos,
 	std::function<void()> killFcn)
 	: HexTransformComponent(grid),
 	m_QBertPos{ getQbertPos },

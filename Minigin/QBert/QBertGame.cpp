@@ -36,6 +36,8 @@
 #include "ServiceLocator.h"
 #include "Session.h"
 #include "SimpleSDL2AudioService.h"
+#include "SlickSamResetComponent.h"
+#include "SlickSamTransformComponent.h"
 #include "TestSoundCommand.h"
 #include "ThreadRAII.h"
 #include "UggWrongwayResetComponent.h"
@@ -77,7 +79,7 @@ void QBertGame::LoadGame() const
 
 	// Level Game Object
 	auto level = std::make_shared<GameObject>();
-	auto grid = std::make_shared<std::vector<utils::Tile>>();
+	auto grid = std::make_shared<std::vector<utils::Tile1>>();
 	level->AddComponent(std::make_shared<GridComponent>(35.f, 7, m_WindowWidth, grid));
 	level->AddComponent(std::make_shared<GridRenderComponent>(level->GetComponent<GridComponent>()->GetVertices(), scene));
 	scene.Add(level);
@@ -246,6 +248,29 @@ void QBertGame::LoadGame() const
 	scene.Add(ugg);
 	// Ugg's reset fcn ptr
 	std::function<void()> uggReset = std::bind(&UggWrongwayResetComponent::Reset, uggResetComp, ugg);
+
+	// --- SLICK & SAM ---
+	auto slick = std::make_shared<GameObject>();
+	slick->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::slick));
+	slick->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Slick/Slick.png", scene));
+	auto slickResetComp = std::make_shared<SlickSamResetComponent>();
+	slick->AddComponent(slickResetComp);
+	slick->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+	scene.Add(slick);
+
+	// Slick's reset fcn ptr
+	std::function<void()> slickReset = std::bind(&SlickSamResetComponent::Reset, slickResetComp, slick);
+
+	auto sam = std::make_shared<GameObject>();
+	sam->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::sam));
+	sam->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Sam/Sam.png", scene));
+	auto samResetComp = std::make_shared<SlickSamResetComponent>();
+	sam->AddComponent(samResetComp);
+	sam->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+	scene.Add(sam);
+
+	// Slick's reset fcn ptr
+	std::function<void()> samReset = std::bind(&SlickSamResetComponent::Reset, samResetComp, sam);
 	// ----------- ENEMY CODE ---------------------------------
 	
 	// ----------- ENEMY RESETTER ------------------
@@ -256,6 +281,8 @@ void QBertGame::LoadGame() const
 	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(coilyReset);
 	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(wrongwayReset);
 	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(uggReset);
+	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(slickReset);
+	enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(samReset);
 	// -------- !!!ADD ALL ENEMIES' RESET FUNCTIONS HERE!!! --------
 	std::function<void()> resetAllFcn = std::bind(&FullEnemyResetComponent::ResetAll, fullResetComp);
 	// Add the ResetAll method to the resetter observer

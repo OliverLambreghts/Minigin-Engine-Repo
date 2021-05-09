@@ -15,7 +15,7 @@ public:
 		downRight
 	};
 
-	HexTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid);
+	HexTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid);
 	virtual ~HexTransformComponent() = default;
 	HexTransformComponent(const HexTransformComponent& other) = delete;
 	HexTransformComponent(HexTransformComponent&& other) = delete;
@@ -27,7 +27,7 @@ public:
 
 	std::pair<int, int> GetRowCol();
 protected:
-	std::map<std::pair<int, int>, utils::Tile*> m_Grid;
+	std::map<std::pair<int, int>, utils::Tile1*> m_Grid;
 	const float m_OffsetX{ 12.5f }, m_OffsetY{ 45.f };
 	int m_Row, m_Col, m_OldRow, m_OldCol;
 	bool m_NeedsUpdate;

@@ -12,7 +12,7 @@ public:
 
 	void InitPos(EntityType type);
 	
-	UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile>>& grid, std::function<std::pair<int, int>()> getQbertPos,
+	UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid, std::function<std::pair<int, int>()> getQbertPos,
 		std::function<void()> killFcn, EntityType type);
 	virtual ~UggWrongWayTransformComponent() = default;
 	UggWrongWayTransformComponent(const UggWrongWayTransformComponent& other) = delete;

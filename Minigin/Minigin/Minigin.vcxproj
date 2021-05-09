@@ -487,6 +487,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="SimpleSDL2AudioService.h" />
+    <ClInclude Include="SlickSamResetComponent.h" />
+    <ClInclude Include="SlickSamTransformComponent.h" />
     <ClInclude Include="SnakeState.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TestSoundCommand.h" />
@@ -508,7 +510,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="UggWrongwayResetComponent.h" />
+    <ClInclude Include="UggWrongWayResetComponent.h" />
     <ClInclude Include="UggWrongwayTransformComponent.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIComponent.h" />
@@ -613,6 +615,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="SimpleSDL2AudioService.cpp" />
+    <ClCompile Include="SlickSamResetComponent.cpp" />
+    <ClCompile Include="SlickSamTransformComponent.cpp" />
     <ClCompile Include="SnakeState.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
@@ -641,7 +645,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="UggWrongwayResetComponent.cpp" />
+    <ClCompile Include="UggWrongWayResetComponent.cpp" />
     <ClCompile Include="UggWrongwayTransformComponent.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIText.cpp" />

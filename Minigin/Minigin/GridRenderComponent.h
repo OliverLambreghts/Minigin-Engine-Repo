@@ -6,7 +6,7 @@
 class GridRenderComponent : public GraphicsComponent
 {
 public:
-	GridRenderComponent(const std::vector<utils::Tile>& grid, Scene& scene);
+	GridRenderComponent(const std::vector<utils::Tile1>& grid, Scene& scene);
 	GridRenderComponent() = default;
 	virtual ~GridRenderComponent() = default;
 	GridRenderComponent(const GridRenderComponent & other) = delete;
@@ -18,5 +18,5 @@ public:
 
 	void Render() const;
 private:
-	std::vector<utils::Tile> m_Grid;
+	std::vector<utils::Tile1> m_Grid;
 };

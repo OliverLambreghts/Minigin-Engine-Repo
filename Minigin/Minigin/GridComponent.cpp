@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 
-GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile>>& grid)
+GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile1>>& grid)
 	: m_HexSize{ hexSize },
 	m_HexAmount{ hexAmount },
 	m_Tiles{ grid }
@@ -17,7 +17,7 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 		utils::Point2f centerThisRow{ center };
 		for (int currentAmount{}; currentAmount < amountThisRow; ++currentAmount)
 		{
-			utils::Tile hexagon{};
+			utils::Tile1 hexagon{};
 			for (int i{}; i < 6; ++i)
 			{
 				float angle_deg = 60.f * float(i) - 30.f;
@@ -35,7 +35,7 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 	}
 }
 
-const std::vector<utils::Tile>& GridComponent::GetVertices() const
+const std::vector<utils::Tile1>& GridComponent::GetVertices() const
 {
 	return *m_Tiles;
 }

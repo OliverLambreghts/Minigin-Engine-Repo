@@ -11,9 +11,19 @@ namespace utils
 
 	struct Tile
 	{
+		virtual void SSInteract() = 0;
+	};
+	
+	struct Tile1 : public Tile
+	{
 		Point2f center;
 		std::vector<Point2f> vertices;
 		bool isActive = false;
+
+		virtual void SSInteract() override
+		{
+			isActive = false;
+		}
 	};
 
 	void DrawHexagon(SDL_Renderer* renderer, const std::vector<Point2f>& vertices);
