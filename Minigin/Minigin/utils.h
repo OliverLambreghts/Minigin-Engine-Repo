@@ -12,17 +12,63 @@ namespace utils
 	struct Tile
 	{
 		virtual void SSInteract() = 0;
-	};
+		virtual void QBInteract() = 0;
+		virtual bool IsActive() = 0;
+		virtual ~Tile() = default;
 	
-	struct Tile1 : public Tile
-	{
 		Point2f center;
 		std::vector<Point2f> vertices;
 		bool isActive = false;
+	};
+
+	struct Tile1 : public Tile
+	{
+		virtual ~Tile1() = default;
+		
+		virtual bool IsActive() override
+		{
+			return isActive;
+		}
+
+		virtual void QBInteract() override
+		{
+			isActive = true;
+		}
 
 		virtual void SSInteract() override
 		{
 			isActive = false;
+		}
+	};
+
+	struct Tile2 : public Tile
+	{
+		bool isActiveOne = false;
+		bool isActiveTwo = false;
+
+		virtual ~Tile2() = default;
+
+		virtual bool IsActive() override
+		{
+			if (isActiveOne && isActiveTwo)
+				return true;
+			return false;
+		}
+
+		virtual void QBInteract() override
+		{
+			if (!isActiveOne)
+				isActiveOne = true;
+			else if (!isActiveTwo)
+				isActiveTwo = true;
+		}
+
+		virtual void SSInteract() override
+		{
+			if (isActiveTwo)
+				isActiveTwo = false;
+			else if (isActiveOne)
+				isActiveOne = false;
 		}
 	};
 

@@ -6,7 +6,7 @@
 class GridRenderComponent : public GraphicsComponent
 {
 public:
-	GridRenderComponent(const std::vector<utils::Tile1>& grid, Scene& scene);
+	GridRenderComponent(const std::vector<utils::Tile*>& grid, Scene& scene);
 	GridRenderComponent() = default;
 	virtual ~GridRenderComponent() = default;
 	GridRenderComponent(const GridRenderComponent & other) = delete;
@@ -18,5 +18,7 @@ public:
 
 	void Render() const;
 private:
-	std::vector<utils::Tile1> m_Grid;
+	std::vector<utils::Tile*> m_Grid;
+	std::shared_ptr<Texture2D> m_Tile2, m_Tile1, m_Tile3;
+	const float m_TileOffsetX;
 };

@@ -1,70 +1,94 @@
 #include "MiniginPCH.h"
 #include "GridComponent.h"
-
+#include <algorithm>
 #include <SDL.h>
 
-GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile1>>& grid)
+GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile*>>& grid, int level)
 	: m_HexSize{ hexSize },
 	m_HexAmount{ hexAmount },
-	m_Tiles{ grid }
+	m_Tiles{ grid },
+	m_IsLevelComplete{ false }
 {
 	utils::Point2f center{ (float)windowWidth / 2, 75.f };
 	float width = float(sqrt(3)) * hexSize;
 	float height = 2 * hexSize;
 
-	for (int amountThisRow{ 1 }; amountThisRow < hexAmount + 1; ++amountThisRow)
+	switch (level)
 	{
-		utils::Point2f centerThisRow{ center };
-		for (int currentAmount{}; currentAmount < amountThisRow; ++currentAmount)
+	case 1:
+		for (int amountThisRow{ 1 }; amountThisRow < hexAmount + 1; ++amountThisRow)
 		{
-			utils::Tile1 hexagon{};
-			for (int i{}; i < 6; ++i)
+			utils::Point2f centerThisRow{ center };
+			for (int currentAmount{}; currentAmount < amountThisRow; ++currentAmount)
 			{
-				float angle_deg = 60.f * float(i) - 30.f;
-				float angle_rad = float(M_PI) / 180.f * angle_deg;
-				utils::Point2f tempPoint{ centerThisRow.x + hexSize * cos(angle_rad),
-						centerThisRow.y + hexSize * sin(angle_rad) };
-				hexagon.vertices.push_back(tempPoint);
-				hexagon.center = centerThisRow;
+				utils::Tile1* hexagon{ new utils::Tile1{} };
+				for (int i{}; i < 6; ++i)
+				{
+					float angle_deg = 60.f * float(i) - 30.f;
+					float angle_rad = float(M_PI) / 180.f * angle_deg;
+					utils::Point2f tempPoint{ centerThisRow.x + hexSize * cos(angle_rad),
+							centerThisRow.y + hexSize * sin(angle_rad) };
+					hexagon->vertices.push_back(tempPoint);
+					hexagon->center = centerThisRow;
+				}
+				centerThisRow.x += width;
+				m_Tiles->push_back(hexagon);
 			}
-			centerThisRow.x += width;
-			m_Tiles->push_back(hexagon);
+			center.y += (height * (3.f / 4.f));
+			center.x -= width / 2.f;
 		}
-		center.y += (height * (3.f / 4.f));
-		center.x -= width / 2.f;
+		break;
+	case 2:
+		for (int amountThisRow{ 1 }; amountThisRow < hexAmount + 1; ++amountThisRow)
+		{
+			utils::Point2f centerThisRow{ center };
+			for (int currentAmount{}; currentAmount < amountThisRow; ++currentAmount)
+			{
+				utils::Tile2* hexagon{ new utils::Tile2{} };
+				for (int i{}; i < 6; ++i)
+				{
+					float angle_deg = 60.f * float(i) - 30.f;
+					float angle_rad = float(M_PI) / 180.f * angle_deg;
+					utils::Point2f tempPoint{ centerThisRow.x + hexSize * cos(angle_rad),
+							centerThisRow.y + hexSize * sin(angle_rad) };
+					hexagon->vertices.push_back(tempPoint);
+					hexagon->center = centerThisRow;
+				}
+				centerThisRow.x += width;
+				m_Tiles->push_back(hexagon);
+			}
+			center.y += (height * (3.f / 4.f));
+			center.x -= width / 2.f;
+		}
+		break;
 	}
 }
 
-const std::vector<utils::Tile1>& GridComponent::GetVertices() const
+GridComponent::~GridComponent()
+{
+	for (auto* tile : *m_Tiles)
+	{
+		delete tile;
+		tile = nullptr;
+	}
+	m_Tiles->clear();
+}
+
+const std::vector<utils::Tile*>& GridComponent::GetVertices() const
 {
 	return *m_Tiles;
 }
 
 void GridComponent::Update(float, GameObject&)
 {
-	// TIJDELIJKE DEBUG CODE ---------------------------------------
-	/*SDL_Event e{};
-	while (SDL_PollEvent(&e) != 0)
+	if (m_IsLevelComplete)
+		return;
+
+	if(std::all_of(m_Tiles->begin(), m_Tiles->end(), [](utils::Tile* tile)
 	{
-		switch (e.type)
-		{
-		case SDL_MOUSEBUTTONUP:
-			switch(e.button.button)
-			{
-			case SDL_BUTTON_LEFT:
-				utils::Point2f mousePos{float(e.button.x), float(e.button.y)};
-				std::cout << mousePos.x << " , " << mousePos.y << '\n';
-				for (auto& tile : m_Tiles)
-				{
-					if (utils::IsPointInPolygon(mousePos, tile.vertices))
-					{
-						tile.isActive = true;
-					}
-				}
-				break;
-			}
-			break;
-		}
-	}*/
-	// ---------------------------------------------------------------
+		return tile->IsActive();
+	}))
+	{
+		m_IsLevelComplete = true;
+	}
 }

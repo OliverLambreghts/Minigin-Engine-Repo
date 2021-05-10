@@ -315,6 +315,9 @@
     <ClInclude Include="SlickSamResetComponent.h">
       <Filter>Header Files\Components\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="DiscTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -486,6 +489,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SlickSamResetComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscTransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

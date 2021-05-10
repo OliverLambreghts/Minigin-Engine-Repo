@@ -3,7 +3,7 @@
 
 #include "GraphicsComponent2D.h"
 
-UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid,
+UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid,
 	std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type)
 	: HexTransformComponent(grid),
 	m_Type{ type },

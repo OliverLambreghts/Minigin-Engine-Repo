@@ -456,6 +456,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DieCommand.h" />
     <ClInclude Include="CoilyTransformComponent.h" />
+    <ClInclude Include="DiscTransformComponent.h" />
     <ClInclude Include="EggState.h" />
     <ClInclude Include="EnemyResetComponent.h" />
     <ClInclude Include="EnemyState.h" />
@@ -596,6 +597,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="CoilyTransformComponent.cpp" />
+    <ClCompile Include="DiscTransformComponent.cpp" />
     <ClCompile Include="EggState.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />

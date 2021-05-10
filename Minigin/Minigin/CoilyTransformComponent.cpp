@@ -5,21 +5,22 @@
 #include "InvisibleState.h"
 #include "SnakeState.h"
 
-CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-	std::function<void()> killFcn)
+CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
+	std::function<void()> killFcn, std::shared_ptr<CoilyDefeatedDiscCommand> cmd)
 	: HexTransformComponent(grid),
 	m_QBertPos{ getQbertPos },
 	m_pState{ std::make_shared<InvisibleState>() },
 	m_SnakeOffsetX{ 5.f },
 	m_SnakeOffsetY{ 45.f },
-	m_KillQBert{ killFcn }
+	m_KillQBert{ killFcn },
+	m_pKillCMD{ cmd }
 {
 	Move((Direction)(rand() % 2 + 2));
 }
 
 void CoilyTransformComponent::Update(float elapsedSec, GameObject& obj)
 {
-	UpdatePosition();
+	UpdatePosition(obj);
 
 	auto pNewState = m_pState->Update(elapsedSec, obj);
 	if (pNewState)
@@ -29,7 +30,7 @@ void CoilyTransformComponent::Update(float elapsedSec, GameObject& obj)
 	}
 }
 
-void CoilyTransformComponent::UpdatePosition()
+void CoilyTransformComponent::UpdatePosition(GameObject& obj)
 {
 	// Check if Coily is on the same tile as QBert
 	if (GetRowCol(true) == GetRowCol(false) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
@@ -40,6 +41,16 @@ void CoilyTransformComponent::UpdatePosition()
 	// Update position
 	if (m_NeedsUpdate)
 	{
+		// Reset if Coily falls off the map
+		if (m_Grid.find(std::make_pair(m_Row, m_Col)) == m_Grid.end())
+		{
+			obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+			obj.GetComponent<GraphicsComponent2D>()->ChangeTexture("../Data/QBert/Enemies/Coily/Egg.png");
+			Reset();
+			// APPLY COILY BONUS HERE
+			m_pKillCMD->Execute();
+		}
+
 		if (std::dynamic_pointer_cast<SnakeState>(m_pState))
 		{
 			auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;

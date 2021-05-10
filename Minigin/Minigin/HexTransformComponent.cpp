@@ -2,17 +2,19 @@
 #include "HexTransformComponent.h"
 
 #include "HealthComponent.h"
+#include "ScoreComponent.h"
 
-HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid)
+HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid)
 	: TransformComponent(0.f, 0.f),
 	m_Row{ 0 },
 	m_Col{ 0 },
 	m_NeedsUpdate{ false },
 	m_Timer{},
 	m_OldRow{},
-	m_OldCol{}
+	m_OldCol{},
+	m_CanTeleport{ false }
 {
-	auto center = grid->at(0).center;
+	auto center = grid->at(0)->center;
 	m_Transform.SetPosition(center.x - m_OffsetX, center.y - m_OffsetY, 0.f);
 
 	int idx{}, col{};
@@ -20,7 +22,7 @@ HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::
 	{
 		for (int currentCol{ col }; currentCol < 1; ++currentCol)
 		{
-			m_Grid[std::make_pair(row, currentCol)] = &grid->at(idx);
+			m_Grid[std::make_pair(row, currentCol)] = grid->at(idx);
 			++idx;
 		}
 		--col;
@@ -41,6 +43,21 @@ void HexTransformComponent::Update(float elapsedSec, GameObject& obj)
 	// Going out of bounds
 	if (m_Grid.find(std::make_pair(m_Row, m_Col)) == m_Grid.end())
 	{
+		// If out of bounds but m_CanTeleport is active means QBert jumped on a Disc
+		if(m_CanTeleport)
+		{
+			m_OldRow = m_Row;
+			m_OldCol = m_Col;
+			m_Row = 0;
+			m_Col = 0;
+			auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
+			m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
+			m_NeedsUpdate = false;
+			// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
+			m_CanTeleport = false;
+			return;
+		}
+		
 		m_Row = 0;
 		m_Col = 0;
 		auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
@@ -52,7 +69,13 @@ void HexTransformComponent::Update(float elapsedSec, GameObject& obj)
 		m_OldCol = m_Col;
 		return;
 	}
-	m_Grid[std::make_pair(m_Row, m_Col)]->isActive = true;
+	// Activate tile
+	if (!m_Grid[std::make_pair(m_Row, m_Col)]->IsActive())
+	{
+		m_Grid[std::make_pair(m_Row, m_Col)]->QBInteract();
+		obj.GetComponent<ScoreComponent>()->SetScoreEvent(Message::ColorChange);
+	}
+	
 	auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
 	m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
 	m_NeedsUpdate = false;
@@ -92,4 +115,9 @@ std::pair<int, int> HexTransformComponent::GetRowCol()
 {
 	auto rowCol = std::make_pair(m_OldRow, m_OldCol);
 	return rowCol;
+}
+
+void HexTransformComponent::SetTeleport(bool canTeleport)
+{
+	m_CanTeleport = canTeleport;
 }

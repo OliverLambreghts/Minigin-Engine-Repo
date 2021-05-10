@@ -10,8 +10,8 @@ namespace dae
 class CoilyDefeatedDiscCommand final : public Command
 {
 public:
-	CoilyDefeatedDiscCommand(std::shared_ptr<GameObject>& obj)
-		: m_Actor(obj)
+	CoilyDefeatedDiscCommand(std::shared_ptr<dae::GameObject>& obj)
+		: m_Actor{ obj }
 	{
 
 	}
@@ -19,8 +19,8 @@ public:
 	virtual ~CoilyDefeatedDiscCommand() = default;
 	virtual void Execute() override
 	{
-		m_Actor->GetComponent<ScoreComponent>()->SetScoreEvent(Message::CoilyDefeatedDisc);
+		m_Actor.lock()->GetComponent<ScoreComponent>()->SetScoreEvent(Message::CoilyDefeatedDisc);
 	}
 private:
-	std::shared_ptr<GameObject> m_Actor;
+	std::weak_ptr<GameObject> m_Actor;
 };

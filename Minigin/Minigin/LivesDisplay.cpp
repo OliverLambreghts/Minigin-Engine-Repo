@@ -8,7 +8,7 @@
 float LivesDisplay::m_Y = 450.f;
 
 LivesDisplay::LivesDisplay(UINT players)
-	: m_Lives(players, 10),
+	: m_Lives(players, 3),
 	m_Players{}
 {
 }

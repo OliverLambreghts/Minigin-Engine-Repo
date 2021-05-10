@@ -1,4 +1,5 @@
 #pragma once
+#include "CatchSamSlickCommand.h"
 #include "HexTransformComponent.h"
 
 class SlickSamTransformComponent : public HexTransformComponent
@@ -10,8 +11,8 @@ public:
 		sam
 	};
 
-	SlickSamTransformComponent(std::shared_ptr<std::vector<utils::Tile1>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-		EntityType type);
+	SlickSamTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
+		EntityType type, std::shared_ptr<CatchSamSlickCommand> killCmd);
 	virtual ~SlickSamTransformComponent() = default;
 	SlickSamTransformComponent(const SlickSamTransformComponent& other) = delete;
 	SlickSamTransformComponent(SlickSamTransformComponent&& other) = delete;
@@ -30,4 +31,5 @@ private:
 	bool m_IsActive;
 	float m_SpawnThreshold;
 	std::function<std::pair<int, int>()> m_QBertPos;
+	std::shared_ptr<CatchSamSlickCommand> m_pKillCMD;
 };

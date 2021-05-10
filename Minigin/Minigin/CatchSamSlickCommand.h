@@ -19,8 +19,8 @@ public:
 	virtual ~CatchSamSlickCommand() = default;
 	virtual void Execute() override
 	{
-		m_Actor->GetComponent<ScoreComponent>()->SetScoreEvent(Message::CaughtSlickOrSam);
+		m_Actor.lock()->GetComponent<ScoreComponent>()->SetScoreEvent(Message::CaughtSlickOrSam);
 	}
 private:
-	std::shared_ptr<GameObject> m_Actor;
+	std::weak_ptr<GameObject> m_Actor;
 };

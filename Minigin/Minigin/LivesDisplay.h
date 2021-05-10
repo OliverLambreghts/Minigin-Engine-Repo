@@ -15,7 +15,7 @@ private:
 	std::vector<std::function<void()>> m_UpdateMethods;
 	
 	std::vector<int> m_Lives;
-	int m_StartLives = 10;
+	int m_StartLives = 3;
 	int m_Players;
 
 	static float m_Y;
