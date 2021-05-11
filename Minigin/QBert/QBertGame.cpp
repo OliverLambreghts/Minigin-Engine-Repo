@@ -23,6 +23,7 @@
 #include "GridRenderComponent.h"
 #include "HealthComponent.h"
 #include "HexTransformComponent.h"
+#include "LevelManager.h"
 #include "LivesDisplay.h"
 #include "LoggingAudioService.h"
 #include "MoveDownLeftCommand.h"
@@ -81,9 +82,13 @@ void QBertGame::LoadGame() const
 	// Level Game Object
 	auto level = std::make_shared<GameObject>();
 	auto grid = std::make_shared<std::vector<utils::Tile*>>();
-	level->AddComponent(std::make_shared<GridComponent>(35.f, 7, m_WindowWidth, grid, 1));
+	auto gridComp = std::make_shared<GridComponent>(35.f, 7, m_WindowWidth, grid, 3);
+	level->AddComponent(gridComp);
 	level->AddComponent(std::make_shared<GridRenderComponent>(level->GetComponent<GridComponent>()->GetVertices(), scene));
 	scene.Add(level);
+
+	// Fcn ptr to check is level has ended or not
+	std::function<bool()> hasLevelEnded = std::bind(&GridComponent::HasLevelEnded, gridComp);
 
 	// FPS Counter
 	const unsigned int fontSize = 16;
@@ -296,15 +301,23 @@ void QBertGame::LoadGame() const
 	// ----------- ENEMY RESETTER ------------------
 
 	// --- DISCS ---
+	auto discCmd = std::make_shared<RemainingDiscCommand>(QBert);
 	auto leftDisc = std::make_shared<GameObject>();
-	leftDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP));
+	leftDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd));
 	leftDisc->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Objects/Disc.png", scene));
 	scene.Add(leftDisc);
 
 	auto rightDisc = std::make_shared<GameObject>();
-	rightDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP));
+	rightDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd));
 	rightDisc->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Objects/Disc.png", scene));
 	scene.Add(rightDisc);
 	// --- DISCS ---
+
+	// DEBUG FILE PARSING -----------
+	/*LevelManager lvlManager{ m_WindowWidth };
+	lvlManager.LoadLevel(L"../Data/QBert/Levels/Level1.JSON");*/
+
+	scene.Activate();
+
 	Session::GetInstance().EndSession();
 }

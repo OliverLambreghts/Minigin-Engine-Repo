@@ -14,9 +14,12 @@ public:
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
 	const std::vector<utils::Tile*>& GetVertices() const;
+	const bool HasLevelEnded() const;
 private:
 	float m_HexSize;
 	int m_HexAmount;
 	std::shared_ptr<std::vector<utils::Tile*>> m_Tiles;
 	bool m_IsLevelComplete;
+	float m_EndTimer;
+	int m_WindowWidth;
 };

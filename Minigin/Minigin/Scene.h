@@ -18,6 +18,10 @@ namespace dae
 		void Update(float elapsedSec);
 		void Render() const;
 
+		const bool IsActive() const;
+		void Activate();
+		void Deactivate();
+
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
@@ -33,6 +37,7 @@ namespace dae
 		std::vector<std::function<void()>> m_RenderData;
 
 		static unsigned int m_IdCounter;
+		bool m_IsActive;
 	};
 
 }

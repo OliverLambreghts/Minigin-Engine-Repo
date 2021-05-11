@@ -72,6 +72,26 @@ namespace utils
 		}
 	};
 
+	struct Tile3 : Tile
+	{
+		virtual ~Tile3() = default;
+
+		virtual bool IsActive() override
+		{
+			return isActive;
+		}
+
+		virtual void QBInteract() override
+		{
+			isActive = !isActive;
+		}
+
+		virtual void SSInteract() override
+		{
+			isActive = false;
+		}
+	};
+
 	void DrawHexagon(SDL_Renderer* renderer, const std::vector<Point2f>& vertices);
 	bool IsPointInPolygon(const Point2f& p, const std::vector<Point2f>& vertices);
 	bool IsPointInPolygon(const Point2f& p, const Point2f* vertices, size_t nrVertices);

@@ -24,15 +24,19 @@ public:
 
 	virtual void Update(float elapsedSec, GameObject& obj) override;
 	void Move(Direction direction);
+	bool HandleOutOfBounds(GameObject& obj);
+	void ActivateTile(GameObject& obj);
+	void UpdatePosition();
 
 	void SetTeleport(bool canTeleport);
 
 	std::pair<int, int> GetRowCol();
 protected:
-	std::map<std::pair<int, int>, utils::Tile*> m_Grid;
+	std::map<std::pair<int, int>, utils::Tile*> m_GridMap;
 	const float m_OffsetX{ 12.5f }, m_OffsetY{ 45.f };
 	int m_Row, m_Col, m_OldRow, m_OldCol;
 	bool m_NeedsUpdate;
 	float m_Timer;
 	bool m_CanTeleport;
+	const float m_MoveDelay;
 };

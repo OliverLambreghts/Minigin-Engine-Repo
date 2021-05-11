@@ -104,13 +104,13 @@ void UggWrongWayTransformComponent::UpdatePosition(GameObject& obj)
 
 
 	// Reset when out of bounds
-	if (m_Grid.find(std::make_pair(m_Row, m_Col)) == m_Grid.end())
+	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
 	{
 		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 		Reset();
 	}
 
-	auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
+	auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	switch (m_Type)
 	{
 	case EntityType::ugg:

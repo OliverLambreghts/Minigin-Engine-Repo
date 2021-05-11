@@ -59,19 +59,19 @@ void SlickSamTransformComponent::UpdatePosition(GameObject& obj)
 	if (!m_NeedsUpdate)
 		return;
 
-	if (m_Grid.find(std::make_pair(m_Row, m_Col)) == m_Grid.end())
+	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
 	{
 		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 		Reset();
 	}
 
-	auto defaultPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
+	auto defaultPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	m_Transform.SetPosition(defaultPos.x - m_OffsetX, defaultPos.y - m_OffsetY, 0.f);
 	m_NeedsUpdate = false;
 
 	// Revert tile state
 	if (m_IsActive)
-		m_Grid[std::pair<int, int>{m_Row, m_Col}]->SSInteract();
+		m_GridMap[std::pair<int, int>{m_Row, m_Col}]->SSInteract();
 }
 
 void SlickSamTransformComponent::AIMove()

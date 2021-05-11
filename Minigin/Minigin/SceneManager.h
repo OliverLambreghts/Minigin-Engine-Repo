@@ -11,6 +11,8 @@ namespace dae
 
 		void Update(float elapsedSec);
 		void Render();
+
+		void ActivateNextScene();
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

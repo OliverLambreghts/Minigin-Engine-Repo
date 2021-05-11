@@ -19,8 +19,8 @@ public:
 	virtual ~RemainingDiscCommand() = default;
 	virtual void Execute() override
 	{
-		m_Actor->GetComponent<ScoreComponent>()->SetScoreEvent(Message::RemainingDisc);
+		m_Actor.lock()->GetComponent<ScoreComponent>()->SetScoreEvent(Message::RemainingDisc);
 	}
 private:
-	std::shared_ptr<GameObject> m_Actor;
+	std::weak_ptr<GameObject> m_Actor;
 };

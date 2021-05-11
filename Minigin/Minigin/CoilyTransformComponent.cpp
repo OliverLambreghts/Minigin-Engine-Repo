@@ -42,7 +42,7 @@ void CoilyTransformComponent::UpdatePosition(GameObject& obj)
 	if (m_NeedsUpdate)
 	{
 		// Reset if Coily falls off the map
-		if (m_Grid.find(std::make_pair(m_Row, m_Col)) == m_Grid.end())
+		if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
 		{
 			obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 			obj.GetComponent<GraphicsComponent2D>()->ChangeTexture("../Data/QBert/Enemies/Coily/Egg.png");
@@ -53,12 +53,12 @@ void CoilyTransformComponent::UpdatePosition(GameObject& obj)
 
 		if (std::dynamic_pointer_cast<SnakeState>(m_pState))
 		{
-			auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
+			auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 			m_Transform.SetPosition(newPos.x - m_OffsetX - m_SnakeOffsetX, newPos.y - m_OffsetY - m_SnakeOffsetY, 0.f);
 			m_NeedsUpdate = false;
 			return;
 		}
-		auto defaultPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
+		auto defaultPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(defaultPos.x - m_OffsetX, defaultPos.y - m_OffsetY, 0.f);
 		m_NeedsUpdate = false;
 	}

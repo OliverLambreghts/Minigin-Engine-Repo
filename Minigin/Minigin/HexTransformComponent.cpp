@@ -1,6 +1,9 @@
 #include "MiniginPCH.h"
 #include "HexTransformComponent.h"
 
+#include <algorithm>
+
+
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
 
@@ -12,7 +15,8 @@ HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::
 	m_Timer{},
 	m_OldRow{},
 	m_OldCol{},
-	m_CanTeleport{ false }
+	m_CanTeleport{ false },
+	m_MoveDelay{ 0.25f }
 {
 	auto center = grid->at(0)->center;
 	m_Transform.SetPosition(center.x - m_OffsetX, center.y - m_OffsetY, 0.f);
@@ -22,7 +26,7 @@ HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::
 	{
 		for (int currentCol{ col }; currentCol < 1; ++currentCol)
 		{
-			m_Grid[std::make_pair(row, currentCol)] = grid->at(idx);
+			m_GridMap[std::make_pair(row, currentCol)] = grid->at(idx);
 			++idx;
 		}
 		--col;
@@ -35,53 +39,75 @@ void HexTransformComponent::Update(float elapsedSec, GameObject& obj)
 		return;
 
 	m_Timer += elapsedSec;
-	if (m_Timer < 0.25f)
+	if (m_Timer < m_MoveDelay)
 		return;
 
 	m_Timer = 0.f;
 
+	if (HandleOutOfBounds(obj))
+		return;
+	
+	ActivateTile(obj);
+
+	UpdatePosition();
+}
+
+void HexTransformComponent::UpdatePosition()
+{
+	auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+	m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
+	m_NeedsUpdate = false;
+	// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
+	m_OldRow = m_Row;
+	m_OldCol = m_Col;
+}
+
+void HexTransformComponent::ActivateTile(GameObject& obj)
+{
+	// Activate tile
+	if (!m_GridMap[std::make_pair(m_Row, m_Col)]->IsActive())
+	{
+		m_GridMap[std::make_pair(m_Row, m_Col)]->QBInteract();
+		obj.GetComponent<ScoreComponent>()->SetScoreEvent(Message::ColorChange);
+	}
+	else if (dynamic_cast<utils::Tile3*>(m_GridMap[std::make_pair(m_Row, m_Col)]))
+	{
+		m_GridMap[std::make_pair(m_Row, m_Col)]->QBInteract();
+	}
+}
+
+bool HexTransformComponent::HandleOutOfBounds(GameObject& obj)
+{
 	// Going out of bounds
-	if (m_Grid.find(std::make_pair(m_Row, m_Col)) == m_Grid.end())
+	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
 	{
 		// If out of bounds but m_CanTeleport is active means QBert jumped on a Disc
-		if(m_CanTeleport)
+		if (m_CanTeleport)
 		{
 			m_OldRow = m_Row;
 			m_OldCol = m_Col;
 			m_Row = 0;
 			m_Col = 0;
-			auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
+			auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 			m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
 			m_NeedsUpdate = false;
 			// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
 			m_CanTeleport = false;
-			return;
+			return true;
 		}
-		
+
 		m_Row = 0;
 		m_Col = 0;
-		auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
+		auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
 		m_NeedsUpdate = false;
 		obj.GetComponent<HealthComponent>()->Die(obj);
 		// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
 		m_OldRow = m_Row;
 		m_OldCol = m_Col;
-		return;
+		return true;
 	}
-	// Activate tile
-	if (!m_Grid[std::make_pair(m_Row, m_Col)]->IsActive())
-	{
-		m_Grid[std::make_pair(m_Row, m_Col)]->QBInteract();
-		obj.GetComponent<ScoreComponent>()->SetScoreEvent(Message::ColorChange);
-	}
-	
-	auto newPos = m_Grid[std::make_pair(m_Row, m_Col)]->center;
-	m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
-	m_NeedsUpdate = false;
-	// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
-	m_OldRow = m_Row;
-	m_OldCol = m_Col;
+	return false;
 }
 
 void HexTransformComponent::Move(Direction direction)

@@ -24,6 +24,11 @@ GridRenderComponent::GridRenderComponent(const std::vector<utils::Tile*>& grid, 
 		m_Tile1 = ResourceManager::GetInstance().LoadTexture("../Data/QBert/Blocks/Level2/1.png");
 		m_Tile3 = ResourceManager::GetInstance().LoadTexture("../Data/QBert/Blocks/Level2/3.png");
 	}
+	else if(dynamic_cast<utils::Tile3*>(grid.front()))
+	{
+		m_Tile2 = ResourceManager::GetInstance().LoadTexture("../Data/QBert/Blocks/Level3/Active.png");
+		m_Tile1 = ResourceManager::GetInstance().LoadTexture("../Data/QBert/Blocks/Level3/Inactive.png");
+	}
 
 	std::function<void()> renderWrapper = std::bind(&GridRenderComponent::Render, this);
 	scene.AddRenderData(renderWrapper);
@@ -41,7 +46,7 @@ void GridRenderComponent::Render() const
 {
 	for (auto* hexagon : m_Grid)
 	{
-		if (dynamic_cast<utils::Tile1*>(hexagon))
+		if (dynamic_cast<utils::Tile1*>(hexagon) || dynamic_cast<utils::Tile3*>(hexagon))
 		{
 			if (!hexagon->IsActive())
 			{
