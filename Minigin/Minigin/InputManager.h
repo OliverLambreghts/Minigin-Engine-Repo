@@ -63,6 +63,18 @@ namespace dae
 			m_KeyboardCommands[kKey] = pair;
 		}
 
+		void AddCommands(const ControllerCommandsMap& controllerCmds)
+		{
+			m_ControllerCommands = controllerCmds;
+		}
+
+		void AddCommands(const std::map<SDL_Keycode, std::pair<Uint32, std::shared_ptr<Command>>>& keyboardCmds)
+		{
+			m_KeyboardCommands = keyboardCmds;
+		}
+
+		void ClearCommands();
+
 		std::vector<std::unique_ptr<Controller>>& GetControllers();
 	private:
 		static UINT m_ID;

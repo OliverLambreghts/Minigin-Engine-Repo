@@ -6,7 +6,7 @@
 int DiscTransformComponent::m_Counter{};
 
 DiscTransformComponent::DiscTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-	std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD)
+	std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left)
 	: HexTransformComponent(grid),
 	m_QBertPos{ getQbertPos },
 	m_SetTeleport{ setTP },
@@ -18,22 +18,20 @@ DiscTransformComponent::DiscTransformComponent(std::shared_ptr<std::vector<utils
 	m_DiscCMD{ discCMD },
 	m_HasScoreChanged{ false }
 {
-	++m_Counter;
-
-	InitPos();
+	InitPos(left);
 }
 
-void DiscTransformComponent::InitPos()
+void DiscTransformComponent::InitPos(bool left)
 {
 	m_Row = (rand() % 6 + 1);
-	switch (m_Counter)
+	switch (left)
 	{
-	case 1:
+	case true:
 		m_Col = -m_Row;
 		auto leftPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(leftPos.x - m_OffsetX - m_DiscOffsetX, leftPos.y - m_OffsetY + m_DiscOffsetY, 0.f);
 		break;
-	case 2:
+	case false:
 		m_Col = 0;
 		auto rightPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(rightPos.x - m_OffsetX + m_DiscOffsetX, rightPos.y - m_OffsetY + m_DiscOffsetY, 0.f);

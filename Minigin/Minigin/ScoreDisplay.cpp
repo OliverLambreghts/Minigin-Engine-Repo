@@ -30,7 +30,7 @@ void ScoreDisplay::OnNotify(const dae::GameObject& obj, Message message)
 {
 	if (message > Message::CaughtSlickOrSam || message == Message::DoNothing)
 		return;
-
+	
 	UINT id = obj.GetComponent<PlayerComponent>()->GetID();
 	int score = obj.GetComponent<ScoreComponent>()->GetScore();
 	m_SetMethods[id]("Player " + std::to_string(id + 1) + " Score: " + std::to_string(score));

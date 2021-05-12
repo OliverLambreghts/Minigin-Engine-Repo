@@ -51,3 +51,8 @@ void dae::SceneManager::ActivateNextScene()
 		}
 	}
 }
+
+void dae::SceneManager::ActivateFirstScene()
+{
+	m_Scenes.front()->Activate();
+}

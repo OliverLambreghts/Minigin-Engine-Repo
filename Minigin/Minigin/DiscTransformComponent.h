@@ -6,14 +6,14 @@ class DiscTransformComponent : public HexTransformComponent
 {
 public:
 	DiscTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-		std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD);
+		std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left);
 	virtual ~DiscTransformComponent();
 	DiscTransformComponent(const DiscTransformComponent& other) = delete;
 	DiscTransformComponent(DiscTransformComponent&& other) = delete;
 	void operator=(const DiscTransformComponent& rhs) = delete;
 	void operator=(const DiscTransformComponent&& rhs) = delete;
 
-	void InitPos();
+	void InitPos(bool left);
 
 	virtual void Update(float elapsedSec, GameObject& obj) override;
 	void HandleTeleportActivity(GameObject& obj);

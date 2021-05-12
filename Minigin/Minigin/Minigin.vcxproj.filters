@@ -435,6 +435,9 @@
     <ClInclude Include="rapidjson\writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InputResetComponent.h">
+      <Filter>Header Files\Components\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -612,6 +615,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputResetComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

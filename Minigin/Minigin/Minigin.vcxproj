@@ -468,6 +468,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="GridRenderComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="GridComponent.h" />
+    <ClInclude Include="InputResetComponent.h" />
     <ClInclude Include="InvisibleState.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LivesDisplay.h" />
@@ -644,6 +645,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="GridRenderComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="GridComponent.cpp" />
+    <ClCompile Include="InputResetComponent.cpp" />
     <ClCompile Include="InvisibleState.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LivesDisplay.cpp" />

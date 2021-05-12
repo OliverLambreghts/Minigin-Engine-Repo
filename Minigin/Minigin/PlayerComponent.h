@@ -4,7 +4,7 @@
 class PlayerComponent : public GameplayComponent
 {
 public:
-	PlayerComponent();
+	PlayerComponent(UINT playerID);
 	virtual ~PlayerComponent() = default;
 	PlayerComponent(const PlayerComponent& other) = delete;
 	PlayerComponent(PlayerComponent&& other) = delete;
@@ -15,6 +15,6 @@ public:
 
 	UINT GetID() const;
 private:
-	static UINT m_CurrentID;
+	//static UINT m_CurrentID;
 	UINT m_ID;
 };

@@ -13,6 +13,7 @@ namespace dae
 		void Render();
 
 		void ActivateNextScene();
+		void ActivateFirstScene();
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

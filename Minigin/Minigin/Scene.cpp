@@ -1,6 +1,11 @@
 #include "MiniginPCH.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "InputManager.h"
+#include "MoveDownLeftCommand.h"
+#include "MoveDownRightCommand.h"
+#include "MoveTopLeftCommand.h"
+#include "MoveTopRightCommand.h"
 
 using namespace dae;
 
