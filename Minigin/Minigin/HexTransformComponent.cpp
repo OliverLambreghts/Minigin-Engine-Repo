@@ -33,6 +33,32 @@ HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::
 	}
 }
 
+HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, int row, int col)
+	: TransformComponent(0.f, 0.f),
+	m_Row{ row },
+	m_Col{ col },
+	m_NeedsUpdate{ false },
+	m_Timer{},
+	m_OldRow{},
+	m_OldCol{},
+	m_CanTeleport{ false },
+	m_MoveDelay{ 0.25f }
+{
+	int idx{}, gridCol{};
+	for (int gridRow{}; gridRow < 7; ++gridRow)
+	{
+		for (int currentCol{ gridCol }; currentCol < 1; ++currentCol)
+		{
+			m_GridMap[std::make_pair(gridRow, currentCol)] = grid->at(idx);
+			++idx;
+		}
+		--gridCol;
+	}
+
+	auto center = m_GridMap[std::pair<int, int>(row, col)]->center;
+	m_Transform.SetPosition(center.x - m_OffsetX, center.y - m_OffsetY, 0.f);
+}
+
 void HexTransformComponent::Update(float elapsedSec, GameObject& obj)
 {
 	if (!m_NeedsUpdate)

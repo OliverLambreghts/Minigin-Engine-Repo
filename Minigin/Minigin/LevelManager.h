@@ -12,10 +12,19 @@ struct LevelData
 class LevelManager
 {
 public:
+	enum class GameMode
+	{
+		singleplayer,
+		coop,
+		versus
+	};
+	
 	LevelManager(int windowWidth);
+	void LoadMainMenu();
 	void LoadLevel(const std::wstring& fileName);
 	void ReadJSON(const std::wstring& fileName, rapidjson::Document& doc);
 	void SetUpLevel(const LevelData& data);
 private:
 	int m_WindowWidth;
+	std::shared_ptr<GameMode> m_GameMode;
 };

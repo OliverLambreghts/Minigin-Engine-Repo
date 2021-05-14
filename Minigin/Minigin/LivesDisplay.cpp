@@ -25,6 +25,8 @@ void LivesDisplay::AddData(GameObject& obj)
 	m_SetMethods.push_back(std::bind(&TextComponent::SetText, obj.GetComponent<TextComponent>(), std::placeholders::_1));
 	m_UpdateMethods.push_back(std::bind(&TextComponent::ObsUpdate, obj.GetComponent<TextComponent>()));
 	m_Y -= 20.f;
+	if (m_Y < 430.f)
+		m_Y = 450.f;
 }
 
 void LivesDisplay::OnNotify(const dae::GameObject& obj, Message message)

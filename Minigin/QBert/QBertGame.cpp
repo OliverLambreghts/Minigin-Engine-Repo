@@ -220,7 +220,7 @@ void QBertGame::LoadLevel1(dae::Scene& scene) const
 	// --- COILY ---
 	auto coilyCmd = std::make_shared<CoilyDefeatedDiscCommand>(QBert);
 	auto coily = std::make_shared<GameObject>();
-	coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd));
+	//coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd));
 	coily->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Coily/Egg.png", scene));
 	auto coilyResetComp = std::make_shared<CoilyResetComponent>();
 	coily->AddComponent(coilyResetComp);
@@ -232,8 +232,8 @@ void QBertGame::LoadLevel1(dae::Scene& scene) const
 
 	// --- UGG & WRONGWAY ---
 	auto wrongway = std::make_shared<GameObject>();
-	wrongway->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
-		UggWrongWayTransformComponent::EntityType::wrongway));
+	//wrongway->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
+		//UggWrongWayTransformComponent::EntityType::wrongway));
 	wrongway->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Wrongway/Wrongway.png", scene));
 	auto wrongwayResetComp = std::make_shared<UggWrongwayResetComponent>();
 	wrongway->AddComponent(wrongwayResetComp);
@@ -243,8 +243,8 @@ void QBertGame::LoadLevel1(dae::Scene& scene) const
 	std::function<void()> wrongwayReset = std::bind(&UggWrongwayResetComponent::Reset, wrongwayResetComp, wrongway);
 
 	auto ugg = std::make_shared<GameObject>();
-	ugg->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
-		UggWrongWayTransformComponent::EntityType::ugg));
+	//ugg->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
+		//UggWrongWayTransformComponent::EntityType::ugg));
 	ugg->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Ugg/Ugg.png", scene));
 	auto uggResetComp = std::make_shared<UggWrongwayResetComponent>();
 	ugg->AddComponent(uggResetComp);
@@ -256,7 +256,7 @@ void QBertGame::LoadLevel1(dae::Scene& scene) const
 	// --- SLICK & SAM ---
 	auto slickSamDefeatCmd = std::make_shared<CatchSamSlickCommand>(QBert);
 	auto slick = std::make_shared<GameObject>();
-	slick->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::slick, slickSamDefeatCmd));
+	//slick->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::slick, slickSamDefeatCmd));
 	slick->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Slick/Slick.png", scene));
 	auto slickResetComp = std::make_shared<SlickSamResetComponent>();
 	slick->AddComponent(slickResetComp);
@@ -267,7 +267,7 @@ void QBertGame::LoadLevel1(dae::Scene& scene) const
 	std::function<void()> slickReset = std::bind(&SlickSamResetComponent::Reset, slickResetComp, slick);
 
 	auto sam = std::make_shared<GameObject>();
-	sam->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::sam, slickSamDefeatCmd));
+	//sam->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::sam, slickSamDefeatCmd));
 	sam->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Sam/Sam.png", scene));
 	auto samResetComp = std::make_shared<SlickSamResetComponent>();
 	sam->AddComponent(samResetComp);
@@ -298,12 +298,12 @@ void QBertGame::LoadLevel1(dae::Scene& scene) const
 	// --- DISCS ---
 	auto discCmd = std::make_shared<RemainingDiscCommand>(QBert);
 	auto leftDisc = std::make_shared<GameObject>();
-	leftDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, true));
+	//leftDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, true));
 	leftDisc->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Objects/Disc.png", scene));
 	scene.Add(leftDisc);
 
 	auto rightDisc = std::make_shared<GameObject>();
-	rightDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, false));
+	//rightDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, false));
 	rightDisc->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Objects/Disc.png", scene));
 	scene.Add(rightDisc);
 	// --- DISCS ---
@@ -478,7 +478,7 @@ void QBertGame::LoadLevel2(dae::Scene& scene) const
 	// --- COILY ---
 	auto coilyCmd = std::make_shared<CoilyDefeatedDiscCommand>(QBert);
 	auto coily = std::make_shared<GameObject>();
-	coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd));
+	//coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd));
 	coily->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Coily/Egg.png", scene));
 	auto coilyResetComp = std::make_shared<CoilyResetComponent>();
 	coily->AddComponent(coilyResetComp);
@@ -490,8 +490,8 @@ void QBertGame::LoadLevel2(dae::Scene& scene) const
 
 	// --- UGG & WRONGWAY ---
 	auto wrongway = std::make_shared<GameObject>();
-	wrongway->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
-		UggWrongWayTransformComponent::EntityType::wrongway));
+	//wrongway->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
+	//	UggWrongWayTransformComponent::EntityType::wrongway));
 	wrongway->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Wrongway/Wrongway.png", scene));
 	auto wrongwayResetComp = std::make_shared<UggWrongwayResetComponent>();
 	wrongway->AddComponent(wrongwayResetComp);
@@ -501,8 +501,8 @@ void QBertGame::LoadLevel2(dae::Scene& scene) const
 	std::function<void()> wrongwayReset = std::bind(&UggWrongwayResetComponent::Reset, wrongwayResetComp, wrongway);
 
 	auto ugg = std::make_shared<GameObject>();
-	ugg->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
-		UggWrongWayTransformComponent::EntityType::ugg));
+	//ugg->AddComponent(std::make_shared<UggWrongWayTransformComponent>(grid, getQBertPos, killFcn,
+	//	UggWrongWayTransformComponent::EntityType::ugg));
 	ugg->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Ugg/Ugg.png", scene));
 	auto uggResetComp = std::make_shared<UggWrongwayResetComponent>();
 	ugg->AddComponent(uggResetComp);
@@ -514,7 +514,7 @@ void QBertGame::LoadLevel2(dae::Scene& scene) const
 	// --- SLICK & SAM ---
 	auto slickSamDefeatCmd = std::make_shared<CatchSamSlickCommand>(QBert);
 	auto slick = std::make_shared<GameObject>();
-	slick->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::slick, slickSamDefeatCmd));
+	//slick->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::slick, slickSamDefeatCmd));
 	slick->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Slick/Slick.png", scene));
 	auto slickResetComp = std::make_shared<SlickSamResetComponent>();
 	slick->AddComponent(slickResetComp);
@@ -525,7 +525,7 @@ void QBertGame::LoadLevel2(dae::Scene& scene) const
 	std::function<void()> slickReset = std::bind(&SlickSamResetComponent::Reset, slickResetComp, slick);
 
 	auto sam = std::make_shared<GameObject>();
-	sam->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::sam, slickSamDefeatCmd));
+	//sam->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::sam, slickSamDefeatCmd));
 	sam->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Sam/Sam.png", scene));
 	auto samResetComp = std::make_shared<SlickSamResetComponent>();
 	sam->AddComponent(samResetComp);
@@ -556,12 +556,12 @@ void QBertGame::LoadLevel2(dae::Scene& scene) const
 	// --- DISCS ---
 	auto discCmd = std::make_shared<RemainingDiscCommand>(QBert);
 	auto leftDisc = std::make_shared<GameObject>();
-	leftDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, true));
+	//leftDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, true));
 	leftDisc->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Objects/Disc.png", scene));
 	scene.Add(leftDisc);
 
 	auto rightDisc = std::make_shared<GameObject>();
-	rightDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, false));
+	//rightDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, false));
 	rightDisc->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Objects/Disc.png", scene));
 	scene.Add(rightDisc);
 	// --- DISCS ---
@@ -571,15 +571,8 @@ void QBertGame::LoadGame() const
 {
 	Session::GetInstance().BeginSession();
 
-	InputManager::GetInstance().AddController();
-	InputManager::GetInstance().AddController();
-
 	LevelManager lvlManager{ m_WindowWidth };
-	lvlManager.LoadLevel(L"../Data/QBert/Levels/Level1.JSON");
-	lvlManager.LoadLevel(L"../Data/QBert/Levels/Level2.JSON");
-	lvlManager.LoadLevel(L"../Data/QBert/Levels/Level3.JSON");
-
-	SceneManager::GetInstance().ActivateFirstScene();
+	lvlManager.LoadMainMenu();
 	
 	Session::GetInstance().EndSession();
 }

@@ -4,7 +4,9 @@
 #include "GraphicsComponent2D.h"
 
 UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid,
-	std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type)
+	std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type,
+	std::function<std::pair<int, int>()> getQbertPos2,
+	std::function<void()> killFcn2)
 	: HexTransformComponent(grid),
 	m_Type{ type },
 	m_KillQBert{ killFcn },
@@ -14,7 +16,9 @@ UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std
 	m_BothOffsetY{ 40.f },
 	m_Timer{},
 	m_SpawnThreshold{ float(rand() % 5 + 5) },
-	m_UggOffsetX{ 25.f }
+	m_UggOffsetX{ 25.f },
+	m_QBertPos2{ getQbertPos2 },
+	m_KillQBert2{ killFcn2 }
 {
 	InitPos(type);
 }
@@ -64,10 +68,14 @@ void UggWrongWayTransformComponent::HandleQBertCollision()
 	case EntityType::ugg:
 		if (m_QBertPos().first == m_Row + 1 && m_QBertPos().second == m_Col)
 			m_KillQBert();
+		else if (m_QBertPos2 && m_QBertPos2().first == m_Row + 1 && m_QBertPos2().second == m_Col)
+			m_KillQBert2();
 		break;
 	case EntityType::wrongway:
 		if (m_QBertPos().first == m_Row + 1 && m_QBertPos().second == m_Col - 1)
 			m_KillQBert();
+		else if (m_QBertPos2 && m_QBertPos2().first == m_Row + 1 && m_QBertPos2().second == m_Col - 1)
+			m_KillQBert2();
 		break;
 	}
 }

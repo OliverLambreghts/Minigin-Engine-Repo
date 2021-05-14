@@ -555,6 +555,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIComponent.h" />
     <ClInclude Include="UIElement.h" />
+    <ClInclude Include="UIGameModeButton.h" />
     <ClInclude Include="UIText.h" />
     <ClInclude Include="UIWindowComponent.h" />
     <ClInclude Include="utils.h" />
@@ -691,6 +692,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="UggWrongWayResetComponent.cpp" />
     <ClCompile Include="UggWrongwayTransformComponent.cpp" />
     <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UIGameModeButton.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="UIWindowComponent.cpp" />
     <ClCompile Include="utils.cpp" />

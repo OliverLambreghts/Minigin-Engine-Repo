@@ -6,14 +6,18 @@
 #include "SnakeState.h"
 
 CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-	std::function<void()> killFcn, std::shared_ptr<CoilyDefeatedDiscCommand> cmd)
+	std::function<void()> killFcn, std::shared_ptr<CoilyDefeatedDiscCommand> cmd,
+	std::function<std::pair<int, int>()> getQbertPos2,
+	std::function<void()> killFcn2)
 	: HexTransformComponent(grid),
 	m_QBertPos{ getQbertPos },
 	m_pState{ std::make_shared<InvisibleState>() },
 	m_SnakeOffsetX{ 5.f },
 	m_SnakeOffsetY{ 45.f },
 	m_KillQBert{ killFcn },
-	m_pKillCMD{ cmd }
+	m_pKillCMD{ cmd },
+	m_KillQBert2{ killFcn2 },
+	m_QBertPos2{ getQbertPos2 }
 {
 	Move((Direction)(rand() % 2 + 2));
 }
@@ -36,6 +40,10 @@ void CoilyTransformComponent::UpdatePosition(GameObject& obj)
 	if (GetRowCol(true) == GetRowCol(false) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
 	{
 		m_KillQBert();
+	}
+	else if(m_QBertPos2 && m_QBertPos2() == std::pair<int, int>(m_Row, m_Col) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
+	{
+		m_KillQBert2();
 	}
 
 	// Update position

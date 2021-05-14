@@ -12,7 +12,8 @@ public:
 	};
 
 	SlickSamTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-		EntityType type, std::shared_ptr<CatchSamSlickCommand> killCmd);
+		EntityType type, std::shared_ptr<CatchSamSlickCommand> killCmd,
+		std::function<std::pair<int, int>()> getQbertPos2);
 	virtual ~SlickSamTransformComponent() = default;
 	SlickSamTransformComponent(const SlickSamTransformComponent& other) = delete;
 	SlickSamTransformComponent(SlickSamTransformComponent&& other) = delete;
@@ -30,6 +31,6 @@ private:
 	float m_Timer;
 	bool m_IsActive;
 	float m_SpawnThreshold;
-	std::function<std::pair<int, int>()> m_QBertPos;
+	std::function<std::pair<int, int>()> m_QBertPos, m_QBertPos2;
 	std::shared_ptr<CatchSamSlickCommand> m_pKillCMD;
 };

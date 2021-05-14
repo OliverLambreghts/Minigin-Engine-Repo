@@ -3,14 +3,16 @@
 #include "GraphicsComponent2D.h"
 
 SlickSamTransformComponent::SlickSamTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-	EntityType type, std::shared_ptr<CatchSamSlickCommand> killCmd)
+	EntityType type, std::shared_ptr<CatchSamSlickCommand> killCmd,
+	std::function<std::pair<int, int>()> getQbertPos2)
 	: HexTransformComponent(grid),
 	m_Type{ type },
 	m_Timer{},
 	m_IsActive{},
 	m_SpawnThreshold{ float(rand() % 2 + 10) },
 	m_QBertPos{ getQbertPos },
-	m_pKillCMD{ killCmd }
+	m_pKillCMD{ killCmd },
+	m_QBertPos2{ getQbertPos2 }
 {
 	switch (type)
 	{
@@ -46,7 +48,7 @@ void SlickSamTransformComponent::Update(float elapsedSec, GameObject& obj)
 
 void SlickSamTransformComponent::HandleQBertCollision(GameObject& obj)
 {
-	if (m_QBertPos() == std::pair<int, int>(m_Row, m_Col))
+	if (m_QBertPos() == std::pair<int, int>(m_Row, m_Col) || (m_QBertPos2 && m_QBertPos2() == std::pair<int, int>(m_Row, m_Col)))
 	{
 		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 		Reset();
@@ -99,4 +101,5 @@ void SlickSamTransformComponent::Reset()
 
 	m_Timer = 0.f;
 	m_IsActive = false;
+	m_NeedsUpdate = true;
 }

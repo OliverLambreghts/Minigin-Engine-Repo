@@ -6,7 +6,9 @@
 int DiscTransformComponent::m_Counter{};
 
 DiscTransformComponent::DiscTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-	std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left)
+	std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left,
+	std::function<std::pair<int, int>()> getQbertPos2,
+	std::function<void(bool)> setTP2)
 	: HexTransformComponent(grid),
 	m_QBertPos{ getQbertPos },
 	m_SetTeleport{ setTP },
@@ -16,7 +18,9 @@ DiscTransformComponent::DiscTransformComponent(std::shared_ptr<std::vector<utils
 	m_DiscOffsetY{ 10.f },
 	m_HasLevelEnded{ hasLevelEnded },
 	m_DiscCMD{ discCMD },
-	m_HasScoreChanged{ false }
+	m_HasScoreChanged{ false },
+	m_QBertPos2{ getQbertPos2 },
+	m_SetTeleport2{ setTP2 }
 {
 	InitPos(left);
 }
@@ -60,7 +64,13 @@ void DiscTransformComponent::HandleTeleportActivity(GameObject& obj)
 	if (m_HasBeenUsed)
 		return;
 
-	if (m_QBertPos() == std::pair<int, int>(m_Row, m_Col))
+	if (m_QBertPos2 && m_QBertPos2() == std::pair<int, int>(m_Row, m_Col))
+	{
+		// Activate QBert's teleport flag
+		m_SetTeleport2(true);
+		m_IsActive = true;
+	}
+	else if (m_QBertPos() == std::pair<int, int>(m_Row, m_Col))
 	{
 		// Activate QBert's teleport flag
 		m_SetTeleport(true);
@@ -75,9 +85,17 @@ void DiscTransformComponent::HandleTeleportActivity(GameObject& obj)
 			obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 			return;
 		}
+		if (m_QBertPos2 && m_GridMap.find(std::pair<int, int>(m_QBertPos2().first, m_QBertPos2().second)) == m_GridMap.end())
+		{
+			m_HasBeenUsed = true;
+			obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+			return;
+		}
 
 		m_IsActive = false;
 		// Deactivate QBert's teleport flag
 		m_SetTeleport(false);
+		if (m_SetTeleport2)
+			m_SetTeleport2(false);
 	}
 }

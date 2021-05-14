@@ -13,7 +13,9 @@ public:
 	void InitPos(EntityType type);
 	
 	UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-		std::function<void()> killFcn, EntityType type);
+		std::function<void()> killFcn, EntityType type,
+		std::function<std::pair<int, int>()> getQbertPos2,
+		std::function<void()> killFcn2);
 	virtual ~UggWrongWayTransformComponent() = default;
 	UggWrongWayTransformComponent(const UggWrongWayTransformComponent& other) = delete;
 	UggWrongWayTransformComponent(UggWrongWayTransformComponent&& other) = delete;
@@ -29,8 +31,8 @@ public:
 	void Reset();
 private:
 	EntityType m_Type;
-	std::function<void()> m_KillQBert;
-	std::function<std::pair<int, int>()> m_QBertPos;
+	std::function<void()> m_KillQBert, m_KillQBert2;
+	std::function<std::pair<int, int>()> m_QBertPos, m_QBertPos2;
 	bool m_IsActive;
 	const float m_WrongwayOffsetX, m_BothOffsetY, m_UggOffsetX;
 	float m_Timer;
