@@ -19,31 +19,34 @@ std::shared_ptr<EnemyState> SnakeState::Update(float elapsedSec, dae::GameObject
 	if (row == qBertRow && col == qBertCol)
 		return nullptr;
 
-	if (row >= qBertRow && col < qBertCol)
+	if(!obj.GetComponent<CoilyTransformComponent>()->IsPlayer())
 	{
-		// Topright
-		obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::topRight);
-		//--m_Row;
-		//++m_Col;
-	}
-	else if (row >= qBertRow && col >= qBertCol)
-	{
-		// TopLeft
-		obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::topLeft);
-		//--m_Row;
-	}
-	else if (row <= qBertRow && col <= qBertCol)
-	{
-		// Downright
-		obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::downRight);
-		//++m_Row;
-	}
-	else if (row <= qBertRow && col > qBertCol)
-	{
-		// Downleft
-		obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::downLeft);
-		//++m_Row;
-		//--m_Col;
+		if (row >= qBertRow && col < qBertCol)
+		{
+			// Topright
+			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::topRight);
+			//--m_Row;
+			//++m_Col;
+		}
+		else if (row >= qBertRow && col >= qBertCol)
+		{
+			// TopLeft
+			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::topLeft);
+			//--m_Row;
+		}
+		else if (row <= qBertRow && col <= qBertCol)
+		{
+			// Downright
+			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::downRight);
+			//++m_Row;
+		}
+		else if (row <= qBertRow && col > qBertCol)
+		{
+			// Downleft
+			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::downLeft);
+			//++m_Row;
+			//--m_Col;
+		}
 	}
 
 	//m_NeedsUpdate = true;

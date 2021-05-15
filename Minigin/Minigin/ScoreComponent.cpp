@@ -1,8 +1,29 @@
 #include "MiniginPCH.h"
 #include "ScoreComponent.h"
 
-void ScoreComponent::Update(float , GameObject& obj)
+#include <algorithm>
+#include <fstream>
+
+ScoreComponent::ScoreComponent(std::shared_ptr<std::vector<utils::Tile*>>& tiles)
+	: m_Tiles{ tiles },
+	m_Score {},
+	m_ScoreEvent{},
+	m_Subject{}
 {
+
+}
+
+void ScoreComponent::Update(float, GameObject& obj)
+{
+	if (std::all_of(m_Tiles->begin(), m_Tiles->end(), [](utils::Tile* tile) {return tile->IsActive(); }))
+		SaveToFile();
+
+	if (!m_MessageQueue.empty())
+	{
+		m_ScoreEvent = m_MessageQueue.front();
+		m_MessageQueue.pop();
+	}
+
 	switch (m_ScoreEvent)
 	{
 	case Message::ColorChange:
@@ -25,7 +46,7 @@ void ScoreComponent::Update(float , GameObject& obj)
 
 void ScoreComponent::SetScoreEvent(Message message)
 {
-	m_ScoreEvent = message;
+	m_MessageQueue.push(message);
 }
 
 int ScoreComponent::GetScore() const
@@ -36,4 +57,11 @@ int ScoreComponent::GetScore() const
 Subject& ScoreComponent::GetSubject()
 {
 	return m_Subject;
+}
+
+void ScoreComponent::SaveToFile()
+{
+	std::ofstream file{ "HighScores.txt" };
+	file << m_Score << '\n';
+	file.close();
 }

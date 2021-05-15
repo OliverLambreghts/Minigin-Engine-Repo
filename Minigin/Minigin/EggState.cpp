@@ -3,7 +3,13 @@
 
 #include "CoilyTransformComponent.h"
 #include "GraphicsComponent2D.h"
+#include "InputManager.h"
+#include "MoveDownLeftCommand.h"
+#include "MoveDownRightCommand.h"
+#include "MoveTopLeftCommand.h"
+#include "MoveTopRightCommand.h"
 #include "SnakeState.h"
+
 
 std::shared_ptr<EnemyState> EggState::Update(float elapsedSec, dae::GameObject& obj)
 {
@@ -18,6 +24,9 @@ std::shared_ptr<EnemyState> EggState::Update(float elapsedSec, dae::GameObject& 
 	
 	if (rowCol.first == 6)
 	{
+		if(obj.GetComponent<CoilyTransformComponent>()->IsPlayer())
+			obj.GetComponent<CoilyTransformComponent>()->ActivatePlayerMovement();
+		
 		obj.GetComponent<GraphicsComponent2D>()->ChangeTexture("../Data/QBert/Enemies/Coily/Snake.png");
 		return std::make_shared<SnakeState>();
 	}

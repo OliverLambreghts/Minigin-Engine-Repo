@@ -59,17 +59,19 @@
 
 LevelManager::LevelManager(int windowWidth)
 	: m_WindowWidth{ windowWidth },
-	m_GameMode{std::make_shared<GameMode>()}
+	m_GameMode{ std::make_shared<GameMode>() }
 {
 
 }
 
 void LevelManager::LoadMainMenu()
 {
+	SceneManager::GetInstance().DeactivateAllScenes();
+	
 	auto& scene = SceneManager::GetInstance().CreateScene("MainMenu");
 
 	std::function<void(const std::wstring&)> loadLevel = std::bind(&LevelManager::LoadLevel, *this, std::placeholders::_1);
-	
+
 	// Modes
 	auto modesWindow = std::make_shared<GameObject>();
 	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Main Menu"));
@@ -159,7 +161,7 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	scene.Add(level);
 
 	// Fcn ptr to check if level has ended or not
-	std::function<bool()> hasLevelEnded = std::bind(&GridComponent::HasLevelEnded, gridComp);
+	std::function<const bool()> hasLevelEnded = std::bind(&GridComponent::HasLevelEnded, gridComp);
 
 	// FPS Counter
 	const unsigned int fontSize = 16;
@@ -202,8 +204,8 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
 	{
 		if (i == 1 && *m_GameMode == GameMode::versus)
-			return;
-		
+			break;
+
 		auto livesDisplayUI = std::make_shared<GameObject>();
 		livesDisplayUI->AddComponent(std::make_shared<TextComponent>("Lingua.otf", 16, SDL_Color{ 0, 255, 0 }, scene));
 		livesDisplay->AddData(*livesDisplayUI);
@@ -219,9 +221,9 @@ void LevelManager::SetUpLevel(const LevelData& data)
 		auto healthComp = std::make_shared<HealthComponent>();
 		QBert->AddComponent(healthComp);
 		QBert->AddComponent(std::make_shared<PlayerComponent>(i));
-		QBert->AddComponent(std::make_shared<ScoreComponent>());
+		QBert->AddComponent(std::make_shared<ScoreComponent>(grid));
 		std::shared_ptr<HexTransformComponent> QBertTransformComp;
-		switch(*m_GameMode)
+		switch (*m_GameMode)
 		{
 		case GameMode::coop:
 			if (i == 0)
@@ -229,13 +231,13 @@ void LevelManager::SetUpLevel(const LevelData& data)
 			else
 				QBertTransformComp = std::make_shared<HexTransformComponent>(grid, 6, 0);
 			break;
-		case GameMode::singleplayer:
+		default:
 			QBertTransformComp = std::make_shared<HexTransformComponent>(grid);
 			break;
 		}
-		
+
 		QBert->AddComponent(QBertTransformComp);
-		if(i == 0)
+		if (i == 0)
 			QBert->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Character/Right.png", scene));
 		else
 			QBert->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Character/Right2.png", scene));
@@ -311,14 +313,14 @@ void LevelManager::SetUpLevel(const LevelData& data)
 				XINPUT_KEYSTROKE_KEYUP, QBert);
 			break;
 		}
-		
+
 		QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(livesDisplay);
 		QBert->GetComponent<HealthComponent>()->GetSubject().AddObserver(resetObserver);
 		QBert->GetComponent<ScoreComponent>()->GetSubject().AddObserver(scoreDisplay);
 		scene.Add(QBert);
 
 		// Set fcn pointers for external code to use
-		switch(i)
+		switch (i)
 		{
 		case 0:
 			getQBertPos = std::bind(&HexTransformComponent::GetRowCol, QBertTransformComp);
@@ -336,21 +338,72 @@ void LevelManager::SetUpLevel(const LevelData& data)
 		}
 	}
 
-	if(data.levelName.back() != '1')
-		scene.Add(inputResetter);
-	// --- QBERT CODE ---
+	/*if(data.levelName.back() != '1')
+		scene.Add(inputResetter);*/
+		// --- QBERT CODE ---
 
 	auto enemyResetter = std::make_shared<GameObject>();
 	auto fullResetComp = std::make_shared<FullEnemyResetComponent>();
 	enemyResetter->AddComponent(fullResetComp);
-	
+
 	// ----------- ENEMY CODE ---------------------------------
 	if (std::find(data.enemies.begin(), data.enemies.end(), "Coily") != data.enemies.end())
 	{
 		// --- COILY ---
 		/*auto coilyCmd = std::make_shared<CoilyDefeatedDiscCommand>(QBert);*/
 		auto coily = std::make_shared<GameObject>();
-		coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd, getQBertPos2, killFcn2));
+
+		// Map inputs if versus mode is picked
+		if (*m_GameMode == GameMode::versus)
+		{
+			coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd, getQBertPos2, killFcn2, true));
+
+			switch (data.levelName.back())
+			{
+			case '1':
+				InputManager::GetInstance().AddCommand<MoveTopLeftCommand>(SDLK_q,
+					SDL_KEYUP, coily);
+				InputManager::GetInstance().AddCommand<MoveTopRightCommand>(SDLK_z,
+					SDL_KEYUP, coily);
+				InputManager::GetInstance().AddCommand<MoveDownLeftCommand>(SDLK_s,
+					SDL_KEYUP, coily);
+				InputManager::GetInstance().AddCommand<MoveDownRightCommand>(SDLK_d,
+					SDL_KEYUP, coily);
+
+				InputManager::GetInstance().AddCommand<MoveTopLeftCommand>(ControllerKey(1, ControllerButton::ButtonLeft),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				InputManager::GetInstance().AddCommand<MoveTopRightCommand>(ControllerKey(1, ControllerButton::ButtonUp),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				InputManager::GetInstance().AddCommand<MoveDownLeftCommand>(ControllerKey(1, ControllerButton::ButtonDown),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				InputManager::GetInstance().AddCommand<MoveDownRightCommand>(ControllerKey(1, ControllerButton::ButtonRight),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				break;
+			default:
+				// Reset inputs
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveTopLeftCommand>(SDLK_q,
+					SDL_KEYUP, coily);
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveTopRightCommand>(SDLK_z,
+					SDL_KEYUP, coily);
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveDownLeftCommand>(SDLK_s,
+					SDL_KEYUP, coily);
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveDownRightCommand>(SDLK_d,
+					SDL_KEYUP, coily);
+
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveTopLeftCommand>(ControllerKey(1, ControllerButton::ButtonLeft),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveTopRightCommand>(ControllerKey(1, ControllerButton::ButtonUp),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveDownLeftCommand>(ControllerKey(1, ControllerButton::ButtonDown),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveDownRightCommand>(ControllerKey(1, ControllerButton::ButtonRight),
+					XINPUT_KEYSTROKE_KEYUP, coily);
+				break;
+			}
+		}
+		else
+			coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd, getQBertPos2, killFcn2, false));
+
 		coily->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Enemies/Coily/Egg.png", scene));
 		auto coilyResetComp = std::make_shared<CoilyResetComponent>();
 		coily->AddComponent(coilyResetComp);
@@ -424,6 +477,9 @@ void LevelManager::SetUpLevel(const LevelData& data)
 		enemyResetter->GetComponent<FullEnemyResetComponent>()->AddResetter(samReset);
 	}
 	// ----------- ENEMY CODE ---------------------------------
+
+	if (data.levelName.back() != '1')
+		scene.Add(inputResetter);
 
 	// ----------- ENEMY RESETTER ------------------
 	std::function<void()> resetAllFcn = std::bind(&FullEnemyResetComponent::ResetAll, fullResetComp);

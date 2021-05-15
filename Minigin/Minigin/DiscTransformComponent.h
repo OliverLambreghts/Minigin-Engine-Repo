@@ -6,7 +6,7 @@ class DiscTransformComponent : public HexTransformComponent
 {
 public:
 	DiscTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-		std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left,
+		std::function<void(bool)> setTP, std::function<const bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left,
 		std::function<std::pair<int, int>()> getQbertPos2,
 		std::function<void(bool)> setTP2);
 	virtual ~DiscTransformComponent();
@@ -23,7 +23,7 @@ public:
 private:
 	std::function<std::pair<int, int>()> m_QBertPos, m_QBertPos2;
 	std::function<void(bool)> m_SetTeleport, m_SetTeleport2;
-	std::function<bool()> m_HasLevelEnded;
+	std::function<const bool()> m_HasLevelEnded;
 	bool m_IsActive, m_HasBeenUsed, m_HasScoreChanged;
 	static int m_Counter;
 	const float m_DiscOffsetX, m_DiscOffsetY;

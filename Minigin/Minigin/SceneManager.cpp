@@ -1,9 +1,15 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
+
+#include <algorithm>
+
 #include "Scene.h"
 
 void dae::SceneManager::Update(float elapsedSec)
 {
+	if (m_Scenes.size() > 4)
+		m_Scenes.erase(m_Scenes.begin(), m_Scenes.begin() + 4);
+	
 	for (auto& scene : m_Scenes)
 	{
 		if (scene->IsActive())
@@ -38,12 +44,12 @@ void dae::SceneManager::ActivateNextScene()
 	bool canActivate{ false };
 	for (auto& scene : m_Scenes)
 	{
-		if(canActivate)
+		if (canActivate)
 		{
 			scene->Activate();
 			break;
 		}
-		
+
 		if (scene->IsActive() && !canActivate)
 		{
 			scene->Deactivate();
@@ -55,4 +61,14 @@ void dae::SceneManager::ActivateNextScene()
 void dae::SceneManager::ActivateFirstScene()
 {
 	m_Scenes.front()->Activate();
+}
+
+void dae::SceneManager::ClearScenes()
+{
+	m_Scenes.clear();
+}
+
+void dae::SceneManager::DeactivateAllScenes()
+{
+	std::for_each(m_Scenes.begin(), m_Scenes.end(), [](std::shared_ptr<Scene>& scene) {scene->Deactivate(); });
 }

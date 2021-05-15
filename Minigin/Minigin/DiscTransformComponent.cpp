@@ -6,7 +6,7 @@
 int DiscTransformComponent::m_Counter{};
 
 DiscTransformComponent::DiscTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-	std::function<void(bool)> setTP, std::function<bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left,
+	std::function<void(bool)> setTP, std::function<const bool()> hasLevelEnded, std::shared_ptr<RemainingDiscCommand> discCMD, bool left,
 	std::function<std::pair<int, int>()> getQbertPos2,
 	std::function<void(bool)> setTP2)
 	: HexTransformComponent(grid),
@@ -52,7 +52,7 @@ void DiscTransformComponent::Update(float, GameObject& obj)
 {
 	HandleTeleportActivity(obj);
 
-	if (m_HasLevelEnded && !m_HasBeenUsed && !m_HasScoreChanged)
+	if (!m_HasBeenUsed && !m_HasScoreChanged && std::all_of(m_GridMap.begin(), m_GridMap.end(), [](std::pair<std::pair<int, int>, utils::Tile*> tile) {return tile.second->IsActive(); }))
 	{
 		m_DiscCMD->Execute();
 		m_HasScoreChanged = true;

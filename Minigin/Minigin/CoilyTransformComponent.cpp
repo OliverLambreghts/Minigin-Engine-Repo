@@ -8,7 +8,8 @@
 CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
 	std::function<void()> killFcn, std::shared_ptr<CoilyDefeatedDiscCommand> cmd,
 	std::function<std::pair<int, int>()> getQbertPos2,
-	std::function<void()> killFcn2)
+	std::function<void()> killFcn2,
+	bool isPlayer)
 	: HexTransformComponent(grid),
 	m_QBertPos{ getQbertPos },
 	m_pState{ std::make_shared<InvisibleState>() },
@@ -17,13 +18,21 @@ CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<uti
 	m_KillQBert{ killFcn },
 	m_pKillCMD{ cmd },
 	m_KillQBert2{ killFcn2 },
-	m_QBertPos2{ getQbertPos2 }
+	m_QBertPos2{ getQbertPos2 },
+	m_IsPlayer{ isPlayer },
+	m_IsPlayerControlling{ false }
 {
 	Move((Direction)(rand() % 2 + 2));
 }
 
 void CoilyTransformComponent::Update(float elapsedSec, GameObject& obj)
 {
+	m_Timer += elapsedSec;
+	if (m_IsPlayerControlling && m_Timer < m_MoveDelay + 0.25f)
+		return;
+	if(m_IsPlayerControlling)
+		m_Timer = 0.f;
+	
 	UpdatePosition(obj);
 
 	auto pNewState = m_pState->Update(elapsedSec, obj);
@@ -41,7 +50,7 @@ void CoilyTransformComponent::UpdatePosition(GameObject& obj)
 	{
 		m_KillQBert();
 	}
-	else if(m_QBertPos2 && m_QBertPos2() == std::pair<int, int>(m_Row, m_Col) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
+	else if (m_QBertPos2 && m_QBertPos2() == std::pair<int, int>(m_Row, m_Col) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
 	{
 		m_KillQBert2();
 	}
@@ -88,5 +97,21 @@ void CoilyTransformComponent::Reset()
 	m_Col = 0;
 	m_pState.reset();
 	m_pState = std::make_shared<InvisibleState>();
+	m_IsPlayerControlling = false;
 	Move((Direction)(rand() % 2 + 2));
+}
+
+const bool CoilyTransformComponent::IsPlayer() const
+{
+	return m_IsPlayer;
+}
+
+void CoilyTransformComponent::ActivatePlayerMovement()
+{
+	m_IsPlayerControlling = true;
+}
+
+const bool CoilyTransformComponent::IsPlayerControlling() const
+{
+	return m_IsPlayerControlling;
 }

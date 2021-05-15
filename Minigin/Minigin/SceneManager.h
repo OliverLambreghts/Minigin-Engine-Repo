@@ -12,8 +12,10 @@ namespace dae
 		void Update(float elapsedSec);
 		void Render();
 
+		void DeactivateAllScenes();
 		void ActivateNextScene();
 		void ActivateFirstScene();
+		void ClearScenes();
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
