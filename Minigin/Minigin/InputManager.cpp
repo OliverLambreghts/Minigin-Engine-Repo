@@ -95,6 +95,7 @@ std::vector<std::unique_ptr<dae::Controller>>& dae::InputManager::GetControllers
 
 void dae::InputManager::ClearCommands()
 {
+	m_Controllers.clear();
 	m_KeyboardCommands.clear();
 	m_ControllerCommands.clear();
 }

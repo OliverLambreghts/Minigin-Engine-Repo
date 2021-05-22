@@ -1,7 +1,10 @@
 #include "MiniginPCH.h"
 #include "DiscTransformComponent.h"
 #include <algorithm>
+#include <SDL.h>
+
 #include "GraphicsComponent2D.h"
+#include "ServiceLocator.h"
 
 int DiscTransformComponent::m_Counter{};
 
@@ -81,12 +84,14 @@ void DiscTransformComponent::HandleTeleportActivity(GameObject& obj)
 		// First check if QBert is out of bounds which means he jumped on the Disc
 		if (m_GridMap.find(std::pair<int, int>(m_QBertPos().first, m_QBertPos().second)) == m_GridMap.end())
 		{
+			ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/disc.wav", SDL_MIX_MAXVOLUME);
 			m_HasBeenUsed = true;
 			obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 			return;
 		}
 		if (m_QBertPos2 && m_GridMap.find(std::pair<int, int>(m_QBertPos2().first, m_QBertPos2().second)) == m_GridMap.end())
 		{
+			ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/disc.wav", SDL_MIX_MAXVOLUME);
 			m_HasBeenUsed = true;
 			obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 			return;

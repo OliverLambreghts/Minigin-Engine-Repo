@@ -1,8 +1,12 @@
 #include "MiniginPCH.h"
 #include "CoilyTransformComponent.h"
 
+#include <SDL.h>
+
+
 #include "GraphicsComponent2D.h"
 #include "InvisibleState.h"
+#include "ServiceLocator.h"
 #include "SnakeState.h"
 
 CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
@@ -66,7 +70,10 @@ void CoilyTransformComponent::UpdatePosition(GameObject& obj)
 			Reset();
 			// APPLY COILY BONUS HERE
 			m_pKillCMD->Execute();
+			ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/coilyfall.wav", SDL_MIX_MAXVOLUME);
 		}
+		else if(!std::dynamic_pointer_cast<InvisibleState>(m_pState))
+			ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/coilyjump.wav", SDL_MIX_MAXVOLUME);
 
 		if (std::dynamic_pointer_cast<SnakeState>(m_pState))
 		{

@@ -1,6 +1,8 @@
 #include "MiniginPCH.h"
 #include "HealthComponent.h"
 
+#include "SceneManager.h"
+
 void HealthComponent::SetHealth(int health)
 {
 	m_Health = health;
@@ -13,6 +15,7 @@ void HealthComponent::Die(const GameObject& obj)
 	{
 	case EntityType::Player:
 		//m_Subject->Notify(obj, Message::PlayerDied);
+		--m_Lives;
 		m_Subject.Notify(obj, Message::PlayerDied);
 		break;
 	}
@@ -20,6 +23,9 @@ void HealthComponent::Die(const GameObject& obj)
 
 void HealthComponent::Update(float, GameObject& obj)
 {
+	if (m_Lives == 0)
+		SceneManager::GetInstance().MarkForDeletion();
+	
 	if(m_CanDie)
 	{
 		Die(obj);

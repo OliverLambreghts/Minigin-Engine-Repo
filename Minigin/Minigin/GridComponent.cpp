@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include "SceneManager.h"
+#include "ServiceLocator.h"
 
 GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile*>>& grid, int level)
 	: m_HexSize{ hexSize },
@@ -122,6 +123,7 @@ void GridComponent::Update(float elapsedSec, GameObject&)
 			return tile->IsActive();
 		}))
 	{
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/prize.wav", SDL_MIX_MAXVOLUME);
 		m_IsLevelComplete = true;
 	}
 }

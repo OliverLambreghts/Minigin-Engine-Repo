@@ -21,7 +21,7 @@ namespace dae
 		const bool IsActive() const;
 		void Activate();
 		void Deactivate();
-
+	
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;

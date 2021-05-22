@@ -12,6 +12,7 @@ namespace dae
 		void Update(float elapsedSec);
 		void Render();
 
+		void MarkForDeletion();
 		void DeactivateAllScenes();
 		void ActivateNextScene();
 		void ActivateFirstScene();
@@ -20,5 +21,6 @@ namespace dae
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		bool m_CanDelete = false;
 	};
 }

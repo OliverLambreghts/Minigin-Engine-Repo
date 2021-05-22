@@ -40,6 +40,7 @@
 #include "MoveTopRightCommand.h"
 #include "PlayerComponent.h"
 #include "RemainingDiscCommand.h"
+#include "Renderer.h"
 #include "Resetter.h"
 #include "ScoreComponent.h"
 #include "ScoreDisplay.h"
@@ -72,18 +73,23 @@ void LevelManager::LoadMainMenu()
 
 	std::function<void(const std::wstring&)> loadLevel = std::bind(&LevelManager::LoadLevel, *this, std::placeholders::_1);
 
+	auto background = std::make_shared<GameObject>();
+	background->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/MainMenu/MainMenu.png", scene));
+	background->AddComponent(std::make_shared<TransformComponent>(0.f, 0.f));
+	scene.Add(background);
+	
 	// Modes
 	auto modesWindow = std::make_shared<GameObject>();
 	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Main Menu"));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Singleplayer", true, m_GameMode, GameMode::singleplayer, loadLevel));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Co-op", true, m_GameMode, GameMode::coop, loadLevel));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Versus", true, m_GameMode, GameMode::versus, loadLevel));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Singleplayer", false, m_GameMode, GameMode::singleplayer, loadLevel));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Co-op", false, m_GameMode, GameMode::coop, loadLevel));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Versus", false, m_GameMode, GameMode::versus, loadLevel));
 	auto controlsButton = std::make_shared<UIButton>("Controls", true);
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(controlsButton);
 
 	// Sound test button
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Test Sound", false));
-	modesWindow->GetComponent<UIWindowComponent>()->AddCommand<TestSoundCommand>(4);
+	/*modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Test Sound", false));
+	modesWindow->GetComponent<UIWindowComponent>()->AddCommand<TestSoundCommand>(4);*/
 
 	scene.Add(modesWindow);
 
@@ -96,6 +102,8 @@ void LevelManager::LoadMainMenu()
 	scene.Add(controlsWindow);
 
 	scene.Activate();
+
+	ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/tune.wav", SDL_MIX_MAXVOLUME);
 }
 
 void LevelManager::LoadLevel(const std::wstring& filePath)

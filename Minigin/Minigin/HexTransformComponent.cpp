@@ -2,10 +2,13 @@
 #include "HexTransformComponent.h"
 
 #include <algorithm>
+#include <SDL.h>
+
 
 
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
+#include "ServiceLocator.h"
 
 HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid)
 	: TransformComponent(0.f, 0.f),
@@ -76,6 +79,9 @@ void HexTransformComponent::Update(float elapsedSec, GameObject& obj)
 	ActivateTile(obj);
 
 	UpdatePosition();
+
+	// Play jump sound when moving
+	ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/jump.wav", SDL_MIX_MAXVOLUME);
 }
 
 void HexTransformComponent::UpdatePosition()
@@ -131,6 +137,7 @@ bool HexTransformComponent::HandleOutOfBounds(GameObject& obj)
 		// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
 		m_OldRow = m_Row;
 		m_OldCol = m_Col;
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/fall.wav", SDL_MIX_MAXVOLUME);
 		return true;
 	}
 	return false;

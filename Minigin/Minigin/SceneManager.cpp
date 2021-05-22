@@ -2,13 +2,27 @@
 #include "SceneManager.h"
 
 #include <algorithm>
+#include <SDL.h>
+
 
 #include "Scene.h"
+#include "ServiceLocator.h"
 
 void dae::SceneManager::Update(float elapsedSec)
 {
-	if (m_Scenes.size() > 4)
-		m_Scenes.erase(m_Scenes.begin(), m_Scenes.begin() + 4);
+	if(m_CanDelete)
+	{
+		auto mainMenu = m_Scenes.front();
+		
+		m_Scenes.clear();
+		m_Scenes.push_back(mainMenu);
+		mainMenu->Activate();
+		m_CanDelete = false;
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/tune.wav", SDL_MIX_MAXVOLUME);
+	}
+	
+	/*if (m_Scenes.size() > 4)
+		m_Scenes.erase(m_Scenes.begin(), m_Scenes.begin() + 4);*/
 	
 	for (auto& scene : m_Scenes)
 	{
@@ -71,4 +85,9 @@ void dae::SceneManager::ClearScenes()
 void dae::SceneManager::DeactivateAllScenes()
 {
 	std::for_each(m_Scenes.begin(), m_Scenes.end(), [](std::shared_ptr<Scene>& scene) {scene->Deactivate(); });
+}
+
+void dae::SceneManager::MarkForDeletion()
+{
+	m_CanDelete = true;
 }

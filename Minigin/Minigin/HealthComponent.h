@@ -21,7 +21,7 @@ public:
 
 	void Kill();
 private:
-	int m_Health = 100;
+	int m_Health = 100, m_Lives = 3;
 	Subject m_Subject;
 	bool m_CanDie = false;
 };

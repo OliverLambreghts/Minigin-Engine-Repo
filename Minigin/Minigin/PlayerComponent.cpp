@@ -4,14 +4,14 @@
 //UINT PlayerComponent::m_CurrentID = 0;
 
 PlayerComponent::PlayerComponent(UINT playerID)
-	: m_ID{playerID}
+	: m_ID{ playerID }
 {
-	
+
 }
 
-void PlayerComponent::Update(float , GameObject& )
+void PlayerComponent::Update(float, GameObject&)
 {
-	
+
 }
 
 UINT PlayerComponent::GetID() const
