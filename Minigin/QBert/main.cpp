@@ -1,7 +1,7 @@
 #include <ctime>
 #include <Minigin.h>
 #include "QBertGame.h"
-#include "vld.h"
+//#include "vld.h"
 
 int main(int, char* []) {
 	srand((unsigned)time(nullptr));

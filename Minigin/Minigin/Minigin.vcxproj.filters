@@ -56,7 +56,7 @@
       <UniqueIdentifier>{34e0dd01-275b-4896-a539-83b6240efb2b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\LevelManagement">
-      <UniqueIdentifier>{f8f8bb81-42be-41c7-abbf-9d08eb3b1545}</UniqueIdentifier>
+      <UniqueIdentifier>{294350ba-0f6a-4222-9a6a-590624a91c03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -321,9 +321,6 @@
     <ClInclude Include="DiscTransformComponent.h">
       <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>Header Files\LevelManagement</Filter>
-    </ClInclude>
     <ClInclude Include="rapidjson\error\en.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -440,6 +437,9 @@
     </ClInclude>
     <ClInclude Include="UIGameModeButton.h">
       <Filter>Header Files\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Header Files\LevelManagement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -617,13 +617,13 @@
     <ClCompile Include="DiscTransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="InputResetComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UIGameModeButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
