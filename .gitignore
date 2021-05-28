@@ -340,9 +340,11 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
+# Exceptions
 !Minigin/3rdParty/
 !/3rdParty/
 !/Minigin/3rdParty/
 !3rdParty
 !3rdParty/
 !Minigin.3rdParty/
+!Minigin-Engine-Repo/Minigin/3rdParty
