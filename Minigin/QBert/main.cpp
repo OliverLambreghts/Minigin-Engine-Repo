@@ -5,7 +5,7 @@
 
 int main(int, char* []) {
 	srand((unsigned)time(nullptr));
-	QBertGame game;
+	QBertGame game{};
 	//_CrtSetBreakAlloc(634);
 	game.Run();
 	return 0;

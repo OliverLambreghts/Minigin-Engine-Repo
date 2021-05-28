@@ -38,20 +38,31 @@
 #include "UIText.h"
 #include "UIWindowComponent.h"
 
-using namespace std;
 using namespace std::chrono;
 
-Minigin::Minigin(const std::string& programName)
-	: m_ProgramName{programName}
+dae::Minigin::Minigin()
+	:m_ProgramName{ "Programming 4 Assignment" },
+	m_Window{},
+	m_WindowWidth{},
+	m_WindowHeight{}
 {
-	
+
+}
+
+dae::Minigin::Minigin(const std::string& programName)
+	: m_ProgramName{ programName },
+	m_Window{},
+	m_WindowWidth{},
+	m_WindowHeight{}
+{
+
 }
 
 void dae::Minigin::Initialize()
 {
 	m_WindowWidth = 640;
 	m_WindowHeight = 480;
-	
+
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -99,7 +110,7 @@ void dae::Minigin::Initialize()
 	// Enable color blending and use alpha blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	Renderer::GetInstance().Init(m_Window);
 
 	auto audio = new SimpleSDL2AudioService{};
@@ -248,8 +259,8 @@ void dae::Minigin::Run()
 		bool doContinue = true;
 
 		//auto* audioService = ServiceLocator::GetAudioService();
-		
-		
+
+
 
 		while (doContinue)
 		{
@@ -261,7 +272,7 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 
 			// Add audio system to a separate thread for processing sounds:
-			
+
 			//std::thread audioThread{ &AudioService::Update, audioService };
 			//ThreadRAII audioThreadRAII{ audioThread };
 
@@ -270,7 +281,7 @@ void dae::Minigin::Run()
 			renderer.Render();
 
 			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);
+			std::this_thread::sleep_for(sleepTime);
 		}
 	}
 

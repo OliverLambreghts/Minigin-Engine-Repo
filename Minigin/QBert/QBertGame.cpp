@@ -7,7 +7,7 @@
 #include "LevelManager.h"
 
 QBertGame::QBertGame()
-	: Minigin("QBert - Oliver Lambreghts")
+	: dae::Minigin("QBert - Oliver Lambreghts" )
 {
 
 }
