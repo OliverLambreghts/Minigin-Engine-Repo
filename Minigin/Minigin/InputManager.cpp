@@ -98,4 +98,5 @@ void dae::InputManager::ClearCommands()
 	m_Controllers.clear();
 	m_KeyboardCommands.clear();
 	m_ControllerCommands.clear();
+	m_ID = 0;
 }
