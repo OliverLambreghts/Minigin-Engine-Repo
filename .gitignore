@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio
 
@@ -22,12 +21,11 @@
 mono_crash.*
 
 # Build results
+QBert/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -36,6 +34,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -365,11 +364,10 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# Exclusions
+
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 *.tlog
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
-
-# Exclusions
-!Minigin/3rdParty/SDL2/
