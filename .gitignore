@@ -348,3 +348,5 @@ healthchecksdb
 !3rdParty/
 !Minigin.3rdParty/
 !Minigin-Engine-Repo/Minigin/3rdParty
+!/Minigin-Engine-Repo/Minigin/3rdParty/
+!/Minigin-Engine-Repo/Minigin/3rdParty
