@@ -345,3 +345,4 @@ healthchecksdb
 !/Minigin/3rdParty/
 !3rdParty
 !3rdParty/
+!Minigin.3rdParty/
