@@ -6,7 +6,7 @@
 
 void utils::DrawHexagon(SDL_Renderer* renderer, const std::vector<Point2f>& vertices)
 {
-	for (int i{}; i < vertices.size(); ++i)
+	for (unsigned int i{}; i < vertices.size(); ++i)
 	{
 		if (i + 1 >= vertices.size())
 			break;
