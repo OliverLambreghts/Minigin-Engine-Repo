@@ -372,4 +372,4 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
 
 # Exclusions
-!Minigin/3rdParty/*
+!Minigin/3rdParty/SDL2/*
