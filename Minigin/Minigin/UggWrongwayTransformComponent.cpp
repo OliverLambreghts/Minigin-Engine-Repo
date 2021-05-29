@@ -1,12 +1,16 @@
 #include "MiniginPCH.h"
 #include "UggWrongwayTransformComponent.h"
 
+#include <SDL.h>
+
+
 #include "GraphicsComponent2D.h"
+#include "ServiceLocator.h"
 
 UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid,
-	std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type,
-	std::function<std::pair<int, int>()> getQbertPos2,
-	std::function<void()> killFcn2)
+                                                             std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type,
+                                                             std::function<std::pair<int, int>()> getQbertPos2,
+                                                             std::function<void()> killFcn2)
 	: HexTransformComponent(grid),
 	m_Type{ type },
 	m_KillQBert{ killFcn },
@@ -117,6 +121,8 @@ void UggWrongWayTransformComponent::UpdatePosition(GameObject& obj)
 		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 		Reset();
 	}
+	else if(m_IsActive)
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/otherjump.wav", SDL_MIX_MAXVOLUME);
 
 	auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	switch (m_Type)

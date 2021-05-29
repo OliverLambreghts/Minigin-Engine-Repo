@@ -98,5 +98,7 @@ void SimpleSDL2AudioService::Update()
 			playSound(request.fileName, request.volume);
 		else playMusic(request.fileName, request.volume);
 		m_EventQueue.pop_front();
-	} while (m_EventQueue.empty());
+	} while (!m_IsDone);
+
+	std::cout << "Thread exits\n";
 }
