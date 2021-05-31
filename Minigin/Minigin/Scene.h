@@ -7,7 +7,6 @@
 
 namespace dae
 {
-	class SceneObject;
 	class Scene
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);

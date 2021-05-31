@@ -28,7 +28,7 @@ namespace dae
 		ButtonDown = 0x5811
 	};
 
-	class InputManager : public Singleton<InputManager>
+	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput();

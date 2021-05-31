@@ -4,7 +4,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 
-UIGameModeButton::UIGameModeButton(std::string name, bool staysActive, std::shared_ptr<LevelManager::GameMode> pGameMode, LevelManager::GameMode gameMode,
+UIGameModeButton::UIGameModeButton(const std::string& name, bool staysActive, std::shared_ptr<LevelManager::GameMode> pGameMode, LevelManager::GameMode gameMode,
 	std::function<void(const std::wstring&)> loadLevel)
 	: m_Name{ name },
 	m_StaysActive{ staysActive },

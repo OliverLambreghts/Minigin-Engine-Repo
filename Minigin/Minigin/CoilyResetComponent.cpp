@@ -8,9 +8,9 @@ void CoilyResetComponent::Update(float , GameObject& )
 {
 }
 
-void CoilyResetComponent::Reset(std::shared_ptr<GameObject>& obj)
+void CoilyResetComponent::Reset(std::shared_ptr<GameObject>& ptr)
 {
-	obj->GetComponent<CoilyTransformComponent>()->Reset();
-	obj->GetComponent<GraphicsComponent2D>()->ChangeTexture("../Data/QBert/Enemies/Coily/Egg.png");
-	obj->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+	ptr->GetComponent<CoilyTransformComponent>()->Reset();
+	ptr->GetComponent<GraphicsComponent2D>()->ChangeTexture("../Data/QBert/Enemies/Coily/Egg.png");
+	ptr->GetComponent<GraphicsComponent2D>()->SetVisibility(false);
 }

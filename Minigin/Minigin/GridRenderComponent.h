@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "utils.h"
 
-class GridRenderComponent : public GraphicsComponent
+class GridRenderComponent final : public GraphicsComponent
 {
 public:
 	GridRenderComponent(const std::vector<utils::Tile*>& grid, Scene& scene);
@@ -19,6 +19,6 @@ public:
 	void Render() const;
 private:
 	std::vector<utils::Tile*> m_Grid;
-	std::shared_ptr<Texture2D> m_Tile2, m_Tile1, m_Tile3;
+	std::shared_ptr<Texture2D> m_pTile2, m_pTile1, m_pTile3;
 	const float m_TileOffsetX;
 };

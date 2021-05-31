@@ -5,17 +5,18 @@
 #include <fstream>
 
 ScoreComponent::ScoreComponent(std::shared_ptr<std::vector<utils::Tile*>>& tiles)
-	: m_Tiles{ tiles },
+	: m_pTiles{ tiles },
 	m_Score {},
 	m_ScoreEvent{},
-	m_Subject{}
+	m_Subject{},
+	m_MessageQueue{}
 {
 
 }
 
 void ScoreComponent::Update(float, GameObject& obj)
 {
-	if (std::all_of(m_Tiles->begin(), m_Tiles->end(), [](utils::Tile* tile) {return tile->IsActive(); }))
+	if (std::all_of(m_pTiles->begin(), m_pTiles->end(), [](utils::Tile* tile) {return tile->IsActive(); }))
 		SaveToFile();
 
 	if (!m_MessageQueue.empty())
@@ -59,7 +60,7 @@ Subject& ScoreComponent::GetSubject()
 	return m_Subject;
 }
 
-void ScoreComponent::SaveToFile()
+void ScoreComponent::SaveToFile() const
 {
 	std::ofstream file{ "HighScores.txt" };
 	file << m_Score << '\n';

@@ -7,7 +7,7 @@ class UIButton;
 class UIElement;
 class Command;
 using namespace dae;
-class UIWindowComponent : public UIComponent
+class UIWindowComponent final : public UIComponent
 {
 public:
 	UIWindowComponent(Scene& scene, std::string name);
@@ -35,5 +35,5 @@ private:
 	std::string m_Name;
 	std::vector<std::pair<std::shared_ptr<UIElement>, std::shared_ptr<Command>>> m_UICommands;
 
-	std::shared_ptr<UIButton> m_ActivationButton = nullptr;
+	std::shared_ptr<UIButton> m_pActivationButton = nullptr;
 };

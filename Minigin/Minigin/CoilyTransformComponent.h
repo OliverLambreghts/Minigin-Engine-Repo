@@ -4,7 +4,7 @@
 
 class EnemyState;
 
-class CoilyTransformComponent : public HexTransformComponent
+class CoilyTransformComponent final : public HexTransformComponent
 {
 public:
 	CoilyTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos, 
@@ -20,6 +20,8 @@ public:
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
 	void UpdatePosition(GameObject& obj);
+	void CheckQBertCollision();
+	void HandleFalling(GameObject& obj);
 
 	std::pair<int, int> GetRowCol(bool fromQBert);
 	const bool IsPlayer() const;

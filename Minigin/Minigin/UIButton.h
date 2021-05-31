@@ -1,12 +1,16 @@
 #pragma once
 #include "UIElement.h"
 
-class UIButton : public UIElement
+class UIButton final : public UIElement
 {
 public:
 	UIButton(std::string name, bool staysActive);
 	
 	virtual ~UIButton() = default;
+	UIButton(const UIButton& other) = delete;
+	UIButton(UIButton&& other) = delete;
+	void operator=(const UIButton& rhs) = delete;
+	void operator=(const UIButton&& rhs) = delete;
 	
 	virtual void Update() override;
 

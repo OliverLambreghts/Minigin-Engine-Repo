@@ -4,7 +4,7 @@
 #include "utils.h"
 
 using namespace dae;
-class HexTransformComponent : public TransformComponent
+class HexTransformComponent: public TransformComponent
 {
 public:	
 	enum class Direction

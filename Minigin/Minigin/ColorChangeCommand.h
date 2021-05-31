@@ -7,16 +7,21 @@ class ColorChangeCommand final : public Command
 {
 public:
 	ColorChangeCommand(std::shared_ptr<GameObject>& obj)
-		: m_Actor(obj)
+		: m_pActor(obj)
 	{
 
 	}
 
 	virtual ~ColorChangeCommand() = default;
+	ColorChangeCommand(const ColorChangeCommand& other) = delete;
+	ColorChangeCommand(ColorChangeCommand&& other) = delete;
+	ColorChangeCommand& operator=(const ColorChangeCommand& other) = delete;
+	ColorChangeCommand& operator=(ColorChangeCommand&& other) = delete;
+	
 	virtual void Execute() override
 	{
-		m_Actor->GetComponent<ScoreComponent>()->SetScoreEvent(Message::ColorChange);
+		m_pActor->GetComponent<ScoreComponent>()->SetScoreEvent(Message::ColorChange);
 	}
 private:
-	std::shared_ptr<GameObject> m_Actor;
+	std::shared_ptr<GameObject> m_pActor;
 };

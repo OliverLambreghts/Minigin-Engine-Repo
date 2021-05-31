@@ -7,8 +7,8 @@
 #include "ServiceLocator.h"
 
 SlickSamTransformComponent::SlickSamTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
-                                                       EntityType type, std::shared_ptr<CatchSamSlickCommand> killCmd,
-                                                       std::function<std::pair<int, int>()> getQbertPos2)
+	EntityType type, std::shared_ptr<CatchSamSlickCommand> killCmd,
+	std::function<std::pair<int, int>()> getQbertPos2)
 	: HexTransformComponent(grid),
 	m_Type{ type },
 	m_Timer{},
@@ -65,13 +65,7 @@ void SlickSamTransformComponent::UpdatePosition(GameObject& obj)
 	if (!m_NeedsUpdate)
 		return;
 
-	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
-	{
-		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
-		Reset();
-	}
-	else if(m_IsActive)
-		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/otherjump.wav", SDL_MIX_MAXVOLUME);
+	HandleFalling(obj);
 
 	auto defaultPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	m_Transform.SetPosition(defaultPos.x - m_OffsetX, defaultPos.y - m_OffsetY, 0.f);
@@ -80,6 +74,17 @@ void SlickSamTransformComponent::UpdatePosition(GameObject& obj)
 	// Revert tile state
 	if (m_IsActive)
 		m_GridMap[std::pair<int, int>{m_Row, m_Col}]->SSInteract();
+}
+
+void SlickSamTransformComponent::HandleFalling(GameObject& obj)
+{
+	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
+	{
+		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+		Reset();
+	}
+	else if (m_IsActive)
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/otherjump.wav", SDL_MIX_MAXVOLUME);
 }
 
 void SlickSamTransformComponent::AIMove()

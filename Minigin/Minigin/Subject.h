@@ -1,7 +1,7 @@
 #pragma once
 #include "Observer.h"
 
-class Subject
+class Subject final
 {
 public:
 	void AddObserver(std::shared_ptr<Observer> observer);

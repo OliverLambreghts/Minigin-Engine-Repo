@@ -10,7 +10,7 @@ struct AudioRequest
 	int volume;
 };
 
-class SimpleSDL2AudioService : public AudioService
+class SimpleSDL2AudioService final : public AudioService
 {
 public:
 	SimpleSDL2AudioService();
@@ -18,6 +18,10 @@ public:
 	void InitAudio();
 
 	virtual ~SimpleSDL2AudioService();
+	SimpleSDL2AudioService(const SimpleSDL2AudioService& other) = delete;
+	SimpleSDL2AudioService(SimpleSDL2AudioService&& other) = delete;
+	void operator=(const SimpleSDL2AudioService& rhs) = delete;
+	void operator=(const SimpleSDL2AudioService&& rhs) = delete;
 	
 	virtual void PlaySound(const char* filename, int volume) override;
 	virtual void PlayMusic(const char* filename, int volume) override;

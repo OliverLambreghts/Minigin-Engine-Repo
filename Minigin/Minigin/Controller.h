@@ -6,7 +6,7 @@ namespace dae
 {
 	enum class ControllerButton;
 
-	class Controller
+	class Controller final
 	{
 	public:
 		Controller(UINT id);
@@ -32,7 +32,7 @@ namespace dae
 		float m_LeftTrigger, m_RightTrigger;
 
 		// Private methods
-		float ApplyDeadzone(float value, float maxValue, float deadZone);
-		float Normalize(float input, float min, float max);
+		float ApplyDeadzone(float value, float maxValue, float deadZone) const;
+		float Normalize(float input, float min, float max) const;
 	};
 }

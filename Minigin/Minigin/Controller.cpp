@@ -93,7 +93,7 @@ bool dae::Controller::Update()
 	return true;
 }
 
-float dae::Controller::ApplyDeadzone(float value, float maxValue, float deadZone)
+float dae::Controller::ApplyDeadzone(float value, float maxValue, float deadZone) const
 {
 	if (value < -deadZone)
 		value += deadZone;
@@ -105,7 +105,7 @@ float dae::Controller::ApplyDeadzone(float value, float maxValue, float deadZone
 	return (std::max)(-1.0f, (std::min)(normValue, 1.0f));
 }
 
-float dae::Controller::Normalize(float input, float min, float max)
+float dae::Controller::Normalize(float input, float min, float max) const
 {
 	float average = (min + max) / 2.f;
 	float range = (max - min) / 2.f;

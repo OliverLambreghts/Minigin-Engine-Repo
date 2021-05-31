@@ -5,7 +5,7 @@
 // Class to handle data communication between components
 
 template<typename returnType, typename getterType, typename setterType>
-class Data : public BaseData
+class Data final : public BaseData
 {
 public:
 	void Link(getterType* getter, returnType(getterType::*getterFcn)(), setterType* setter, void(setterType::*setterFcn)(returnType))

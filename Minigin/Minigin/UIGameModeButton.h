@@ -4,13 +4,17 @@
 
 #include "LevelManager.h"
 
-class UIGameModeButton : public UIElement
+class UIGameModeButton final : public UIElement
 {
 public:
-	UIGameModeButton(std::string name, bool staysActive, std::shared_ptr<LevelManager::GameMode> pGameMode, LevelManager::GameMode gameMode,
+	UIGameModeButton(const std::string& name, bool staysActive, std::shared_ptr<LevelManager::GameMode> pGameMode, LevelManager::GameMode gameMode,
 		std::function<void(const std::wstring&)> loadLevel);
 
 	virtual ~UIGameModeButton() = default;
+	UIGameModeButton(const UIGameModeButton& other) = delete;
+	UIGameModeButton(UIGameModeButton&& other) = delete;
+	void operator=(const UIGameModeButton& rhs) = delete;
+	void operator=(const UIGameModeButton&& rhs) = delete;
 
 	virtual void Update() override;
 

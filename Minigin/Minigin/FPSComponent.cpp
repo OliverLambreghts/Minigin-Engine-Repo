@@ -4,7 +4,7 @@
 FPSComponent::FPSComponent()
 	: m_Delay{},
 	m_FPS{},
-	m_ResetPoint{1.f}
+	m_ResetPoint{ 1.f }
 {
 }
 

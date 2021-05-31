@@ -2,12 +2,16 @@
 #include "AudioService.h"
 
 // Abstract audio interface
-class LoggingAudioService : public AudioService
+class LoggingAudioService final : public AudioService
 {
 public:
 	LoggingAudioService(AudioService* service);
 	
 	virtual ~LoggingAudioService();
+	LoggingAudioService(const LoggingAudioService& other) = delete;
+	LoggingAudioService(LoggingAudioService&& other) = delete;
+	void operator=(const LoggingAudioService& rhs) = delete;
+	void operator=(const LoggingAudioService&& rhs) = delete;
 
 	virtual void PlaySound(const char* filename, int volume) override;
 	virtual void PlayMusic(const char* filename, int volume) override;

@@ -1,7 +1,7 @@
 #pragma once
 #include "GameplayComponent.h"
 
-class PlayerComponent : public GameplayComponent
+class PlayerComponent final : public GameplayComponent
 {
 public:
 	PlayerComponent(UINT playerID);
@@ -15,6 +15,5 @@ public:
 
 	UINT GetID() const;
 private:
-	//static UINT m_CurrentID;
 	UINT m_ID;
 };

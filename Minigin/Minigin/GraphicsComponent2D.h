@@ -5,10 +5,10 @@
 #include "Transform.h"
 
 using namespace dae;
-class GraphicsComponent2D : public GraphicsComponent
+class GraphicsComponent2D final : public GraphicsComponent
 {
 public:
-	GraphicsComponent2D(std::string fileName, Scene& scene);
+	GraphicsComponent2D(const std::string& fileName, Scene& scene);
 	GraphicsComponent2D() = default;
 	virtual ~GraphicsComponent2D() = default;
 	GraphicsComponent2D(const GraphicsComponent2D& other) = delete;
@@ -24,7 +24,7 @@ public:
 
 	void ChangeTexture(const std::string& filePath);
 protected:
-	std::shared_ptr<Texture2D> m_Texture;
+	std::shared_ptr<Texture2D> m_pTexture;
 	Transform m_Transform;
 	bool m_IsVisible;
 };

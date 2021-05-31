@@ -23,8 +23,10 @@ void ScoreDisplay::AddData(GameObject& obj)
 	obj.GetComponent<TextComponent>()->ObsUpdate();
 	m_SetMethods.push_back(std::bind(&TextComponent::SetText, obj.GetComponent<TextComponent>(), std::placeholders::_1));
 	m_UpdateMethods.push_back(std::bind(&TextComponent::ObsUpdate, obj.GetComponent<TextComponent>()));
-	m_Y -= 20.f;
-	if (m_Y < 430.f)
+	const float yOffset = 20.f;
+	m_Y -= yOffset;
+	const float yThreshold = 430.f;
+	if (m_Y < yThreshold)
 		m_Y = 450.f;
 }
 

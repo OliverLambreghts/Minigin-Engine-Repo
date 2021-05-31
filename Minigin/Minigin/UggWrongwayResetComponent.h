@@ -1,7 +1,7 @@
 #pragma once
 #include "EnemyResetComponent.h"
 
-class UggWrongwayResetComponent : public EnemyResetComponent
+class UggWrongwayResetComponent final : public EnemyResetComponent
 {
 public:
 	UggWrongwayResetComponent() = default;

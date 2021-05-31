@@ -25,31 +25,23 @@ std::shared_ptr<EnemyState> SnakeState::Update(float elapsedSec, dae::GameObject
 		{
 			// Topright
 			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::topRight);
-			//--m_Row;
-			//++m_Col;
 		}
 		else if (row >= qBertRow && col >= qBertCol)
 		{
 			// TopLeft
 			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::topLeft);
-			//--m_Row;
 		}
 		else if (row <= qBertRow && col <= qBertCol)
 		{
 			// Downright
 			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::downRight);
-			//++m_Row;
 		}
 		else if (row <= qBertRow && col > qBertCol)
 		{
 			// Downleft
 			obj.GetComponent<CoilyTransformComponent>()->Move(CoilyTransformComponent::Direction::downLeft);
-			//++m_Row;
-			//--m_Col;
 		}
 	}
-
-	//m_NeedsUpdate = true;
 
 	m_Timer = 0.f;
 	return nullptr;

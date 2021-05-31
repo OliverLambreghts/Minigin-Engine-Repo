@@ -1,6 +1,9 @@
 #include "MiniginPCH.h"
 #include "LevelManager.h"
 
+#include <SDL.h>
+
+
 
 #include "GridComponent.h"
 #include "utils.h"
@@ -49,7 +52,6 @@
 #include "SimpleSDL2AudioService.h"
 #include "SlickSamResetComponent.h"
 #include "SlickSamTransformComponent.h"
-#include "TestSoundCommand.h"
 #include "ThreadRAII.h"
 #include "UggWrongwayResetComponent.h"
 #include "UggWrongwayTransformComponent.h"
@@ -60,7 +62,7 @@
 
 LevelManager::LevelManager(int windowWidth)
 	: m_WindowWidth{ windowWidth },
-	m_GameMode{ std::make_shared<GameMode>() }
+	m_pGameMode{ std::make_shared<GameMode>() }
 {
 
 }
@@ -81,15 +83,11 @@ void LevelManager::LoadMainMenu()
 	// Modes
 	auto modesWindow = std::make_shared<GameObject>();
 	modesWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Main Menu"));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Singleplayer", false, m_GameMode, GameMode::singleplayer, loadLevel));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Co-op", false, m_GameMode, GameMode::coop, loadLevel));
-	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Versus", false, m_GameMode, GameMode::versus, loadLevel));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Singleplayer", false, m_pGameMode, GameMode::singleplayer, loadLevel));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Co-op", false, m_pGameMode, GameMode::coop, loadLevel));
+	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Versus", false, m_pGameMode, GameMode::versus, loadLevel));
 	auto controlsButton = std::make_shared<UIButton>("Controls", true);
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(controlsButton);
-
-	// Sound test button
-	/*modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIButton>("Test Sound", false));
-	modesWindow->GetComponent<UIWindowComponent>()->AddCommand<TestSoundCommand>(4);*/
 
 	scene.Add(modesWindow);
 
@@ -98,7 +96,7 @@ void LevelManager::LoadMainMenu()
 	controlsWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Controls"));
 	controlsWindow->GetComponent<UIWindowComponent>()->AddActivationButton(controlsButton);
 	controlsWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIText>
-		("Button B: Die\nLeft Arrow: Color Change\nUp Arrow: Defeated Coily with Disc\nDown Arrow: Remaining Disc\nRight Arrow: Caught Sam/Slick"));
+		("Player 1: Arrow keys or controller 1\nPlayer 2: ZQSD or controller 2\n"));
 	scene.Add(controlsWindow);
 
 	scene.Activate();
@@ -106,7 +104,7 @@ void LevelManager::LoadMainMenu()
 	ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/tune.wav", SDL_MIX_MAXVOLUME);
 }
 
-void LevelManager::LoadLevel(const std::wstring& filePath)
+void LevelManager::LoadLevel(const std::wstring& filePath) 
 {
 	rapidjson::Document jsonDoc;
 	ReadJSON(filePath, jsonDoc);
@@ -140,7 +138,7 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	scene.Add(go);
 
 	auto to = std::make_shared<GameObject>();
-	switch (*m_GameMode)
+	switch (*m_pGameMode)
 	{
 	case GameMode::singleplayer:
 		to->AddComponent(std::make_shared<TextComponent>
@@ -211,7 +209,7 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	
 	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
 	{
-		if (i == 1 && *m_GameMode == GameMode::versus)
+		if (i == 1 && *m_pGameMode == GameMode::versus)
 			break;
 
 		auto livesDisplayUI = std::make_shared<GameObject>();
@@ -231,7 +229,7 @@ void LevelManager::SetUpLevel(const LevelData& data)
 		QBert->AddComponent(std::make_shared<PlayerComponent>(i));
 		QBert->AddComponent(std::make_shared<ScoreComponent>(grid));
 		std::shared_ptr<HexTransformComponent> QBertTransformComp;
-		switch (*m_GameMode)
+		switch (*m_pGameMode)
 		{
 		case GameMode::coop:
 			if (i == 0)
@@ -346,8 +344,6 @@ void LevelManager::SetUpLevel(const LevelData& data)
 		}
 	}
 
-	/*if(data.levelName.back() != '1')
-		scene.Add(inputResetter);*/
 		// --- QBERT CODE ---
 
 	auto enemyResetter = std::make_shared<GameObject>();
@@ -358,11 +354,10 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	if (std::find(data.enemies.begin(), data.enemies.end(), "Coily") != data.enemies.end())
 	{
 		// --- COILY ---
-		/*auto coilyCmd = std::make_shared<CoilyDefeatedDiscCommand>(QBert);*/
 		auto coily = std::make_shared<GameObject>();
 
 		// Map inputs if versus mode is picked
-		if (*m_GameMode == GameMode::versus)
+		if (*m_pGameMode == GameMode::versus)
 		{
 			coily->AddComponent(std::make_shared<CoilyTransformComponent>(grid, getQBertPos, killFcn, coilyCmd, getQBertPos2, killFcn2, true));
 
@@ -456,7 +451,6 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	if (std::find(data.enemies.begin(), data.enemies.end(), "SlickSam") != data.enemies.end())
 	{
 		// --- SLICK & SAM ---
-		/*auto slickSamDefeatCmd = std::make_shared<CatchSamSlickCommand>(QBert);*/
 		auto slick = std::make_shared<GameObject>();
 		slick->AddComponent(std::make_shared<SlickSamTransformComponent>(grid, getQBertPos, SlickSamTransformComponent::EntityType::slick, slickSamDefeatCmd,
 			getQBertPos2));
@@ -497,7 +491,6 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	// ----------- ENEMY RESETTER ------------------
 
 	// --- DISCS ---
-	/*auto discCmd = std::make_shared<RemainingDiscCommand>(QBert);*/
 	auto leftDisc = std::make_shared<GameObject>();
 	leftDisc->AddComponent(std::make_shared<DiscTransformComponent>(grid, getQBertPos, setTP, hasLevelEnded, discCmd, true, getQBertPos2, setTP2));
 	leftDisc->AddComponent(std::make_shared<GraphicsComponent2D>("../Data/QBert/Objects/Disc.png", scene));
@@ -510,7 +503,7 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	// --- DISCS ---
 }
 
-void LevelManager::ReadJSON(const std::wstring& filePath, rapidjson::Document& doc)
+void LevelManager::ReadJSON(const std::wstring& filePath, rapidjson::Document& doc) const
 {
 	FILE* fp = nullptr;
 	_wfopen_s(&fp, filePath.c_str(), L"rb");

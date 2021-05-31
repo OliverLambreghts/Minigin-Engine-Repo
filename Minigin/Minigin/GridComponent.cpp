@@ -9,7 +9,7 @@
 GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile*>>& grid, int level)
 	: m_HexSize{ hexSize },
 	m_HexAmount{ hexAmount },
-	m_Tiles{ grid },
+	m_pTiles{ grid },
 	m_IsLevelComplete{ false },
 	m_EndTimer{},
 	m_WindowWidth{ windowWidth }
@@ -37,7 +37,7 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 					hexagon->center = centerThisRow;
 				}
 				centerThisRow.x += width;
-				m_Tiles->push_back(hexagon);
+				m_pTiles->push_back(hexagon);
 			}
 			center.y += (height * (3.f / 4.f));
 			center.x -= width / 2.f;
@@ -60,7 +60,7 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 					hexagon->center = centerThisRow;
 				}
 				centerThisRow.x += width;
-				m_Tiles->push_back(hexagon);
+				m_pTiles->push_back(hexagon);
 			}
 			center.y += (height * (3.f / 4.f));
 			center.x -= width / 2.f;
@@ -83,7 +83,7 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 					hexagon->center = centerThisRow;
 				}
 				centerThisRow.x += width;
-				m_Tiles->push_back(hexagon);
+				m_pTiles->push_back(hexagon);
 			}
 			center.y += (height * (3.f / 4.f));
 			center.x -= width / 2.f;
@@ -95,17 +95,17 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 
 GridComponent::~GridComponent()
 {
-	for (auto* tile : *m_Tiles)
+	for (auto* tile : *m_pTiles)
 	{
 		delete tile;
 		tile = nullptr;
 	}
-	m_Tiles->clear();
+	m_pTiles->clear();
 }
 
 const std::vector<utils::Tile*>& GridComponent::GetVertices() const
 {
-	return *m_Tiles;
+	return *m_pTiles;
 }
 
 void GridComponent::Update(float elapsedSec, GameObject&)
@@ -118,7 +118,7 @@ void GridComponent::Update(float elapsedSec, GameObject&)
 		return;
 	}
 
-	if (std::all_of(m_Tiles->begin(), m_Tiles->end(), [](utils::Tile* tile)
+	if (std::all_of(m_pTiles->begin(), m_pTiles->end(), [](utils::Tile* tile)
 		{
 			return tile->IsActive();
 		}))
@@ -128,7 +128,7 @@ void GridComponent::Update(float elapsedSec, GameObject&)
 	}
 }
 
-const bool GridComponent::HasLevelEnded() const
+bool GridComponent::HasLevelEnded() const
 {
 	return m_IsLevelComplete;
 }

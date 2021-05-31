@@ -1,11 +1,17 @@
 #pragma once
 #include "Observer.h"
 
-class ScoreDisplay : public Observer
+class ScoreDisplay final : public Observer
 {
 public:
 	ScoreDisplay();
 
+	virtual ~ScoreDisplay() = default;
+	ScoreDisplay(const ScoreDisplay& other) = delete;
+	ScoreDisplay(ScoreDisplay&& other) = delete;
+	void operator=(const ScoreDisplay& rhs) = delete;
+	void operator=(const ScoreDisplay&& rhs) = delete;
+	
 	virtual void OnNotify(const dae::GameObject& obj, Message message) override;
 
 	void AddData(dae::GameObject& obj);

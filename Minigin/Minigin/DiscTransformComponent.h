@@ -2,7 +2,7 @@
 #include "HexTransformComponent.h"
 #include "RemainingDiscCommand.h"
 
-class DiscTransformComponent : public HexTransformComponent
+class DiscTransformComponent final : public HexTransformComponent
 {
 public:
 	DiscTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, std::function<std::pair<int, int>()> getQbertPos,
@@ -27,5 +27,5 @@ private:
 	bool m_IsActive, m_HasBeenUsed, m_HasScoreChanged;
 	static int m_Counter;
 	const float m_DiscOffsetX, m_DiscOffsetY;
-	std::shared_ptr<RemainingDiscCommand> m_DiscCMD;
+	std::shared_ptr<RemainingDiscCommand> m_pDiscCMD;
 };

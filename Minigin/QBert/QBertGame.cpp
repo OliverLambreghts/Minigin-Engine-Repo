@@ -14,10 +14,6 @@ QBertGame::QBertGame()
 
 void QBertGame::LoadGame() const
 {
-	//Session::GetInstance().BeginSession();
-
 	LevelManager lvlManager{ m_WindowWidth };
 	lvlManager.LoadMainMenu();
-	
-	//Session::GetInstance().EndSession();
 }

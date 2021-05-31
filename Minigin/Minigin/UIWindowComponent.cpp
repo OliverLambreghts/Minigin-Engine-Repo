@@ -18,7 +18,7 @@ void UIWindowComponent::AddElement(std::shared_ptr<UIElement> element)
 
 void UIWindowComponent::AddActivationButton(std::shared_ptr<UIButton> button)
 {
-	m_ActivationButton = button;
+	m_pActivationButton = button;
 }
 
 void UIWindowComponent::Update(float, GameObject&)
@@ -34,7 +34,7 @@ void UIWindowComponent::Update(float, GameObject&)
 
 void UIWindowComponent::Render()
 {
-	if ((m_ActivationButton && m_ActivationButton->IsActive()) || !m_ActivationButton)
+	if ((m_pActivationButton && m_pActivationButton->IsActive()) || !m_pActivationButton)
 	{
 		ImGui::Begin(m_Name.c_str());
 		RenderElements();

@@ -12,19 +12,24 @@ class MoveDownRightCommand final : public Command
 {
 public:
 	MoveDownRightCommand(std::shared_ptr<dae::GameObject>& obj)
-		: m_Actor(obj)
+		: m_pActor(obj)
 	{
 
 	}
 
 	virtual ~MoveDownRightCommand() = default;
+	MoveDownRightCommand(const MoveDownRightCommand& other) = delete;
+	MoveDownRightCommand(MoveDownRightCommand&& other) = delete;
+	MoveDownRightCommand& operator=(const MoveDownRightCommand& other) = delete;
+	MoveDownRightCommand& operator=(MoveDownRightCommand&& other) = delete;
+	
 	virtual void Execute() override
 	{
-		if (!m_Actor->GetComponent<CoilyTransformComponent>())
-			m_Actor->GetComponent<HexTransformComponent>()->Move(HexTransformComponent::Direction::downRight);
-		else if (m_Actor->GetComponent<CoilyTransformComponent>()->IsPlayerControlling())
-			m_Actor->GetComponent<CoilyTransformComponent>()->Move(HexTransformComponent::Direction::downRight);
+		if (!m_pActor->GetComponent<CoilyTransformComponent>())
+			m_pActor->GetComponent<HexTransformComponent>()->Move(HexTransformComponent::Direction::downRight);
+		else if (m_pActor->GetComponent<CoilyTransformComponent>()->IsPlayerControlling())
+			m_pActor->GetComponent<CoilyTransformComponent>()->Move(HexTransformComponent::Direction::downRight);
 	}
 private:
-	std::shared_ptr<GameObject> m_Actor;
+	std::shared_ptr<GameObject> m_pActor;
 };

@@ -1,10 +1,16 @@
 #pragma once
 #include "Observer.h"
 
-class Resetter : public Observer
+class Resetter final : public Observer
 {
 public:
 	Resetter() = default;
+
+	virtual ~Resetter() = default;
+	Resetter(const Resetter& other) = delete;
+	Resetter(Resetter&& other) = delete;
+	void operator=(const Resetter& rhs) = delete;
+	void operator=(const Resetter&& rhs) = delete;
 
 	void AddData(std::function<void()>& resetFcn);
 

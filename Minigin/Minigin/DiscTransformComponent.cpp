@@ -20,7 +20,7 @@ DiscTransformComponent::DiscTransformComponent(std::shared_ptr<std::vector<utils
 	m_DiscOffsetX{ 50.f },
 	m_DiscOffsetY{ 10.f },
 	m_HasLevelEnded{ hasLevelEnded },
-	m_DiscCMD{ discCMD },
+	m_pDiscCMD{ discCMD },
 	m_HasScoreChanged{ false },
 	m_QBertPos2{ getQbertPos2 },
 	m_SetTeleport2{ setTP2 }
@@ -57,7 +57,7 @@ void DiscTransformComponent::Update(float, GameObject& obj)
 
 	if (!m_HasBeenUsed && !m_HasScoreChanged && std::all_of(m_GridMap.begin(), m_GridMap.end(), [](std::pair<std::pair<int, int>, utils::Tile*> tile) {return tile.second->IsActive(); }))
 	{
-		m_DiscCMD->Execute();
+		m_pDiscCMD->Execute();
 		m_HasScoreChanged = true;
 	}
 }

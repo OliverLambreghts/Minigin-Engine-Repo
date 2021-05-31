@@ -12,19 +12,24 @@ class MoveTopRightCommand final : public Command
 {
 public:
 	MoveTopRightCommand(std::shared_ptr<dae::GameObject>& obj)
-		: m_Actor(obj)
+		: m_pActor(obj)
 	{
 
 	}
 
 	virtual ~MoveTopRightCommand() = default;
+	MoveTopRightCommand(const MoveTopRightCommand& other) = delete;
+	MoveTopRightCommand(MoveTopRightCommand&& other) = delete;
+	MoveTopRightCommand& operator=(const MoveTopRightCommand& other) = delete;
+	MoveTopRightCommand& operator=(MoveTopRightCommand&& other) = delete;
+	
 	virtual void Execute() override
 	{
-		if (!m_Actor->GetComponent<CoilyTransformComponent>())
-			m_Actor->GetComponent<HexTransformComponent>()->Move(HexTransformComponent::Direction::topRight);
-		else if(m_Actor->GetComponent<CoilyTransformComponent>()->IsPlayerControlling())
-			m_Actor->GetComponent<CoilyTransformComponent>()->Move(HexTransformComponent::Direction::topRight);
+		if (!m_pActor->GetComponent<CoilyTransformComponent>())
+			m_pActor->GetComponent<HexTransformComponent>()->Move(HexTransformComponent::Direction::topRight);
+		else if(m_pActor->GetComponent<CoilyTransformComponent>()->IsPlayerControlling())
+			m_pActor->GetComponent<CoilyTransformComponent>()->Move(HexTransformComponent::Direction::topRight);
 	}
 private:
-	std::shared_ptr<GameObject> m_Actor;
+	std::shared_ptr<GameObject> m_pActor;
 };

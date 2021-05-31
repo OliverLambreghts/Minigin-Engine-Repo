@@ -8,7 +8,7 @@ void FullEnemyResetComponent::Update(float , GameObject& )
 
 void FullEnemyResetComponent::ResetAll()
 {
-	for(auto& resetFcn : m_pResetFcns)
+	for(auto& resetFcn : m_ResetFcns)
 	{
 		resetFcn();
 	}
@@ -16,5 +16,5 @@ void FullEnemyResetComponent::ResetAll()
 
 void FullEnemyResetComponent::AddResetter(std::function<void()>& resetter)
 {
-	m_pResetFcns.push_back(resetter);
+	m_ResetFcns.push_back(resetter);
 }

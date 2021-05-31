@@ -1,7 +1,7 @@
 #pragma once
 #include "HexTransformComponent.h"
 
-class UggWrongWayTransformComponent: public HexTransformComponent
+class UggWrongWayTransformComponent final : public HexTransformComponent
 {
 public:
 	enum class EntityType
@@ -24,7 +24,8 @@ public:
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
 	void UpdatePosition(GameObject& obj);
-	void HandleQBertCollision();
+	void HandleQBertCollision() const;
+	void HandleFalling(GameObject& obj);
 
 	void AIMove();
 	

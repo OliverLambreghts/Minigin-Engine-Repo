@@ -8,9 +8,9 @@
 #include "ServiceLocator.h"
 
 UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid,
-                                                             std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type,
-                                                             std::function<std::pair<int, int>()> getQbertPos2,
-                                                             std::function<void()> killFcn2)
+	std::function<std::pair<int, int>()> getQbertPos, std::function<void()> killFcn, EntityType type,
+	std::function<std::pair<int, int>()> getQbertPos2,
+	std::function<void()> killFcn2)
 	: HexTransformComponent(grid),
 	m_Type{ type },
 	m_KillQBert{ killFcn },
@@ -64,7 +64,7 @@ void UggWrongWayTransformComponent::Update(float elapsedSec, GameObject& obj)
 	AIMove();
 }
 
-void UggWrongWayTransformComponent::HandleQBertCollision()
+void UggWrongWayTransformComponent::HandleQBertCollision() const
 {
 	// Kill Qbert when he's on the left lower tile next to wrong or right lower tile next to ugg
 	switch (m_Type)
@@ -114,15 +114,7 @@ void UggWrongWayTransformComponent::UpdatePosition(GameObject& obj)
 	if (!m_NeedsUpdate)
 		return;
 
-
-	// Reset when out of bounds
-	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
-	{
-		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
-		Reset();
-	}
-	else if(m_IsActive)
-		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/otherjump.wav", SDL_MIX_MAXVOLUME);
+	HandleFalling(obj);
 
 	auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	switch (m_Type)
@@ -136,6 +128,18 @@ void UggWrongWayTransformComponent::UpdatePosition(GameObject& obj)
 		m_NeedsUpdate = false;
 		break;
 	}
+}
+
+void UggWrongWayTransformComponent::HandleFalling(GameObject& obj)
+{
+	// Reset when out of bounds
+	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
+	{
+		obj.GetComponent<GraphicsComponent2D>()->SetVisibility(false);
+		Reset();
+	}
+	else if (m_IsActive)
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/otherjump.wav", SDL_MIX_MAXVOLUME);
 }
 
 void UggWrongWayTransformComponent::Reset()

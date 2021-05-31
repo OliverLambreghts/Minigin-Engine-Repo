@@ -369,10 +369,63 @@ xcopy "$(SolutionDir)$(Platform)\$(Configuration)\*.dll" "$(OutputPath)" /R /Y</
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Minigin\CoilyResetComponent.cpp" />
+    <ClCompile Include="..\Minigin\CoilyTransformComponent.cpp" />
+    <ClCompile Include="..\Minigin\DiscTransformComponent.cpp" />
+    <ClCompile Include="..\Minigin\EggState.cpp" />
+    <ClCompile Include="..\Minigin\GridComponent.cpp" />
+    <ClCompile Include="..\Minigin\GridRenderComponent.cpp" />
+    <ClCompile Include="..\Minigin\HealthComponent.cpp" />
+    <ClCompile Include="..\Minigin\HexTransformComponent.cpp" />
+    <ClCompile Include="..\Minigin\InvisibleState.cpp" />
+    <ClCompile Include="..\Minigin\LevelManager.cpp" />
+    <ClCompile Include="..\Minigin\LivesDisplay.cpp" />
+    <ClCompile Include="..\Minigin\PlayerComponent.cpp" />
+    <ClCompile Include="..\Minigin\Resetter.cpp" />
+    <ClCompile Include="..\Minigin\ScoreComponent.cpp" />
+    <ClCompile Include="..\Minigin\ScoreDisplay.cpp" />
+    <ClCompile Include="..\Minigin\SlickSamResetComponent.cpp" />
+    <ClCompile Include="..\Minigin\SlickSamTransformComponent.cpp" />
+    <ClCompile Include="..\Minigin\SnakeState.cpp" />
+    <ClCompile Include="..\Minigin\TransformComponent.cpp" />
+    <ClCompile Include="..\Minigin\UggWrongWayResetComponent.cpp" />
+    <ClCompile Include="..\Minigin\UggWrongwayTransformComponent.cpp" />
+    <ClCompile Include="..\Minigin\UIGameModeButton.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QBertGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Minigin\CatchSamSlickCommand.h" />
+    <ClInclude Include="..\Minigin\CoilyDefeatedDiscCommand.h" />
+    <ClInclude Include="..\Minigin\CoilyResetComponent.h" />
+    <ClInclude Include="..\Minigin\CoilyTransformComponent.h" />
+    <ClInclude Include="..\Minigin\ColorChangeCommand.h" />
+    <ClInclude Include="..\Minigin\DieCommand.h" />
+    <ClInclude Include="..\Minigin\DiscTransformComponent.h" />
+    <ClInclude Include="..\Minigin\EggState.h" />
+    <ClInclude Include="..\Minigin\GridComponent.h" />
+    <ClInclude Include="..\Minigin\GridRenderComponent.h" />
+    <ClInclude Include="..\Minigin\HealthComponent.h" />
+    <ClInclude Include="..\Minigin\HexTransformComponent.h" />
+    <ClInclude Include="..\Minigin\InvisibleState.h" />
+    <ClInclude Include="..\Minigin\LevelManager.h" />
+    <ClInclude Include="..\Minigin\LivesDisplay.h" />
+    <ClInclude Include="..\Minigin\MoveDownLeftCommand.h" />
+    <ClInclude Include="..\Minigin\MoveDownRightCommand.h" />
+    <ClInclude Include="..\Minigin\MoveTopLeftCommand.h" />
+    <ClInclude Include="..\Minigin\MoveTopRightCommand.h" />
+    <ClInclude Include="..\Minigin\PlayerComponent.h" />
+    <ClInclude Include="..\Minigin\RemainingDiscCommand.h" />
+    <ClInclude Include="..\Minigin\Resetter.h" />
+    <ClInclude Include="..\Minigin\ScoreComponent.h" />
+    <ClInclude Include="..\Minigin\ScoreDisplay.h" />
+    <ClInclude Include="..\Minigin\SlickSamResetComponent.h" />
+    <ClInclude Include="..\Minigin\SlickSamTransformComponent.h" />
+    <ClInclude Include="..\Minigin\SnakeState.h" />
+    <ClInclude Include="..\Minigin\Subject.h" />
+    <ClInclude Include="..\Minigin\UggWrongWayResetComponent.h" />
+    <ClInclude Include="..\Minigin\UggWrongwayTransformComponent.h" />
+    <ClInclude Include="..\Minigin\UIGameModeButton.h" />
     <ClInclude Include="QBertGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

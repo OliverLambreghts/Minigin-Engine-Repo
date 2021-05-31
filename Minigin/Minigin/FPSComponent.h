@@ -4,7 +4,7 @@
 #include "TextComponent.h"
 
 using namespace dae;
-class FPSComponent : public CalculationComponent
+class FPSComponent final : public CalculationComponent
 {
 public:
 	FPSComponent();
@@ -19,6 +19,6 @@ public:
 	std::string GetFPS();
 private:
 	float m_Delay;
-	float m_ResetPoint = 1.f;
+	float m_ResetPoint;
 	int m_FPS;
 };

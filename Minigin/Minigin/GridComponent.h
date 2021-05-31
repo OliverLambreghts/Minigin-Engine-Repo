@@ -2,7 +2,7 @@
 #include "CalculationComponent.h"
 #include "utils.h"
 
-class GridComponent : public CalculationComponent
+class GridComponent final : public CalculationComponent
 {
 public:
 	GridComponent(float hexSize, int hexAmount, int windowWidth, std::shared_ptr<std::vector<utils::Tile*>>& grid, int level);
@@ -14,11 +14,11 @@ public:
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
 	const std::vector<utils::Tile*>& GetVertices() const;
-	const bool HasLevelEnded() const;
+	bool HasLevelEnded() const;
 private:
 	float m_HexSize;
 	int m_HexAmount;
-	std::shared_ptr<std::vector<utils::Tile*>> m_Tiles;
+	std::shared_ptr<std::vector<utils::Tile*>> m_pTiles;
 	bool m_IsLevelComplete;
 	float m_EndTimer;
 	int m_WindowWidth;

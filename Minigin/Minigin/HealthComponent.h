@@ -2,7 +2,7 @@
 #include "GameplayComponent.h"
 #include "Subject.h"
 
-class HealthComponent : public GameplayComponent
+class HealthComponent final : public GameplayComponent
 {
 public:
 	HealthComponent() = default;

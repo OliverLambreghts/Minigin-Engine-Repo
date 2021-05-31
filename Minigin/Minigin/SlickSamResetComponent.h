@@ -1,7 +1,7 @@
 #pragma once
 #include "EnemyResetComponent.h"
 
-class SlickSamResetComponent : public EnemyResetComponent
+class SlickSamResetComponent final : public EnemyResetComponent
 {
 public:
 	SlickSamResetComponent() = default;

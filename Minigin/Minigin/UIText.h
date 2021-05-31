@@ -2,12 +2,16 @@
 #include "UIElement.h"
 #include <string>
 
-class UIText : public UIElement
+class UIText final : public UIElement
 {
 public:
 	UIText(std::string text);
 
 	virtual ~UIText() = default;
+	UIText(const UIText& other) = delete;
+	UIText(UIText&& other) = delete;
+	void operator=(const UIText& rhs) = delete;
+	void operator=(const UIText&& rhs) = delete;
 
 	virtual void Update() override;
 

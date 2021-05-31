@@ -1,7 +1,7 @@
 #pragma once
 #include "GameplayComponent.h"
 
-class FullEnemyResetComponent : public GameplayComponent
+class FullEnemyResetComponent final : public GameplayComponent
 {
 public:
 	virtual void Update(float elapsedSec, GameObject& obj) override;
@@ -10,5 +10,5 @@ public:
 
 	void AddResetter(std::function<void()>& resetter);
 private:
-	std::vector<std::function<void()>> m_pResetFcns;
+	std::vector<std::function<void()>> m_ResetFcns;
 };

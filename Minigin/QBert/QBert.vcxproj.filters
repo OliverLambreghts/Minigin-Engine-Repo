@@ -13,6 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Commands">
+      <UniqueIdentifier>{3053391d-c061-480b-8e71-6419f938c6f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{263bcf1c-db25-4949-aa43-3305e47ac589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Calculation">
+      <UniqueIdentifier>{25e373de-deda-4e24-b22a-22796becbb48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Gameplay">
+      <UniqueIdentifier>{3c3166e0-b391-4a07-ac29-ae6b12b0a5ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Movement">
+      <UniqueIdentifier>{530b477f-d12f-44d9-b954-d82f47dc23ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level Manager">
+      <UniqueIdentifier>{30338b20-4e04-476a-babd-7d839868c467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Observers">
+      <UniqueIdentifier>{4bd79678-8e8a-43ec-abc1-53c18b85a114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\States">
+      <UniqueIdentifier>{3204b308-8267-4fb5-8037-42298d8deaed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI Elements">
+      <UniqueIdentifier>{ea9f87a0-9269-4bd7-ba77-1cffd7a25a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{78738aca-b2d6-47f6-bde0-66d639fd4cde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Calculation">
+      <UniqueIdentifier>{132216cd-e337-436f-8a3b-98b6611050f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Gameplay">
+      <UniqueIdentifier>{c89eca07-0f57-4f2a-9946-06ee250945fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Movement">
+      <UniqueIdentifier>{3fa71737-55ff-4a0c-b59b-ee8dc2c52000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI Elements">
+      <UniqueIdentifier>{4512a45f-40bc-4a09-941b-26b8fe6d2f9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{30be56a5-f011-4eff-b432-b484b27413d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{9859bb18-3e81-4574-b562-13e16b7f5c34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level Manager">
+      <UniqueIdentifier>{8b9d5375-7f15-420d-abf7-74fcfb5df285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Graphics">
+      <UniqueIdentifier>{0f815ed9-8705-4794-a6b7-c485efbb8129}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Graphics">
+      <UniqueIdentifier>{9de37677-211f-421b-aa69-b8b264b3dac3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,10 +78,169 @@
     <ClCompile Include="QBertGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Minigin\LevelManager.cpp">
+      <Filter>Source Files\Level Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\GridComponent.cpp">
+      <Filter>Source Files\Components\Calculation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\CoilyResetComponent.cpp">
+      <Filter>Source Files\Components\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\HealthComponent.cpp">
+      <Filter>Source Files\Components\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\PlayerComponent.cpp">
+      <Filter>Source Files\Components\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\ScoreComponent.cpp">
+      <Filter>Source Files\Components\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\SlickSamResetComponent.cpp">
+      <Filter>Source Files\Components\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\UggWrongWayResetComponent.cpp">
+      <Filter>Source Files\Components\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\GridRenderComponent.cpp">
+      <Filter>Source Files\Components\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\CoilyTransformComponent.cpp">
+      <Filter>Source Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\DiscTransformComponent.cpp">
+      <Filter>Source Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\HexTransformComponent.cpp">
+      <Filter>Source Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\SlickSamTransformComponent.cpp">
+      <Filter>Source Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\TransformComponent.cpp">
+      <Filter>Source Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\UggWrongwayTransformComponent.cpp">
+      <Filter>Source Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\UIGameModeButton.cpp">
+      <Filter>Source Files\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\EggState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\InvisibleState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\SnakeState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\LivesDisplay.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\Resetter.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\ScoreDisplay.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QBertGame.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\CatchSamSlickCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\CoilyDefeatedDiscCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\ColorChangeCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\DieCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\MoveDownLeftCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\MoveDownRightCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\MoveTopLeftCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\MoveTopRightCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\RemainingDiscCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\GridComponent.h">
+      <Filter>Header Files\Components\Calculation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\CoilyResetComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\HealthComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\PlayerComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\ScoreComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\SlickSamResetComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\UggWrongWayResetComponent.h">
+      <Filter>Header Files\Components\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\CoilyTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\DiscTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\HexTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\SlickSamTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\UggWrongwayTransformComponent.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\LevelManager.h">
+      <Filter>Header Files\Level Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\LivesDisplay.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\ScoreDisplay.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\Subject.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\Resetter.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\EggState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\InvisibleState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\SnakeState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\UIGameModeButton.h">
+      <Filter>Header Files\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\GridRenderComponent.h">
+      <Filter>Header Files\Components\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

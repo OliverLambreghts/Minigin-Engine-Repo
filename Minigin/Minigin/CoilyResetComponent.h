@@ -2,7 +2,7 @@
 #include "EnemyResetComponent.h"
 #include "Subject.h"
 
-class CoilyResetComponent : public EnemyResetComponent
+class CoilyResetComponent final : public EnemyResetComponent
 {
 public:
 	CoilyResetComponent() = default;

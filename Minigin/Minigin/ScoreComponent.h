@@ -4,7 +4,7 @@
 #include "utils.h"
 #include <queue>
 
-class ScoreComponent : public GameplayComponent
+class ScoreComponent final : public GameplayComponent
 {
 public:
 	ScoreComponent(std::shared_ptr<std::vector<utils::Tile*>>& tiles);
@@ -22,11 +22,11 @@ public:
 
 	Subject& GetSubject();
 
-	void SaveToFile();
+	void SaveToFile() const;
 private:
 	Message m_ScoreEvent;
 	int m_Score;
-	std::shared_ptr<std::vector<utils::Tile*>> m_Tiles;
+	std::shared_ptr<std::vector<utils::Tile*>> m_pTiles;
 	Subject m_Subject;
 	std::queue<Message> m_MessageQueue;
 };

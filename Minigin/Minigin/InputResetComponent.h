@@ -6,7 +6,7 @@
 #include "InputManager.h"
 #include "Scene.h"
 
-class InputResetComponent : public InputComponent
+class InputResetComponent final : public InputComponent
 {
 public:
 	InputResetComponent(const Scene& scene);

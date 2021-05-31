@@ -2,7 +2,7 @@
 #include "CatchSamSlickCommand.h"
 #include "HexTransformComponent.h"
 
-class SlickSamTransformComponent : public HexTransformComponent
+class SlickSamTransformComponent final : public HexTransformComponent
 {
 public:
 	enum class EntityType
@@ -24,6 +24,7 @@ public:
 	void UpdatePosition(GameObject& obj);
 	void AIMove();
 	void HandleQBertCollision(GameObject& obj);
+	void HandleFalling(GameObject& obj);
 
 	void Reset();
 private:

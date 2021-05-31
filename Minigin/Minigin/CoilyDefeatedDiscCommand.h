@@ -11,16 +11,21 @@ class CoilyDefeatedDiscCommand final : public Command
 {
 public:
 	CoilyDefeatedDiscCommand(std::shared_ptr<dae::GameObject>& obj)
-		: m_Actor{ obj }
+		: m_pActor{ obj }
 	{
 
 	}
 
 	virtual ~CoilyDefeatedDiscCommand() = default;
+	CoilyDefeatedDiscCommand(const CoilyDefeatedDiscCommand& other) = delete;
+	CoilyDefeatedDiscCommand(CoilyDefeatedDiscCommand&& other) = delete;
+	CoilyDefeatedDiscCommand& operator=(const CoilyDefeatedDiscCommand& other) = delete;
+	CoilyDefeatedDiscCommand& operator=(CoilyDefeatedDiscCommand&& other) = delete;
+	
 	virtual void Execute() override
 	{
-		m_Actor.lock()->GetComponent<ScoreComponent>()->SetScoreEvent(Message::CoilyDefeatedDisc);
+		m_pActor.lock()->GetComponent<ScoreComponent>()->SetScoreEvent(Message::CoilyDefeatedDisc);
 	}
 private:
-	std::weak_ptr<GameObject> m_Actor;
+	std::weak_ptr<GameObject> m_pActor;
 };

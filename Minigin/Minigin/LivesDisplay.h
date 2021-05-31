@@ -1,10 +1,16 @@
 #pragma once
 #include "Observer.h"
 
-class LivesDisplay : public Observer
+class LivesDisplay final : public Observer
 {
 public:
 	LivesDisplay(UINT players);
+
+	virtual ~LivesDisplay() = default;
+	LivesDisplay(const LivesDisplay& other) = delete;
+	LivesDisplay(LivesDisplay&& other) = delete;
+	void operator=(const LivesDisplay& rhs) = delete;
+	void operator=(const LivesDisplay&& rhs) = delete;
 	
 	virtual void OnNotify(const dae::GameObject& obj, Message message) override;
 

@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-class DataManager
+class DataManager final
 {
 public:
 	template<typename returnType, typename getterType, typename setterType>

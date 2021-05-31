@@ -9,15 +9,15 @@
 #include "ResourceManager.h"
 #include "TransformComponent.h"
 
-TextComponent::TextComponent(std::string font, unsigned int fontSize, SDL_Color color, Scene& scene, std::string text)
+TextComponent::TextComponent(const std::string& font, unsigned int fontSize, SDL_Color color, Scene& scene, const std::string& text)
 	: m_Text{ text },
 	m_Color{ color },
 	m_NeedsUpdate{ true },
-	m_Font{},
-	m_Texture{ nullptr },
+	m_pFont{},
+	m_pTexture{ nullptr },
 	m_Transform{}
 {
-	m_Font = ResourceManager::GetInstance().LoadFont(font, fontSize);
+	m_pFont = ResourceManager::GetInstance().LoadFont(font, fontSize);
 	std::function<void()> wrapper = std::bind(&TextComponent::Render, this);
 	scene.AddRenderData(wrapper);
 }
@@ -26,7 +26,7 @@ void TextComponent::Update(float, GameObject& obj)
 {	
 	if (m_NeedsUpdate)
 	{
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
+		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
 		if (surf == nullptr)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -37,7 +37,7 @@ void TextComponent::Update(float, GameObject& obj)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_Texture = std::make_shared<Texture2D>(texture);
+		m_pTexture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
 	if (!obj.GetComponent<TransformComponent>())
@@ -52,7 +52,7 @@ void TextComponent::ObsUpdate()
 {
 	if (m_NeedsUpdate)
 	{
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
+		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
 		if (surf == nullptr)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -63,7 +63,7 @@ void TextComponent::ObsUpdate()
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_Texture = std::make_shared<Texture2D>(texture);
+		m_pTexture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
 }
@@ -81,6 +81,6 @@ void TextComponent::SetPos(const Transform& pos)
 
 void TextComponent::Render() const
 {
-	if (m_Texture)
-		Renderer::GetInstance().RenderTexture(*m_Texture, m_Transform.GetPosition().x, m_Transform.GetPosition().y);
+	if (m_pTexture)
+		Renderer::GetInstance().RenderTexture(*m_pTexture, m_Transform.GetPosition().x, m_Transform.GetPosition().y);
 }

@@ -11,16 +11,21 @@ class RemainingDiscCommand final : public Command
 {
 public:
 	RemainingDiscCommand(std::shared_ptr<GameObject>& obj)
-		: m_Actor(obj)
+		: m_pActor(obj)
 	{
 
 	}
 
 	virtual ~RemainingDiscCommand() = default;
+	RemainingDiscCommand(const RemainingDiscCommand& other) = delete;
+	RemainingDiscCommand(RemainingDiscCommand&& other) = delete;
+	RemainingDiscCommand& operator=(const RemainingDiscCommand& other) = delete;
+	RemainingDiscCommand& operator=(RemainingDiscCommand&& other) = delete;
+	
 	virtual void Execute() override
 	{
-		m_Actor.lock()->GetComponent<ScoreComponent>()->SetScoreEvent(Message::RemainingDisc);
+		m_pActor.lock()->GetComponent<ScoreComponent>()->SetScoreEvent(Message::RemainingDisc);
 	}
 private:
-	std::weak_ptr<GameObject> m_Actor;
+	std::weak_ptr<GameObject> m_pActor;
 };
