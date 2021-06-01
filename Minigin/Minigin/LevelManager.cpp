@@ -41,6 +41,7 @@
 #include "MoveDownRightCommand.h"
 #include "MoveTopLeftCommand.h"
 #include "MoveTopRightCommand.h"
+#include "MuteCommand.h"
 #include "PlayerComponent.h"
 #include "RemainingDiscCommand.h"
 #include "Renderer.h"
@@ -96,7 +97,7 @@ void LevelManager::LoadMainMenu()
 	controlsWindow->AddComponent(std::make_shared<UIWindowComponent>(scene, "Controls"));
 	controlsWindow->GetComponent<UIWindowComponent>()->AddActivationButton(controlsButton);
 	controlsWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIText>
-		("Player 1: Arrow keys or controller 1\nPlayer 2: ZQSD or controller 2\n"));
+		("Player 1: Arrow keys or controller 1\nPlayer 2: ZQSD or controller 2\nPress M to mute all sounds\n"));
 	scene.Add(controlsWindow);
 
 	scene.Activate();
@@ -262,6 +263,8 @@ void LevelManager::SetUpLevel(const LevelData& data)
 					SDL_KEYUP, QBert);
 				InputManager::GetInstance().AddCommand<MoveDownRightCommand>(SDLK_RIGHT,
 					SDL_KEYUP, QBert);
+				InputManager::GetInstance().AddCommand<MuteCommand>(SDLK_m,
+					SDL_KEYUP, QBert);
 			}
 			else
 			{
@@ -295,6 +298,8 @@ void LevelManager::SetUpLevel(const LevelData& data)
 				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveDownLeftCommand>(SDLK_DOWN,
 					SDL_KEYUP, QBert);
 				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MoveDownRightCommand>(SDLK_RIGHT,
+					SDL_KEYUP, QBert);
+				inputResetter->GetComponent<InputResetComponent>()->AddCommand<MuteCommand>(SDLK_m,
 					SDL_KEYUP, QBert);
 			}
 			else

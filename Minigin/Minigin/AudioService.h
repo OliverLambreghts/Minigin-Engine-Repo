@@ -11,4 +11,5 @@ public:
 	virtual void PauseAudio() = 0;
 	virtual void UnpauseAudio() = 0;
 	virtual void Update() = 0;
+	virtual void SetVolume(int volume) = 0;
 };

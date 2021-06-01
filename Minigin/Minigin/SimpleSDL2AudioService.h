@@ -34,10 +34,13 @@ public:
 	virtual void UnpauseAudio() override;
 
 	virtual void Update() override;
+
+	virtual void SetVolume(int volume) override;
 private:
 	static std::deque<AudioRequest> m_EventQueue;
 	static std::mutex m_Mutex;
 	static std::condition_variable m_CV;
 	std::thread m_AudioThread;
 	static bool m_IsDone;
+	int m_Volume;
 };

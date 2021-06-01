@@ -8,25 +8,28 @@ std::condition_variable SimpleSDL2AudioService::m_CV{};
 bool SimpleSDL2AudioService::m_IsDone{ false };
 
 SimpleSDL2AudioService::SimpleSDL2AudioService()
-	: m_AudioThread{&SimpleSDL2AudioService::Update, this}
+	: m_AudioThread{ &SimpleSDL2AudioService::Update, this },
+	m_Volume{ 20 }
 {
-	
+
 }
 
 void SimpleSDL2AudioService::PlaySound(const char* filename, int volume)
 {
 	std::lock_guard<std::mutex> lock{ m_Mutex };
-	for(auto& request : m_EventQueue)
+	for (auto& request : m_EventQueue)
 	{
-		if(filename == request.fileName)
+		if (filename == request.fileName)
 		{
-			if (volume > request.volume)
+			if(m_Volume != SDL_MIX_MAXVOLUME)
+				request.volume = m_Volume;
+			else if (volume > request.volume)
 				request.volume = volume;
 			return;
 		}
 	}
-	
-	AudioRequest request{ true, filename, volume };
+
+	AudioRequest request{ true, filename, m_Volume };
 	m_EventQueue.push_back(request);
 	m_CV.notify_one();
 }
@@ -38,13 +41,15 @@ void SimpleSDL2AudioService::PlayMusic(const char* filename, int volume)
 	{
 		if (filename == request.fileName)
 		{
-			if (volume > request.volume)
+			if (m_Volume != SDL_MIX_MAXVOLUME)
+				request.volume = m_Volume;
+			else if (volume > request.volume)
 				request.volume = volume;
 			return;
 		}
 	}
 
-	AudioRequest request{ false, filename, volume };
+	AudioRequest request{ false, filename, m_Volume };
 	m_EventQueue.push_back(request);
 	m_CV.notify_one();
 }
@@ -83,16 +88,16 @@ void SimpleSDL2AudioService::Update()
 	{
 		std::unique_lock<std::mutex> lock{ m_Mutex };
 		m_CV.wait(lock, []()
-		{
-			if(!m_EventQueue.empty() || m_IsDone)
 			{
-				return true;
-			}
-			return false;
-		});
+				if (!m_EventQueue.empty() || m_IsDone)
+				{
+					return true;
+				}
+				return false;
+			});
 		if (m_IsDone)
 			return;
-		
+
 		const auto& request = m_EventQueue.front();
 		if (request.isSound)
 			playSound(request.fileName, request.volume);
@@ -101,4 +106,9 @@ void SimpleSDL2AudioService::Update()
 	} while (!m_IsDone);
 
 	std::cout << "Thread exits\n";
+}
+
+void SimpleSDL2AudioService::SetVolume(int volume)
+{
+	m_Volume = volume;
 }

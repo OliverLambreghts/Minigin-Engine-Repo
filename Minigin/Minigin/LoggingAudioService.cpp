@@ -48,3 +48,8 @@ void LoggingAudioService::Update()
 {
 	m_pRealService->Update();
 }
+
+void LoggingAudioService::SetVolume(int volume)
+{
+	m_pRealService->SetVolume(volume);
+}

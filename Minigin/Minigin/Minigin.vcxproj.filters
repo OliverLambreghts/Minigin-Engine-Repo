@@ -426,6 +426,9 @@
     <ClInclude Include="GameplayComponent.h">
       <Filter>Header Files\Components\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="MuteCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

@@ -9,4 +9,5 @@ public:
 	virtual void PauseAudio() override {};
 	virtual void UnpauseAudio() override {};
 	virtual void Update() override {};
+	virtual void SetVolume(int ) override {};
 };

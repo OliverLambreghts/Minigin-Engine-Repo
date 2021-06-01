@@ -463,6 +463,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="LoggingAudioService.h" />
     <ClInclude Include="MiniginLibType.h" />
     <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="MuteCommand.h" />
     <ClInclude Include="NullAudioService.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="rapidjson\allocators.h" />

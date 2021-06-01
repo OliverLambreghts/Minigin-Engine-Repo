@@ -92,10 +92,12 @@ void CoilyTransformComponent::CheckQBertCollision()
 	if (GetRowCol(true) == GetRowCol(false) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
 	{
 		m_KillQBert();
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/eaten.wav", SDL_MIX_MAXVOLUME);
 	}
 	else if (m_QBertPos2 && m_QBertPos2() == std::pair<int, int>(m_Row, m_Col) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
 	{
 		m_KillQBert2();
+		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/eaten.wav", SDL_MIX_MAXVOLUME);
 	}
 }
 
