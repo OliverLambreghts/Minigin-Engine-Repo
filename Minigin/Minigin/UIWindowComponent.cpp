@@ -42,7 +42,7 @@ void UIWindowComponent::Render()
 	}
 }
 
-void UIWindowComponent::RenderElements()
+void UIWindowComponent::RenderElements() const
 {
 	for(const auto& element : m_UICommands)
 	{

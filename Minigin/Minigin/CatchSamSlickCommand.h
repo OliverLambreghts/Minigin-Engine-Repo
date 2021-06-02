@@ -10,7 +10,7 @@ namespace dae
 class CatchSamSlickCommand final : public Command
 {
 public:
-	CatchSamSlickCommand(std::shared_ptr<GameObject>& obj)
+	explicit CatchSamSlickCommand(std::shared_ptr<GameObject>& obj)
 		: m_pActor(obj)
 	{
 

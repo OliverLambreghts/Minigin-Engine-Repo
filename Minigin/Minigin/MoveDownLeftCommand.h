@@ -11,7 +11,7 @@ namespace dae
 class MoveDownLeftCommand final : public Command
 {
 public:
-	MoveDownLeftCommand(std::shared_ptr<dae::GameObject>& obj)
+	explicit MoveDownLeftCommand(std::shared_ptr<dae::GameObject>& obj)
 		: m_pActor(obj)
 	{
 

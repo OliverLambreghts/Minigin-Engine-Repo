@@ -4,7 +4,7 @@
 class LivesDisplay final : public Observer
 {
 public:
-	LivesDisplay(UINT players);
+	explicit LivesDisplay(UINT players);
 
 	virtual ~LivesDisplay() = default;
 	LivesDisplay(const LivesDisplay& other) = delete;

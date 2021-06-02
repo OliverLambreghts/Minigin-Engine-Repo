@@ -9,7 +9,7 @@ namespace dae
 	class Controller final
 	{
 	public:
-		Controller(UINT id);
+		explicit Controller(UINT id);
 
 		bool Update();
 

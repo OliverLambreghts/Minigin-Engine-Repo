@@ -1,7 +1,7 @@
 #pragma once
 #include "AudioService.h"
 
-class NullAudioService : public AudioService
+class NullAudioService final : public AudioService
 {
 public:
 	virtual void PlaySound(const char*, int) override {};

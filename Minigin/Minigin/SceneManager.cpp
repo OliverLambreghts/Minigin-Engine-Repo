@@ -21,9 +21,6 @@ void dae::SceneManager::Update(float elapsedSec)
 		ServiceLocator::GetAudioService()->PlaySound("../Data/QBert/Sounds/tune.wav", SDL_MIX_MAXVOLUME);
 	}
 	
-	/*if (m_Scenes.size() > 4)
-		m_Scenes.erase(m_Scenes.begin(), m_Scenes.begin() + 4);*/
-	
 	for (auto& scene : m_Scenes)
 	{
 		if (scene->IsActive())

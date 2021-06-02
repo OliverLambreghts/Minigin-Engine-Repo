@@ -5,7 +5,7 @@
 class LoggingAudioService final : public AudioService
 {
 public:
-	LoggingAudioService(AudioService* service);
+	explicit LoggingAudioService(AudioService* service);
 	
 	virtual ~LoggingAudioService();
 	LoggingAudioService(const LoggingAudioService& other) = delete;

@@ -15,7 +15,7 @@ public:
 		downRight
 	};
 
-	HexTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid);
+	explicit HexTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid);
 	HexTransformComponent(std::shared_ptr<std::vector<utils::Tile*>>& grid, int row, int col);
 	virtual ~HexTransformComponent() = default;
 	HexTransformComponent(const HexTransformComponent& other) = delete;
@@ -25,13 +25,14 @@ public:
 
 	virtual void Update(float elapsedSec, GameObject& obj) override;
 	void Move(Direction direction);
-	bool HandleOutOfBounds(GameObject& obj);
-	void ActivateTile(GameObject& obj);
-	void UpdatePosition();
 
 	void SetTeleport(bool canTeleport);
 
 	std::pair<int, int> GetRowCol();
+private:
+	bool HandleOutOfBounds(GameObject& obj);
+	void ActivateTile(GameObject& obj);
+	void UpdatePosition();
 protected:
 	std::map<std::pair<int, int>, utils::Tile*> m_GridMap;
 	const float m_OffsetX{ 12.5f }, m_OffsetY{ 45.f };

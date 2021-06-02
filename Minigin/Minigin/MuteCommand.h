@@ -14,7 +14,7 @@ namespace dae
 class MuteCommand final : public Command
 {
 public:
-	MuteCommand(std::shared_ptr<dae::GameObject>& obj)
+	explicit MuteCommand(std::shared_ptr<dae::GameObject>& obj)
 		: m_pActor(obj)
 	{
 

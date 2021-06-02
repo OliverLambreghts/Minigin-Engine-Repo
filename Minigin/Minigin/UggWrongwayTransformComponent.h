@@ -23,14 +23,14 @@ public:
 	void operator=(const UggWrongWayTransformComponent&& rhs) = delete;
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
-	void UpdatePosition(GameObject& obj);
-	void HandleQBertCollision() const;
-	void HandleFalling(GameObject& obj);
-
-	void AIMove();
 	
 	void Reset();
 private:
+	void UpdatePosition(GameObject& obj);
+	void HandleQBertCollision() const;
+	void HandleFalling(GameObject& obj);
+	void AIMove();
+	
 	EntityType m_Type;
 	std::function<void()> m_KillQBert, m_KillQBert2;
 	std::function<std::pair<int, int>()> m_QBertPos, m_QBertPos2;

@@ -18,9 +18,10 @@ public:
 	void InitPos(bool left);
 
 	virtual void Update(float elapsedSec, GameObject& obj) override;
-	void HandleTeleportActivity(GameObject& obj);
 	
 private:
+	void HandleTeleportActivity(GameObject& obj);
+	
 	std::function<std::pair<int, int>()> m_QBertPos, m_QBertPos2;
 	std::function<void(bool)> m_SetTeleport, m_SetTeleport2;
 	std::function<const bool()> m_HasLevelEnded;

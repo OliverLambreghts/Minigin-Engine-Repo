@@ -32,10 +32,7 @@ namespace dae
 	{
 	public:
 		bool ProcessInput();
-		bool ProcessKeyboardInput();
 		
-		bool IsPressed(ControllerButton button, UINT& id);
-		bool IsPressed(ControllerButton button, UINT id, WORD keyStroke);
 
 		void AddController();
 
@@ -77,6 +74,11 @@ namespace dae
 
 		std::vector<std::unique_ptr<Controller>>& GetControllers();
 	private:
+		bool ProcessKeyboardInput();
+
+		bool IsPressed(ControllerButton button, UINT& id) const;
+		bool IsPressed(ControllerButton button, UINT id, WORD keyStroke) const;
+		
 		static UINT m_ID;
 
 		std::vector<std::unique_ptr<Controller>> m_Controllers;

@@ -11,7 +11,7 @@ namespace dae
 class MoveTopRightCommand final : public Command
 {
 public:
-	MoveTopRightCommand(std::shared_ptr<dae::GameObject>& obj)
+	explicit MoveTopRightCommand(std::shared_ptr<dae::GameObject>& obj)
 		: m_pActor(obj)
 	{
 

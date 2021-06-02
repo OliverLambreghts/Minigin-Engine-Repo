@@ -48,7 +48,7 @@ bool dae::InputManager::ProcessKeyboardInput()
 	return true;
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button, UINT id, WORD keyStroke)
+bool dae::InputManager::IsPressed(ControllerButton button, UINT id, WORD keyStroke) const
 {
 	for (const auto& controller : m_Controllers)
 	{
@@ -67,7 +67,7 @@ bool dae::InputManager::IsPressed(ControllerButton button, UINT id, WORD keyStro
 	return false;
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button, UINT& id)
+bool dae::InputManager::IsPressed(ControllerButton button, UINT& id) const
 {
 	for (const auto& controller : m_Controllers)
 	{

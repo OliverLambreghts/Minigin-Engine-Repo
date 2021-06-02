@@ -7,7 +7,7 @@
 class ScoreComponent final : public GameplayComponent
 {
 public:
-	ScoreComponent(std::shared_ptr<std::vector<utils::Tile*>>& tiles);
+	explicit ScoreComponent(std::shared_ptr<std::vector<utils::Tile*>>& tiles);
 	virtual ~ScoreComponent() = default;
 	ScoreComponent(const ScoreComponent& other) = delete;
 	ScoreComponent(ScoreComponent&& other) = delete;
@@ -21,9 +21,9 @@ public:
 	int GetScore() const;
 
 	Subject& GetSubject();
-
-	void SaveToFile() const;
 private:
+	void SaveToFile() const;
+	
 	Message m_ScoreEvent;
 	int m_Score;
 	std::shared_ptr<std::vector<utils::Tile*>> m_pTiles;

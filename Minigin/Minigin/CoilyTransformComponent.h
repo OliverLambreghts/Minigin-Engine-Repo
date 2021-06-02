@@ -19,9 +19,6 @@ public:
 	void operator=(const CoilyTransformComponent&& rhs) = delete;
 
 	virtual void Update(float elapsedSec, GameObject & obj) override;
-	void UpdatePosition(GameObject& obj);
-	void CheckQBertCollision();
-	void HandleFalling(GameObject& obj);
 
 	std::pair<int, int> GetRowCol(bool fromQBert);
 	const bool IsPlayer() const;
@@ -30,6 +27,10 @@ public:
 	void Reset();
 	void ActivatePlayerMovement();
 private:
+	void UpdatePosition(GameObject& obj);
+	void CheckQBertCollision();
+	void HandleFalling(GameObject& obj);
+	
 	std::function<std::pair<int, int>()> m_QBertPos, m_QBertPos2;
 	std::function<void()> m_KillQBert, m_KillQBert2;
 	std::shared_ptr<EnemyState> m_pState;

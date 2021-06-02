@@ -27,11 +27,13 @@ public:
 	virtual void Update(float elapsedSec, GameObject& obj) override;
 
 	virtual void Render() override;
-	void RenderElements();
+	
 	void AddActivationButton(std::shared_ptr<UIButton> button);
 
 	bool IsActive(UINT id);
 private:
+	void RenderElements() const;
+	
 	std::string m_Name;
 	std::vector<std::pair<std::shared_ptr<UIElement>, std::shared_ptr<Command>>> m_UICommands;
 

@@ -114,7 +114,9 @@ void GridComponent::Update(float elapsedSec, GameObject&)
 	{
 		m_EndTimer += elapsedSec;
 		if (m_EndTimer > 1.f)
+		{
 			SceneManager::GetInstance().ActivateNextScene();
+		}
 		return;
 	}
 

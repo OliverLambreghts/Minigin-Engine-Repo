@@ -11,7 +11,7 @@ namespace dae
 class MoveTopLeftCommand final : public Command
 {
 public:
-	MoveTopLeftCommand(std::shared_ptr<dae::GameObject>& obj)
+	explicit MoveTopLeftCommand(std::shared_ptr<dae::GameObject>& obj)
 		: m_pActor(obj)
 	{
 

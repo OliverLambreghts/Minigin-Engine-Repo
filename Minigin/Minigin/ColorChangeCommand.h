@@ -6,7 +6,7 @@
 class ColorChangeCommand final : public Command
 {
 public:
-	ColorChangeCommand(std::shared_ptr<GameObject>& obj)
+	explicit ColorChangeCommand(std::shared_ptr<GameObject>& obj)
 		: m_pActor(obj)
 	{
 

@@ -10,7 +10,7 @@ namespace dae
 class RemainingDiscCommand final : public Command
 {
 public:
-	RemainingDiscCommand(std::shared_ptr<GameObject>& obj)
+	explicit RemainingDiscCommand(std::shared_ptr<GameObject>& obj)
 		: m_pActor(obj)
 	{
 

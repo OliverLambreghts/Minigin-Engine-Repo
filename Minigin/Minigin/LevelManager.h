@@ -19,12 +19,15 @@ public:
 		versus
 	};
 	
-	LevelManager(int windowWidth);
+	explicit LevelManager(int windowWidth);
 	void LoadMainMenu();
+
 	void LoadLevel(const std::wstring& fileName);
+	
+private:
 	void ReadJSON(const std::wstring& fileName, rapidjson::Document& doc) const;
 	void SetUpLevel(const LevelData& data);
-private:
+	
 	int m_WindowWidth;
 	std::shared_ptr<GameMode> m_pGameMode;
 };

@@ -21,13 +21,14 @@ public:
 	void operator=(const SlickSamTransformComponent&& rhs) = delete;
 
 	virtual void Update(float elapsedSec, GameObject& obj) override;
+
+	void Reset();
+private:
 	void UpdatePosition(GameObject& obj);
 	void AIMove();
 	void HandleQBertCollision(GameObject& obj);
 	void HandleFalling(GameObject& obj);
-
-	void Reset();
-private:
+	
 	EntityType m_Type;
 	float m_Timer;
 	bool m_IsActive;

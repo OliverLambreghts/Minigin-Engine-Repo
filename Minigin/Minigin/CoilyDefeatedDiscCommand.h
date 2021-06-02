@@ -10,7 +10,7 @@ namespace dae
 class CoilyDefeatedDiscCommand final : public Command
 {
 public:
-	CoilyDefeatedDiscCommand(std::shared_ptr<dae::GameObject>& obj)
+	explicit CoilyDefeatedDiscCommand(std::shared_ptr<dae::GameObject>& obj)
 		: m_pActor{ obj }
 	{
 

@@ -10,7 +10,7 @@ namespace dae
 class DieCommand final : public Command
 {
 public:
-	DieCommand(std::shared_ptr<GameObject>& obj)
+	explicit DieCommand(std::shared_ptr<GameObject>& obj)
 		: m_pActor(obj)
 	{
 		

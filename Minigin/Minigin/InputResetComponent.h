@@ -9,7 +9,7 @@
 class InputResetComponent final : public InputComponent
 {
 public:
-	InputResetComponent(const Scene& scene);
+	explicit InputResetComponent(const Scene& scene);
 	virtual ~InputResetComponent() = default;
 	InputResetComponent(const InputResetComponent& other) = delete;
 	InputResetComponent(InputResetComponent&& other) = delete;
