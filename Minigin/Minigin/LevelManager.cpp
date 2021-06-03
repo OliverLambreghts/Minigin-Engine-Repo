@@ -186,7 +186,7 @@ void LevelManager::SetUpLevel(const LevelData& data)
 
 	// Observers:
 	auto livesDisplay = std::make_shared<LivesDisplay>((UINT)InputManager::GetInstance().GetControllers().size());
-	auto scoreDisplay = std::make_shared<ScoreDisplay>();
+	auto scoreDisplay = std::make_shared<ScoreDisplay>((UINT)InputManager::GetInstance().GetControllers().size());
 	auto resetObserver = std::make_shared<Resetter>();
 
 	// --- QBERT CODE ---

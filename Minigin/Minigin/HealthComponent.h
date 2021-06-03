@@ -24,4 +24,5 @@ private:
 	int m_Health = 100, m_Lives = 3;
 	Subject m_Subject;
 	bool m_CanDie = false;
+	bool m_HasUpdatedLives = false;
 };

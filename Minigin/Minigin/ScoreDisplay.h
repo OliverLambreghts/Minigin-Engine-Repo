@@ -4,7 +4,7 @@
 class ScoreDisplay final : public Observer
 {
 public:
-	ScoreDisplay();
+	explicit ScoreDisplay(UINT players);
 
 	virtual ~ScoreDisplay() = default;
 	ScoreDisplay(const ScoreDisplay& other) = delete;
@@ -18,7 +18,9 @@ public:
 private:
 	std::vector<std::function<void(std::string) >> m_SetMethods;
 	std::vector<std::function<void()>> m_UpdateMethods;
-	
+
+	static std::vector<int> m_Scores;
+	static int m_ID;
 	int m_Players;
 	static float m_Y;
 	float m_X = 10.f;

@@ -1,16 +1,26 @@
 #include "MiniginPCH.h"
 #include "LivesDisplay.h"
 
+#include <algorithm>
+
+
 #include "PlayerComponent.h"
 #include "TextComponent.h"
 #include "Transform.h"
 
 float LivesDisplay::m_Y = 450.f;
+std::vector<int> LivesDisplay::m_Lives;
 
 LivesDisplay::LivesDisplay(UINT players)
-	: m_Lives(players, 3),
-	m_Players{}
+	: m_Players{}
 {
+	
+	
+	if (m_Lives.size() == players) return;
+	for(UINT i{}; i < players; ++i)
+	{
+		m_Lives.push_back(3);
+	}
 }
 
 void LivesDisplay::AddData(GameObject& obj)
@@ -33,11 +43,20 @@ void LivesDisplay::AddData(GameObject& obj)
 
 void LivesDisplay::OnNotify(const dae::GameObject& obj, Message message)
 {
+	UINT id = obj.GetComponent<PlayerComponent>()->GetID();
 	switch (message)
 	{
 	case Message::PlayerDied:
-		UINT id = obj.GetComponent<PlayerComponent>()->GetID();
 		--m_Lives[id];
+		m_SetMethods[id]("Player " + std::to_string(id + 1) + " Lives: " + std::to_string(m_Lives[id]));
+		m_UpdateMethods[id]();
+		if (std::find(m_Lives.begin(), m_Lives.end(), 0) != m_Lives.end())
+		{
+			m_Lives.clear();
+			SceneManager::GetInstance().MarkForDeletion();
+		}
+		break;
+	case Message::UpdateMsg:
 		m_SetMethods[id]("Player " + std::to_string(id + 1) + " Lives: " + std::to_string(m_Lives[id]));
 		m_UpdateMethods[id]();
 		break;

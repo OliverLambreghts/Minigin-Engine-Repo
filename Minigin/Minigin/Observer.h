@@ -11,7 +11,8 @@ enum class Message
 	CoilyDefeatedDisc,
 	RemainingDisc,
 	CaughtSlickOrSam,
-	PlayerDied
+	PlayerDied,
+	UpdateMsg
 };
 
 class Observer

@@ -16,6 +16,12 @@ ScoreComponent::ScoreComponent(std::shared_ptr<std::vector<utils::Tile*>>& tiles
 
 void ScoreComponent::Update(float, GameObject& obj)
 {
+	if(!m_HasUpdatedScore)
+	{
+		m_HasUpdatedScore = true;
+		m_Subject.Notify(obj, Message::UpdateMsg);
+	}
+	
 	if (std::all_of(m_pTiles->begin(), m_pTiles->end(), [](utils::Tile* tile) {return tile->IsActive(); }))
 		SaveToFile();
 

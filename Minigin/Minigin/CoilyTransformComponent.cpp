@@ -88,6 +88,9 @@ void CoilyTransformComponent::HandleFalling(GameObject& obj)
 
 void CoilyTransformComponent::CheckQBertCollision()
 {
+	if (m_GridMap.find(std::make_pair(m_Row, m_Col)) == m_GridMap.end())
+		return;
+	
 	// Check if Coily is on the same tile as QBert
 	if (GetRowCol(true) == GetRowCol(false) && !std::dynamic_pointer_cast<InvisibleState>(m_pState))
 	{

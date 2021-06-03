@@ -14,7 +14,6 @@ void HealthComponent::Die(const GameObject& obj)
 	switch (obj.GetEntityType())
 	{
 	case EntityType::Player:
-		//m_Subject->Notify(obj, Message::PlayerDied);
 		--m_Lives;
 		m_Subject.Notify(obj, Message::PlayerDied);
 		break;
@@ -23,8 +22,14 @@ void HealthComponent::Die(const GameObject& obj)
 
 void HealthComponent::Update(float, GameObject& obj)
 {
-	if (m_Lives == 0)
-		SceneManager::GetInstance().MarkForDeletion();
+	if(!m_HasUpdatedLives)
+	{
+		m_HasUpdatedLives = true;
+		m_Subject.Notify(obj, Message::UpdateMsg);
+	}
+	
+	/*if (m_Lives == 0)
+		SceneManager::GetInstance().MarkForDeletion();*/
 	
 	if(m_CanDie)
 	{

@@ -20,7 +20,7 @@ private:
 	std::vector<std::function<void(std::string) >> m_SetMethods;
 	std::vector<std::function<void()>> m_UpdateMethods;
 	
-	std::vector<int> m_Lives;
+	static std::vector<int> m_Lives;
 	int m_StartLives = 3;
 	int m_Players;
 

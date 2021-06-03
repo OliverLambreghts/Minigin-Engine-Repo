@@ -29,4 +29,5 @@ private:
 	std::shared_ptr<std::vector<utils::Tile*>> m_pTiles;
 	Subject m_Subject;
 	std::queue<Message> m_MessageQueue;
+	bool m_HasUpdatedScore = false;
 };

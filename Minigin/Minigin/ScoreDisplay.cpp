@@ -7,10 +7,17 @@
 #include "Transform.h"
 
 float ScoreDisplay::m_Y = 450.f;
+std::vector<int> ScoreDisplay::m_Scores;
+int ScoreDisplay::m_ID = 0;
 
-ScoreDisplay::ScoreDisplay()
-	: m_Players{0}
+ScoreDisplay::ScoreDisplay(UINT players)
+	: m_Players{ 0 }
 {
+	m_ID = 0;
+	m_Scores.clear();
+	if (m_Scores.size() == players) return;
+	for (UINT i{}; i < players; ++i)
+		m_Scores.push_back(0);
 }
 
 void ScoreDisplay::AddData(GameObject& obj)
@@ -18,7 +25,7 @@ void ScoreDisplay::AddData(GameObject& obj)
 	Transform pos{};
 	pos.SetPosition(m_X, m_Y, 0);
 	++m_Players;
-	obj.GetComponent<TextComponent>()->SetText("Player " + std::to_string(m_Players) + " Score: 0");
+	obj.GetComponent<TextComponent>()->SetText("Player " + std::to_string(m_Players) + " Score: " + std::to_string(m_Scores[m_ID]));
 	obj.GetComponent<TextComponent>()->SetPos(pos);
 	obj.GetComponent<TextComponent>()->ObsUpdate();
 	m_SetMethods.push_back(std::bind(&TextComponent::SetText, obj.GetComponent<TextComponent>(), std::placeholders::_1));
@@ -28,15 +35,31 @@ void ScoreDisplay::AddData(GameObject& obj)
 	const float yThreshold = 430.f;
 	if (m_Y < yThreshold)
 		m_Y = 450.f;
+	++m_ID;
 }
 
 void ScoreDisplay::OnNotify(const dae::GameObject& obj, Message message)
 {
-	if (message > Message::CaughtSlickOrSam || message == Message::DoNothing)
+	if (message != Message::UpdateMsg && message > Message::CaughtSlickOrSam || message == Message::DoNothing)
 		return;
-	
+
+	switch (message)
+	{
+	case Message::ColorChange:
+		m_Scores[obj.GetComponent<PlayerComponent>()->GetID()] += 25;
+		break;
+	case Message::CoilyDefeatedDisc:
+		m_Scores[obj.GetComponent<PlayerComponent>()->GetID()] += 500;
+		break;
+	case Message::RemainingDisc:
+		m_Scores[obj.GetComponent<PlayerComponent>()->GetID()] += 50;
+		break;
+	case Message::CaughtSlickOrSam:
+		m_Scores[obj.GetComponent<PlayerComponent>()->GetID()] += 300;
+		break;
+	}
+
 	UINT id = obj.GetComponent<PlayerComponent>()->GetID();
-	int score = obj.GetComponent<ScoreComponent>()->GetScore();
-	m_SetMethods[id]("Player " + std::to_string(id + 1) + " Score: " + std::to_string(score));
+	m_SetMethods[id]("Player " + std::to_string(id + 1) + " Score: " + std::to_string(m_Scores[obj.GetComponent<PlayerComponent>()->GetID()]));
 	m_UpdateMethods[id]();
 }
