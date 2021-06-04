@@ -14,7 +14,7 @@ std::vector<int> LivesDisplay::m_Lives;
 LivesDisplay::LivesDisplay(UINT players)
 	: m_Players{}
 {
-	
+	m_Lives.clear();
 	
 	if (m_Lives.size() == players) return;
 	for(UINT i{}; i < players; ++i)

@@ -8,12 +8,10 @@
 
 float ScoreDisplay::m_Y = 450.f;
 std::vector<int> ScoreDisplay::m_Scores;
-int ScoreDisplay::m_ID = 0;
 
 ScoreDisplay::ScoreDisplay(UINT players)
 	: m_Players{ 0 }
 {
-	m_ID = 0;
 	m_Scores.clear();
 	if (m_Scores.size() == players) return;
 	for (UINT i{}; i < players; ++i)
@@ -25,7 +23,7 @@ void ScoreDisplay::AddData(GameObject& obj)
 	Transform pos{};
 	pos.SetPosition(m_X, m_Y, 0);
 	++m_Players;
-	obj.GetComponent<TextComponent>()->SetText("Player " + std::to_string(m_Players) + " Score: " + std::to_string(m_Scores[m_ID]));
+	obj.GetComponent<TextComponent>()->SetText("Player " + std::to_string(m_Players) + " Score: ");
 	obj.GetComponent<TextComponent>()->SetPos(pos);
 	obj.GetComponent<TextComponent>()->ObsUpdate();
 	m_SetMethods.push_back(std::bind(&TextComponent::SetText, obj.GetComponent<TextComponent>(), std::placeholders::_1));
@@ -35,7 +33,6 @@ void ScoreDisplay::AddData(GameObject& obj)
 	const float yThreshold = 430.f;
 	if (m_Y < yThreshold)
 		m_Y = 450.f;
-	++m_ID;
 }
 
 void ScoreDisplay::OnNotify(const dae::GameObject& obj, Message message)

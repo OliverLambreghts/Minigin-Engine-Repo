@@ -10,6 +10,9 @@
 
 void dae::SceneManager::Update(float elapsedSec)
 {
+	if (std::none_of(m_Scenes.begin(), m_Scenes.end(), [](auto scene) {return scene->IsActive(); }))
+		m_CanDelete = true;
+	
 	if(m_CanDelete)
 	{
 		auto mainMenu = m_Scenes.front();
