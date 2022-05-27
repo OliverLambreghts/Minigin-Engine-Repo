@@ -87,7 +87,7 @@ void LevelManager::LoadMainMenu()
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Singleplayer", false, m_pGameMode, GameMode::singleplayer, loadLevel));
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Co-op", false, m_pGameMode, GameMode::coop, loadLevel));
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(std::make_shared<UIGameModeButton>("Versus", false, m_pGameMode, GameMode::versus, loadLevel));
-	auto controlsButton = std::make_shared<UIButton>("Controls", true);
+	const auto controlsButton = std::make_shared<UIButton>("Controls", true);
 	modesWindow->GetComponent<UIWindowComponent>()->AddElement(controlsButton);
 
 	scene.Add(modesWindow);
@@ -208,7 +208,7 @@ void LevelManager::SetUpLevel(const LevelData& data)
 	auto inputResetter = std::make_shared<GameObject>();
 	inputResetter->AddComponent(std::make_shared<InputResetComponent>(scene));
 	
-	for (UINT i{}; i < (UINT)InputManager::GetInstance().GetControllers().size(); ++i)
+	for (UINT i{}; i < static_cast<UINT>(InputManager::GetInstance().GetControllers().size()); ++i)
 	{
 		if (i == 1 && *m_pGameMode == GameMode::versus)
 			break;

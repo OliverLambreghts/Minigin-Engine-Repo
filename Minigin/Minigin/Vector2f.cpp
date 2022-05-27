@@ -89,7 +89,7 @@ float Vector2f::AngleWith(const Vector2f& other) const
 
 Vector2f Vector2f::Normalized(float epsilon) const
 {
-	float length{ Length( ) };
+	const float length{ Length( ) };
 	if ( length < epsilon )
 	{
 		return Vector2f{ 0, 0 };
@@ -233,6 +233,6 @@ Point2f operator-(Point2f lhs, const Vector2f& rhs)
 
 Vector2f operator-(const Point2f& lhs, const Point2f& rhs)
 {
-	Vector2f v{ lhs.x - rhs.x, lhs.y - rhs.y };
+	const Vector2f v{ lhs.x - rhs.x, lhs.y - rhs.y };
 	return v;
 }

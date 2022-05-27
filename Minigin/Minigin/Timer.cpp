@@ -10,9 +10,9 @@ Timer::Timer(const std::string& name)
 
 Timer::~Timer()
 {
-	auto endTimePoint = std::chrono::high_resolution_clock::now();
-	int64_t begin = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimePoint).time_since_epoch().count();
-	int64_t end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePoint).time_since_epoch().count();
+	const auto endTimePoint = std::chrono::high_resolution_clock::now();
+	const int64_t begin = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimePoint).time_since_epoch().count();
+	const int64_t end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePoint).time_since_epoch().count();
 
 	Session::GetInstance().SaveMeasurement(m_Name, begin, end, std::this_thread::get_id());
 	//std::cout << "[" << m_Name << "] " << end - begin << " microseconds\n";

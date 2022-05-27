@@ -26,7 +26,7 @@ CoilyTransformComponent::CoilyTransformComponent(std::shared_ptr<std::vector<uti
 	m_IsPlayer{ isPlayer },
 	m_IsPlayerControlling{ false }
 {
-	Move((Direction)(rand() % 2 + 2));
+	Move(static_cast<Direction>(rand() % 2 + 2));
 }
 
 void CoilyTransformComponent::Update(float elapsedSec, GameObject& obj)
@@ -40,7 +40,7 @@ void CoilyTransformComponent::Update(float elapsedSec, GameObject& obj)
 	
 	UpdatePosition(obj);
 
-	auto pNewState = m_pState->Update(elapsedSec, obj);
+	const auto pNewState = m_pState->Update(elapsedSec, obj);
 	if (pNewState)
 	{
 		m_pState.reset();
@@ -59,12 +59,12 @@ void CoilyTransformComponent::UpdatePosition(GameObject& obj)
 
 		if (std::dynamic_pointer_cast<SnakeState>(m_pState))
 		{
-			auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+			const auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 			m_Transform.SetPosition(newPos.x - m_OffsetX - m_SnakeOffsetX, newPos.y - m_OffsetY - m_SnakeOffsetY, 0.f);
 			m_NeedsUpdate = false;
 			return;
 		}
-		auto defaultPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+		const auto defaultPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(defaultPos.x - m_OffsetX, defaultPos.y - m_OffsetY, 0.f);
 		m_NeedsUpdate = false;
 	}
@@ -121,7 +121,7 @@ void CoilyTransformComponent::Reset()
 	m_pState.reset();
 	m_pState = std::make_shared<InvisibleState>();
 	m_IsPlayerControlling = false;
-	Move((Direction)(rand() % 2 + 2));
+	Move(static_cast<Direction>(rand() % 2 + 2));
 }
 
 const bool CoilyTransformComponent::IsPlayer() const

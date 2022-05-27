@@ -84,7 +84,7 @@ void dae::Minigin::Initialize()
 	}
 
 	// Create OpenGL context 
-	auto context = SDL_GL_CreateContext(m_Window);
+	const auto context = SDL_GL_CreateContext(m_Window);
 	if (context == nullptr)
 	{
 		std::cerr << "Error when calling SDL_GL_CreateContext: " << SDL_GetError() << std::endl;
@@ -112,7 +112,7 @@ void dae::Minigin::Initialize()
 
 	Renderer::GetInstance().Init(m_Window);
 
-	auto audio = new SimpleSDL2AudioService{};
+	auto* audio = new SimpleSDL2AudioService{};
 	_putenv("SDL_AUDIODRIVER=DirectSound");
 	SDL_Init(SDL_INIT_AUDIO);
 	audio->InitAudio();

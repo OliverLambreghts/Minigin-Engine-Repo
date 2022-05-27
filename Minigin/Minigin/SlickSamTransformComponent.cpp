@@ -13,7 +13,7 @@ SlickSamTransformComponent::SlickSamTransformComponent(std::shared_ptr<std::vect
 	m_Type{ type },
 	m_Timer{},
 	m_IsActive{},
-	m_SpawnThreshold{ float(rand() % 2 + 10) },
+	m_SpawnThreshold{ static_cast<float>(rand() % 2 + 10) },
 	m_QBertPos{ getQbertPos },
 	m_pKillCMD{ killCmd },
 	m_QBertPos2{ getQbertPos2 }
@@ -67,7 +67,7 @@ void SlickSamTransformComponent::UpdatePosition(GameObject& obj)
 
 	HandleFalling(obj);
 
-	auto defaultPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+	const auto defaultPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	m_Transform.SetPosition(defaultPos.x - m_OffsetX, defaultPos.y - m_OffsetY, 0.f);
 	m_NeedsUpdate = false;
 
@@ -93,7 +93,7 @@ void SlickSamTransformComponent::AIMove()
 		return;
 
 	m_Timer = 0.f;
-	Move((Direction)(rand() % 2 + 2));
+	Move(static_cast<Direction>(rand() % 2 + 2));
 }
 
 void SlickSamTransformComponent::Reset()

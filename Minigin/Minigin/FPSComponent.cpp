@@ -13,7 +13,7 @@ void FPSComponent::Update(float elapsedSec, GameObject&)
 	m_Delay += elapsedSec;
 	if (m_Delay < m_ResetPoint)
 		return;
-	m_FPS = int(1 / elapsedSec);
+	m_FPS = static_cast<int>(1 / elapsedSec);
 	m_Delay -= m_ResetPoint;
 }
 

@@ -10,10 +10,10 @@ std::shared_ptr<EnemyState> SnakeState::Update(float elapsedSec, dae::GameObject
 	if (m_Timer < 1.f)
 		return nullptr;
 
-	int qBertRow = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(true).first;
-	int qBertCol = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(true).second;
-	int row = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(false).first;
-	int col = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(false).second;
+	const int qBertRow = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(true).first;
+	const int qBertCol = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(true).second;
+	const int row = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(false).first;
+	const int col = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(false).second;
 
 	// When Coily catches QBert he doesn't move
 	if (row == qBertRow && col == qBertCol)

@@ -29,7 +29,7 @@ void SimpleSDL2AudioService::PlaySound(const char* filename, int volume)
 		}
 	}
 
-	AudioRequest request{ true, filename, m_Volume };
+	const AudioRequest request{ true, filename, m_Volume };
 	m_EventQueue.push_back(request);
 	m_CV.notify_one();
 }
@@ -49,7 +49,7 @@ void SimpleSDL2AudioService::PlayMusic(const char* filename, int volume)
 		}
 	}
 
-	AudioRequest request{ false, filename, m_Volume };
+	const AudioRequest request{ false, filename, m_Volume };
 	m_EventQueue.push_back(request);
 	m_CV.notify_one();
 }

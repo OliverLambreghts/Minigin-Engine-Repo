@@ -36,7 +36,7 @@ GridRenderComponent::GridRenderComponent(const std::vector<utils::Tile*>& grid, 
 
 void GridRenderComponent::Update(float, GameObject& object)
 {
-	auto grid = object.GetComponent<GridComponent>()->GetVertices();
+	const auto grid = object.GetComponent<GridComponent>()->GetVertices();
 	m_Grid = grid;
 }
 

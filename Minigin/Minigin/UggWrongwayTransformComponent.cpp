@@ -19,7 +19,7 @@ UggWrongWayTransformComponent::UggWrongWayTransformComponent(std::shared_ptr<std
 	m_WrongwayOffsetX{ 30.f },
 	m_BothOffsetY{ 40.f },
 	m_Timer{},
-	m_SpawnThreshold{ float(rand() % 5 + 5) },
+	m_SpawnThreshold{ static_cast<float>(rand() % 5 + 5) },
 	m_UggOffsetX{ 25.f },
 	m_QBertPos2{ getQbertPos2 },
 	m_KillQBert2{ killFcn2 }
@@ -116,7 +116,7 @@ void UggWrongWayTransformComponent::UpdatePosition(GameObject& obj)
 
 	HandleFalling(obj);
 
-	auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+	const auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	switch (m_Type)
 	{
 	case EntityType::ugg:

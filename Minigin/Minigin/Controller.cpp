@@ -55,7 +55,7 @@ bool dae::Controller::IsButtonPressed(ControllerButton button, WORD keyStroke) c
 {
 	if(m_Stroke.Flags == keyStroke)
 	{
-		if (m_Stroke.VirtualKey == (WORD)button)
+		if (m_Stroke.VirtualKey == static_cast<WORD>(button))
 			return true;
 	}
 	return false;
@@ -67,11 +67,11 @@ bool dae::Controller::Update()
 		return false;
 	XInputGetKeystroke(m_ID, 0, &m_Stroke);
 
-	float normLX = Normalize(static_cast<float>(m_State.Gamepad.sThumbLX), -32767.f, 32767.f);
-	float normLY = Normalize(static_cast<float>(m_State.Gamepad.sThumbLY), -32767.f, 32767.f);
+	const float normLX = Normalize(static_cast<float>(m_State.Gamepad.sThumbLX), -32767.f, 32767.f);
+	const float normLY = Normalize(static_cast<float>(m_State.Gamepad.sThumbLY), -32767.f, 32767.f);
 
-	float normRX = Normalize(static_cast<float>(m_State.Gamepad.sThumbRX), -32767.f, 32767.f);
-	float normRY = Normalize(static_cast<float>(m_State.Gamepad.sThumbRY), -32767.f, 32767.f);
+	const float normRX = Normalize(static_cast<float>(m_State.Gamepad.sThumbRX), -32767.f, 32767.f);
+	const float normRY = Normalize(static_cast<float>(m_State.Gamepad.sThumbRY), -32767.f, 32767.f);
 
 	if (m_DeadZoneX <= 1.f || m_DeadZoneY <= 1.f)
 	{
@@ -101,13 +101,13 @@ float dae::Controller::ApplyDeadzone(float value, float maxValue, float deadZone
 		value -= deadZone;
 	else
 		return 0.f;
-	float normValue = float(value) / float(maxValue - deadZone);
+	const float normValue = static_cast<float>(value) / static_cast<float>(maxValue - deadZone);
 	return (std::max)(-1.0f, (std::min)(normValue, 1.0f));
 }
 
 float dae::Controller::Normalize(float input, float min, float max) const
 {
-	float average = (min + max) / 2.f;
-	float range = (max - min) / 2.f;
+	const float average = (min + max) / 2.f;
+	const float range = (max - min) / 2.f;
 	return (input - average) / range;
 }

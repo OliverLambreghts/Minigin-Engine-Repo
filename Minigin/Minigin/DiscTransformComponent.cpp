@@ -35,12 +35,12 @@ void DiscTransformComponent::InitPos(bool left)
 	{
 	case true:
 		m_Col = -m_Row;
-		auto leftPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+		const auto leftPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(leftPos.x - m_OffsetX - m_DiscOffsetX, leftPos.y - m_OffsetY + m_DiscOffsetY, 0.f);
 		break;
 	case false:
 		m_Col = 0;
-		auto rightPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+		const auto rightPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(rightPos.x - m_OffsetX + m_DiscOffsetX, rightPos.y - m_OffsetY + m_DiscOffsetY, 0.f);
 		break;
 	}

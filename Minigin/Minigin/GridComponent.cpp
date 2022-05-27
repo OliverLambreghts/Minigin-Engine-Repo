@@ -14,9 +14,9 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 	m_EndTimer{},
 	m_WindowWidth{ windowWidth }
 {
-	utils::Point2f center{ (float)windowWidth / 2, 75.f };
-	float width = float(sqrt(3)) * hexSize;
-	float height = 2 * hexSize;
+	utils::Point2f center{ static_cast<float>(windowWidth) / 2.f, 75.f };
+	const float width = static_cast<float>(sqrt(3)) * hexSize;
+	const float height = 2 * hexSize;
 
 	switch (level)
 	{
@@ -29,8 +29,8 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 				utils::Tile1* hexagon{ new utils::Tile1{} };
 				for (int i{}; i < 6; ++i)
 				{
-					float angle_deg = 60.f * float(i) - 30.f;
-					float angle_rad = float(M_PI) / 180.f * angle_deg;
+					const float angle_deg = 60.f * float(i) - 30.f;
+					const float angle_rad = static_cast<float>(M_PI) / 180.f * angle_deg;
 					utils::Point2f tempPoint{ centerThisRow.x + hexSize * cos(angle_rad),
 							centerThisRow.y + hexSize * sin(angle_rad) };
 					hexagon->vertices.push_back(tempPoint);
@@ -52,8 +52,8 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 				utils::Tile2* hexagon{ new utils::Tile2{} };
 				for (int i{}; i < 6; ++i)
 				{
-					float angle_deg = 60.f * float(i) - 30.f;
-					float angle_rad = float(M_PI) / 180.f * angle_deg;
+					const float angle_deg = 60.f * static_cast<float>(i) - 30.f;
+					const float angle_rad = static_cast<float>(M_PI) / 180.f * angle_deg;
 					utils::Point2f tempPoint{ centerThisRow.x + hexSize * cos(angle_rad),
 							centerThisRow.y + hexSize * sin(angle_rad) };
 					hexagon->vertices.push_back(tempPoint);
@@ -75,8 +75,8 @@ GridComponent::GridComponent(float hexSize, int hexAmount, int windowWidth, std:
 				utils::Tile3* hexagon{ new utils::Tile3{} };
 				for (int i{}; i < 6; ++i)
 				{
-					float angle_deg = 60.f * float(i) - 30.f;
-					float angle_rad = float(M_PI) / 180.f * angle_deg;
+					const float angle_deg = 60.f * static_cast<float>(i) - 30.f;
+					const float angle_rad = static_cast<float>(M_PI) / 180.f * angle_deg;
 					utils::Point2f tempPoint{ centerThisRow.x + hexSize * cos(angle_rad),
 							centerThisRow.y + hexSize * sin(angle_rad) };
 					hexagon->vertices.push_back(tempPoint);

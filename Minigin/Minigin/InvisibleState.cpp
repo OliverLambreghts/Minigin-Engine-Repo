@@ -9,7 +9,7 @@ InvisibleState::InvisibleState()
 	m_Timer{}
 {
 	const int randomNr = rand() % 5 + 5;
-	m_SpawnThreshold = float(randomNr);
+	m_SpawnThreshold = static_cast<float>(randomNr);
 }
 
 std::shared_ptr<EnemyState> InvisibleState::Update(float elapsedSec, dae::GameObject& obj)

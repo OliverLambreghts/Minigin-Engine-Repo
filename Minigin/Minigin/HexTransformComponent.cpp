@@ -21,7 +21,7 @@ HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::
 	m_CanTeleport{ false },
 	m_MoveDelay{ 0.25f }
 {
-	auto center = grid->at(0)->center;
+	const auto center = grid->at(0)->center;
 	m_Transform.SetPosition(center.x - m_OffsetX, center.y - m_OffsetY, 0.f);
 
 	int idx{}, col{};
@@ -58,7 +58,7 @@ HexTransformComponent::HexTransformComponent(std::shared_ptr<std::vector<utils::
 		--gridCol;
 	}
 
-	auto center = m_GridMap[std::pair<int, int>(row, col)]->center;
+	const auto center = m_GridMap[std::pair<int, int>(row, col)]->center;
 	m_Transform.SetPosition(center.x - m_OffsetX, center.y - m_OffsetY, 0.f);
 }
 
@@ -86,7 +86,7 @@ void HexTransformComponent::Update(float elapsedSec, GameObject& obj)
 
 void HexTransformComponent::UpdatePosition()
 {
-	auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+	const auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 	m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
 	m_NeedsUpdate = false;
 	// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
@@ -120,7 +120,7 @@ bool HexTransformComponent::HandleOutOfBounds(GameObject& obj)
 			m_OldCol = m_Col;
 			m_Row = 0;
 			m_Col = 0;
-			auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+			const auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 			m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
 			m_NeedsUpdate = false;
 			// Double buffer-ish swap: 2 Cols and Rows, 1 for reading, 1 for writing.
@@ -130,7 +130,7 @@ bool HexTransformComponent::HandleOutOfBounds(GameObject& obj)
 
 		m_Row = 0;
 		m_Col = 0;
-		auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
+		const auto newPos = m_GridMap[std::make_pair(m_Row, m_Col)]->center;
 		m_Transform.SetPosition(newPos.x - m_OffsetX, newPos.y - m_OffsetY, 0.f);
 		m_NeedsUpdate = false;
 		obj.GetComponent<HealthComponent>()->Die(obj);

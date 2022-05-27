@@ -17,10 +17,10 @@ std::shared_ptr<EnemyState> EggState::Update(float elapsedSec, dae::GameObject& 
 	
 	if (m_Timer < 1.f)
 		return nullptr;
-	obj.GetComponent<CoilyTransformComponent>()->Move((CoilyTransformComponent::Direction)(rand() % 2 + 2));
+	obj.GetComponent<CoilyTransformComponent>()->Move(static_cast<CoilyTransformComponent::Direction>(rand() % 2 + 2));
 	m_Timer = 0.f;
 	// Change to snake texture
-	auto rowCol = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(false);
+	const auto rowCol = obj.GetComponent<CoilyTransformComponent>()->GetRowCol(false);
 	
 	if (rowCol.first == 6)
 	{
